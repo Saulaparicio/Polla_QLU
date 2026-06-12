@@ -143,7 +143,7 @@ export default function MatchCard({
   return (
     <div 
       id={`match-${match.id}`}
-      className={`match-card ${match.status === "finished" ? "locked" : ""} ${currentPred.saved && match.status === "scheduled" ? "saved" : ""}`}
+      className={`match-card ${match.status === "finished" ? "locked" : ""} ${currentPred.saved && (match.status === "scheduled" || match.status === "predicting") ? "saved" : ""}`}
     >
       <div className="mc-top">
         <span className="mc-meta">
