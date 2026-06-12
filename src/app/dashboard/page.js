@@ -476,7 +476,7 @@ function DashboardContent() {
           )}
         </main>
 
-        {/* Right column: Sidebar (Leaderboard + Stats + Payment) */}
+        {/* Right column: Sidebar (Leaderboard + Stats + Payment + Recent Results) */}
         <DashboardSidebar 
           activeTab={activeTab}
           topUsers={topUsers}
@@ -491,6 +491,7 @@ function DashboardContent() {
           copyReferral={copyReferral}
           copied={copied}
           setActiveTab={setActiveTab}
+          matches={allMatches}
         />
       </div>
 

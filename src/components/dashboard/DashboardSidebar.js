@@ -1,6 +1,8 @@
 "use client";
 
 import { Loader2, Sparkles, Check, Copy } from "lucide-react";
+import Flag from "@/components/Flag";
+import { TEAM_ISO_CODES } from "@/lib/teamsData";
 
 // Helper: Deterministic Avatar Emoji
 function getAvatarEmoji(name, uid) {
@@ -43,12 +45,19 @@ export default function DashboardSidebar({
   uploadingReceipt,
   copyReferral,
   copied,
-  setActiveTab
+  setActiveTab,
+  matches = []
 }) {
   const top5 = topUsers.slice(0, 5);
   const myRankIndex = topUsers.findIndex((u) => u.uid === user.uid);
   const myRank = myRankIndex !== -1 ? myRankIndex + 1 : null;
   const isMeInTop5 = myRank !== null && myRank <= 5;
+
+  // Filter for the 4 most recently finished matches
+  const recentFinishedMatches = matches
+    .filter(m => m.status === "finished")
+    .sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0))
+    .slice(0, 4);
 
   const renderLeaderboardRow = (u, index) => {
     const isMe = u.uid === user.uid;
@@ -322,6 +331,39 @@ export default function DashboardSidebar({
           {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
         </button>
       </div>
+
+       {/* RECENT RESULTS WIDGET */}
+      {recentFinishedMatches.length > 0 && (
+        <div className="card animate-fade-in">
+          <div className="card-head">
+            <span className="card-title">⚽ Resultados Recientes</span>
+            <span className="card-action">Últimos partidos</span>
+          </div>
+          <div style={{ padding: "0 18px 14px", display: "flex", flexDirection: "column", gap: "10px" }}>
+            {recentFinishedMatches.map((m) => {
+              const homeCode = TEAM_ISO_CODES[m.homeTeamId];
+              const awayCode = TEAM_ISO_CODES[m.awayTeamId];
+              return (
+                <div key={m.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px", background: "var(--surface2)", borderRadius: "var(--r-s)", border: "1px solid var(--border2)" }}>
+                  <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Flag code={homeCode} size={20} />
+                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--fg)" }}>{m.homeTeamId}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(0,0,0,0.2)", padding: "2px 8px", borderRadius: "4px" }}>
+                    <span style={{ fontSize: "0.875rem", fontWeight: "bold", color: "var(--green)" }}>{m.result?.homeScore}</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--muted)" }}>:</span>
+                    <span style={{ fontSize: "0.875rem", fontWeight: "bold", color: "var(--green)" }}>{m.result?.awayScore}</span>
+                  </div>
+                  <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "end", gap: "8px" }}>
+                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--fg)" }}>{m.awayTeamId}</span>
+                    <Flag code={awayCode} size={20} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* FAQ LINK */}
       <div className="card text-center" style={{ padding: "14px", marginTop: "12px", border: "1px solid var(--border)", display: "flex", justifyContent: "center" }}>
