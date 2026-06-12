@@ -130,11 +130,11 @@ export default function MatchCard({
 
   // Official results display value when locked
   const homeDisplayValue = isLocked 
-    ? (match.result?.homeScore !== undefined && match.result?.homeScore !== null ? match.result.homeScore : "0")
+    ? (match.result?.homeScore !== undefined && match.result?.homeScore !== null && !isNaN(match.result.homeScore) ? match.result.homeScore : "–")
     : currentPred.homeScore;
 
   const awayDisplayValue = isLocked 
-    ? (match.result?.awayScore !== undefined && match.result?.awayScore !== null ? match.result.awayScore : "0")
+    ? (match.result?.awayScore !== undefined && match.result?.awayScore !== null && !isNaN(match.result.awayScore) ? match.result.awayScore : "–")
     : currentPred.awayScore;
 
   const predObj = currentPred.saved ? currentPred : null;
