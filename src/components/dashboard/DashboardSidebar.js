@@ -4,8 +4,20 @@ import { Loader2, Sparkles, Check, Copy } from "lucide-react";
 import Flag from "@/components/Flag";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
 
-// Helper: Deterministic Avatar Emoji
-function getAvatarEmoji(name, uid) {
+// Helper: Deterministic Avatar Emoji or Custom Selection
+function getAvatarEmoji(name, uid, customAvatar = null) {
+  if (customAvatar) {
+    if (customAvatar.startsWith("data:image/")) {
+      return (
+        <img 
+          src={customAvatar} 
+          alt="Avatar" 
+          style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }} 
+        />
+      );
+    }
+    return customAvatar;
+  }
   const n = (name || "").toLowerCase();
   if (n.includes("leon")) return "🦁";
   if (n.includes("agui")) return "🦅";
@@ -64,7 +76,7 @@ export default function DashboardSidebar({
     const rank = index + 1;
     const alias = u.displayName || u.email?.split("@")[0] || "Usuario";
     const points = u.points || 0;
-    const emoji = getAvatarEmoji(u.displayName, u.uid);
+    const emoji = getAvatarEmoji(u.displayName, u.uid, u.avatar);
     const delta = getDeltaInfo(u);
 
     let rankClass = "rkN";

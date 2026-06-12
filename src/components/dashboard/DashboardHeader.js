@@ -3,8 +3,20 @@
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 
-// Helper: Deterministic Avatar Emoji
-function getAvatarEmoji(name, uid) {
+// Helper: Deterministic Avatar Emoji or Custom Selection
+function getAvatarEmoji(name, uid, customAvatar = null) {
+  if (customAvatar) {
+    if (customAvatar.startsWith("data:image/")) {
+      return (
+        <img 
+          src={customAvatar} 
+          alt="Avatar" 
+          style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }} 
+        />
+      );
+    }
+    return customAvatar;
+  }
   const n = (name || "").toLowerCase();
   if (n.includes("leon")) return "🦁";
   if (n.includes("agui")) return "🦅";
@@ -23,6 +35,10 @@ function getAvatarEmoji(name, uid) {
   return emojis[index];
 }
 
+import { useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
 export default function DashboardHeader({
   activeTab,
   setActiveTab,
@@ -33,6 +49,7 @@ export default function DashboardHeader({
   router
 }) {
   const { theme, toggleTheme } = useTheme();
+  const [showAvatarMenu, setShowAvatarMenu] = useState(false);
 
   const handleTabClick = (tabId) => {
     if (setActiveTab) {
@@ -40,6 +57,49 @@ export default function DashboardHeader({
     } else {
       router.push(`/dashboard?tab=${tabId}`);
     }
+  };
+
+  const handleSelectAvatar = async (emoji) => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        avatar: emoji
+      });
+      // Refresh local user state using window location reload or context refresh if we can.
+      // Since refreshUser is not in the props, we can trigger window.location.reload() to pull latest firestore data.
+      window.location.reload();
+    } catch (err) {
+      console.error("Error setting custom avatar:", err);
+    } finally {
+      setShowAvatarMenu(false);
+    }
+  };
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert("La imagen supera el límite de 2 MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        const base64String = reader.result;
+        // The getAvatarEmoji checks if customAvatar is a base64 string or an emoji. Let's see.
+        // We will render it inside getAvatarEmoji. Let's check how we render base64 or emoji in getAvatarEmoji helper.
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, {
+          avatar: base64String
+        });
+        window.location.reload();
+      } catch (err) {
+        console.error("Error uploading profile photo:", err);
+      } finally {
+        setShowAvatarMenu(false);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -96,7 +156,72 @@ export default function DashboardHeader({
           <span className="h-rank-label">Rank</span>
           <span className="h-rank-val">{userRank || "-"}</span>
         </div>
-        <div className="h-avatar">{getAvatarEmoji(user.displayName, user.uid)}</div>
+        
+        {/* Interactive Avatar with Selector dropdown */}
+        <div style={{ position: "relative" }}>
+          <button 
+            onClick={() => setShowAvatarMenu(!showAvatarMenu)}
+            className="h-avatar hover:scale-105 active:scale-95 transition-transform cursor-pointer flex items-center justify-center"
+            style={{ border: "none", background: "rgba(255,255,255,0.05)", outline: "none" }}
+            title="Cambiar avatar"
+          >
+            {getAvatarEmoji(user.displayName, user.uid, user.avatar)}
+          </button>
+          
+          {showAvatarMenu && (
+            <div 
+              style={{ 
+                position: "absolute", 
+                top: "100%", 
+                right: 0, 
+                marginTop: "8px", 
+                background: "var(--glass-bg, #112036)", 
+                border: "1px solid var(--glass-border, rgba(255,255,255,0.1))", 
+                borderRadius: "8px", 
+                padding: "10px", 
+                zIndex: 100, 
+                boxShadow: "0 4px 20px rgba(0,0,0,0.5)", 
+                width: "220px" 
+              }}
+            >
+              <div style={{ fontSize: "0.75rem", fontWeight: "bold", color: "var(--muted)", marginBottom: "8px", textAlign: "center" }}>Elige tu Avatar Emoji</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "6px", maxHeight: "150px", overflowY: "auto", padding: "2px" }}>
+                {["🦁", "🦅", "🐆", "🐬", "🦊", "🐯", "🐼", "🐻", "🐨", "🐺", "🦖", "🐉", "🦈", "🐙", "🐵", "🦄", "⚡", "⚽", "🏆", "🔥", "👑", "🍕", "🍔", "🌮", "👽", "🤖", "🤠", "😎"].map(emoji => (
+                  <button
+                    key={emoji}
+                    onClick={() => handleSelectAvatar(emoji)}
+                    style={{ fontSize: "1.25rem", padding: "4px", background: emoji === user.avatar ? "rgba(0, 230, 118, 0.15)" : "transparent", border: emoji === user.avatar ? "1px solid var(--green)" : "none", borderRadius: "6px", cursor: "pointer" }}
+                    className="hover:bg-white/10 active:scale-90 transition-all"
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+              <div style={{ margin: "8px 0", height: "1px", background: "rgba(255,255,255,0.1)" }}></div>
+              <label 
+                style={{ 
+                  display: "block", 
+                  textAlign: "center", 
+                  fontSize: "0.7rem", 
+                  fontWeight: "bold", 
+                  color: "var(--green)", 
+                  cursor: "pointer", 
+                  padding: "4px" 
+                }}
+                className="hover:underline"
+              >
+                📷 Subir foto de perfil
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  style={{ display: "none" }} 
+                  onChange={handlePhotoUpload} 
+                />
+              </label>
+            </div>
+          )}
+        </div>
+        
         <span className="h-alias">@{user.displayName || user.email?.split("@")[0]}</span>
         
         <button

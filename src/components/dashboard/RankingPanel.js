@@ -1,7 +1,19 @@
 "use client";
 
-// Helper: Deterministic Avatar Emoji
-function getAvatarEmoji(name, uid) {
+// Helper: Deterministic Avatar Emoji or Custom Selection
+function getAvatarEmoji(name, uid, customAvatar = null) {
+  if (customAvatar) {
+    if (customAvatar.startsWith("data:image/")) {
+      return (
+        <img 
+          src={customAvatar} 
+          alt="Avatar" 
+          style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", display: "block" }} 
+        />
+      );
+    }
+    return customAvatar;
+  }
   const n = (name || "").toLowerCase();
   if (n.includes("leon")) return "🦁";
   if (n.includes("agui")) return "🦅";
@@ -79,7 +91,7 @@ export default function RankingPanel({
               <div className="podium-card">
                 <div className="podium-glow"></div>
                 <div className="podium-badge">2</div>
-                <div className="podium-avatar">{getAvatarEmoji(topUsers[1].displayName, topUsers[1].uid)}</div>
+                <div className="podium-avatar">{getAvatarEmoji(topUsers[1].displayName, topUsers[1].uid, topUsers[1].avatar)}</div>
                 <div className="podium-name">{topUsers[1].displayName || topUsers[1].email?.split("@")[0]}</div>
                 <div className="podium-country">{topUsers[1].country || "🇵🇦 Panamá"}</div>
                 <div className="podium-pts">
@@ -104,7 +116,7 @@ export default function RankingPanel({
                 <div className="podium-badge">1</div>
                 <div className="podium-avatar">
                   <div className="crown">👑</div>
-                  {getAvatarEmoji(topUsers[0].displayName, topUsers[0].uid)}
+                  {getAvatarEmoji(topUsers[0].displayName, topUsers[0].uid, topUsers[0].avatar)}
                 </div>
                 <div className="podium-name">{topUsers[0].displayName || topUsers[0].email?.split("@")[0]}</div>
                 <div className="podium-country">{topUsers[0].country || "🇵🇦 Panamá"}</div>
@@ -128,7 +140,7 @@ export default function RankingPanel({
               <div className="podium-card">
                 <div className="podium-glow"></div>
                 <div className="podium-badge">3</div>
-                <div className="podium-avatar">{getAvatarEmoji(topUsers[2].displayName, topUsers[2].uid)}</div>
+                <div className="podium-avatar">{getAvatarEmoji(topUsers[2].displayName, topUsers[2].uid, topUsers[2].avatar)}</div>
                 <div className="podium-name">{topUsers[2].displayName || topUsers[2].email?.split("@")[0]}</div>
                 <div className="podium-country">{topUsers[2].country || "🇵🇦 Panamá"}</div>
                 <div className="podium-pts">
@@ -149,7 +161,7 @@ export default function RankingPanel({
 
       {/* MY STATS BAR */}
       <div className="my-stats-bar">
-        <div className="ms-avatar">{getAvatarEmoji(user.displayName, user.uid)}</div>
+        <div className="ms-avatar">{getAvatarEmoji(user.displayName, user.uid, user.avatar)}</div>
         <div>
           <div className="ms-name">
             Tu posición — {user.displayName || user.email?.split("@")[0]}{" "}
@@ -256,7 +268,7 @@ export default function RankingPanel({
                   </td>
                   <td>
                     <div className="player-cell">
-                      <div className="player-avatar">{getAvatarEmoji(u.displayName, u.uid)}</div>
+                      <div className="player-avatar">{getAvatarEmoji(u.displayName, u.uid, u.avatar)}</div>
                       <div className="player-info">
                         <span className="player-name">
                           {u.displayName || u.email?.split("@")[0]}
