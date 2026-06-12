@@ -26,9 +26,9 @@ export default function TodayPanel({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
               </span>
-              ⚡ Marcadores en Vivo y Resultados Recientes
+              ⚡ Marcadores en Vivo
             </h3>
-            <span className="text-xs text-[var(--muted)] font-mono font-semibold">Jornada Activa</span>
+            <span className="text-xs text-[var(--muted)] font-mono font-semibold">En tiempo real</span>
           </div>
           <div className="space-y-3 mb-4">
             {liveOrRecentMatches.map((m) => (

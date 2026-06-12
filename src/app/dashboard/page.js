@@ -347,16 +347,10 @@ function DashboardContent() {
     ? finishedMatchesList.reduce((max, m) => m.date > max ? m.date : max, "")
     : null;
 
-  // Live and recently finished matches for the top results section
+  // Only live matches for the top live section (finished matches are in the Recent Results widget)
   const liveOrRecentMatches = allMatches.filter(m => {
-    if (m.status === "live") return true;
-    if (m.status === "finished") {
-      return m.date === lastFinishedDate || m.date === todayStr;
-    }
-    return false;
+    return m.status === "live";
   }).sort((a, b) => {
-    if (a.status === "live" && b.status !== "live") return -1;
-    if (a.status !== "live" && b.status === "live") return 1;
     return (a.matchNumber || 0) - (b.matchNumber || 0);
   });
 
