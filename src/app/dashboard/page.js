@@ -361,8 +361,8 @@ function DashboardContent() {
   });
 
   // Filter matches into Today (pending predictions), Upcoming, History panels
-  const todayMatches = allMatches.filter(m => m.status === "scheduled").slice(0, 4);
-  const upcomingMatches = allMatches.filter(m => m.status === "scheduled" && !todayMatches.some(tm => tm.id === m.id));
+  const todayMatches = allMatches.filter(m => m.status === "scheduled" || m.status === "predicting").slice(0, 4);
+  const upcomingMatches = allMatches.filter(m => (m.status === "scheduled" || m.status === "predicting") && !todayMatches.some(tm => tm.id === m.id));
   const historyMatches = allMatches.filter(m => m.status === "finished").sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
 
   const myPredictionsCount = Object.keys(predictions).filter(k => predictions[k].saved).length;

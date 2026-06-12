@@ -412,18 +412,18 @@ export default function AdminPage() {
       const isFinished = newStatus === "finished";
       const isLive = newStatus === "live";
       
-      const homeScore = isFinished || isLive ? parseInt(matchScores.homeScore, 10) : null;
-      const awayScore = isFinished || isLive ? parseInt(matchScores.awayScore, 10) : null;
+      const homeScore = (isFinished || isLive) && matchScores.homeScore !== "" && matchScores.homeScore !== undefined ? parseInt(matchScores.homeScore, 10) : null;
+      const awayScore = (isFinished || isLive) && matchScores.awayScore !== "" && matchScores.awayScore !== undefined ? parseInt(matchScores.awayScore, 10) : null;
       const advancingTeamId = isFinished || isLive ? (matchScores.advancingTeamId || null) : null;
       let winner = null;
       
-      if (isFinished || isLive) {
+      if ((isFinished || isLive) && homeScore !== null && awayScore !== null) {
         winner = homeScore > awayScore ? "home" : homeScore < awayScore ? "away" : "draw";
       }
 
       const matchUpdate = {
         status: newStatus,
-        result: (isFinished || isLive) ? {
+        result: ((isFinished || isLive) && homeScore !== null && awayScore !== null) ? {
           homeScore,
           awayScore,
           winner,
