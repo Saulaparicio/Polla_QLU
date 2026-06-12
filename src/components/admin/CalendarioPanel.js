@@ -177,12 +177,16 @@ export default function CalendarioPanel({
                       ? "Finalizado"
                       : m.status === "live"
                       ? "En vivo"
+                      : m.status === "predicting"
+                      ? "Pronosticar"
                       : "Pendiente";
                   const statusClass =
                     m.status === "finished"
                       ? "bx-g"
                       : m.status === "live"
                       ? "bx-b"
+                      : m.status === "predicting"
+                      ? "bx-p"
                       : "bx-a";
                   return (
                     <tr key={m.id}>

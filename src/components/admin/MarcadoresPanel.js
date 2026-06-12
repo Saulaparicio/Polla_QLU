@@ -169,7 +169,7 @@ export default function MarcadoresPanel({
                               min="0"
                               max="30"
                               placeholder="0"
-                              disabled={currentStatus === "scheduled"}
+                              disabled={currentStatus === "scheduled" || currentStatus === "predicting"}
                               value={homeVal}
                               onChange={(e) => {
                                 const val = e.target.value;
@@ -190,7 +190,7 @@ export default function MarcadoresPanel({
                               min="0"
                               max="30"
                               placeholder="0"
-                              disabled={currentStatus === "scheduled"}
+                              disabled={currentStatus === "scheduled" || currentStatus === "predicting"}
                               value={awayVal}
                               onChange={(e) => {
                                 const val = e.target.value;
@@ -205,7 +205,7 @@ export default function MarcadoresPanel({
                               aria-label={`Goles visitante para ${m.awayTeam}`}
                             />
                           </div>
-                          {m.stage && m.stage !== "Group Stage" && m.stage !== "Fase de Grupos" && currentStatus !== "scheduled" && (
+                          {m.stage && m.stage !== "Group Stage" && m.stage !== "Fase de Grupos" && currentStatus !== "scheduled" && currentStatus !== "predicting" && (
                             <div style={{ marginTop: "6px" }}>
                               <select
                                 className="fsel"
@@ -255,6 +255,7 @@ export default function MarcadoresPanel({
                           aria-label={`Estado del partido ${m.homeTeam} vs ${m.awayTeam}`}
                         >
                           <option value="scheduled">Pendiente</option>
+                          <option value="predicting">Pronosticar</option>
                           <option value="live">En vivo</option>
                           <option value="finished">Finalizado</option>
                         </select>

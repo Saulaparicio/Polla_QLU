@@ -7,6 +7,9 @@ import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 
 // Helper: Timer Badge styling
 function getTimerBadge(match, isSaved) {
+  if (match.status === "predicting") {
+    return <span className="mc-timer t-ok" style={{ borderColor: "var(--green)", color: "var(--green)" }}>⏱ ¡Pronóstico Abierto!</span>;
+  }
   if (match.status === "finished") {
     return <span className="mc-timer t-lock">🔒 Finalizado</span>;
   }
@@ -120,7 +123,7 @@ export default function MatchCard({
   const isLocked = match.status === "live" || match.status === "finished";
   const matchDate = new Date(`${match.date}T${match.time}:00Z`);
   const now = new Date();
-  const isPredictionLocked = isLocked || (matchDate - now <= 15 * 60 * 1000);
+  const isPredictionLocked = match.status === "predicting" ? false : (isLocked || (matchDate - now <= 15 * 60 * 1000));
 
   const currentPred = predictions[match.id] || { homeScore: "", awayScore: "", advancingTeamId: "", saved: false };
   const timerBadge = getTimerBadge(match, currentPred.saved);

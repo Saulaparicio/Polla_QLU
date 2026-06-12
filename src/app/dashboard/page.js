@@ -199,7 +199,7 @@ function DashboardContent() {
 
     // Lock predictions check (15 minutes before kickoff)
     const match = allMatches.find(m => m.id === matchId);
-    if (match) {
+    if (match && match.status !== "predicting") {
       const matchDate = new Date(`${match.date}T${match.time}:00Z`);
       const now = new Date();
       if (matchDate - now <= 15 * 60 * 1000) {
