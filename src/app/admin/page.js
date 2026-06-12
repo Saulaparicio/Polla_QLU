@@ -144,7 +144,8 @@ export default function AdminPage() {
     regOpen: true,
     rankVisible: true,
     maintenanceMode: false,
-    autoNotif: true
+    autoNotif: true,
+    yappyPaymentEnabled: true
   });
 
   // Marcadores Scored/State Binding State

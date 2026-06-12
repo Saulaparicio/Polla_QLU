@@ -244,6 +244,21 @@ export default function ReglasPanel({
         <div className="ct">Controles del Torneo</div>
         <div className="trow">
           <div className="trinfo">
+            <div className="trn">Habilitar cobro por Yappy</div>
+            <div className="trd">Activa la obligatoriedad de verificar pagos e inscripción vía Yappy</div>
+          </div>
+          <label className="tog" htmlFor="yappyPaymentEnabled">
+            <input
+              id="yappyPaymentEnabled"
+              type="checkbox"
+              checked={rules.yappyPaymentEnabled !== false}
+              onChange={(e) => onRuleChange("yappyPaymentEnabled", e.target.checked)}
+            />
+            <span className="tslide" />
+          </label>
+        </div>
+        <div className="trow">
+          <div className="trinfo">
             <div className="trn">Inscripciones abiertas</div>
             <div className="trd">Permite nuevos registros de participantes</div>
           </div>

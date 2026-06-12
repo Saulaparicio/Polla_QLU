@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { collection, query, orderBy, getDocs, doc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,6 +28,7 @@ function DashboardContent() {
   const [predictions, setPredictions] = useState({});
   const [stats, setStats] = useState({ users: 0, predictions: 0, matches: 104 });
   const [userRank, setUserRank] = useState("-");
+  const [rules, setRules] = useState(null);
 
   // Interaction/UI states
   const [activeTab, setActiveTab] = useState("today");
@@ -119,6 +120,12 @@ function DashboardContent() {
         const uIndex = usersList.findIndex((u) => u.uid === user.uid);
         if (uIndex !== -1) {
           setUserRank(`#${uIndex + 1}`);
+        }
+
+        // Fetch rules config
+        const rulesDoc = await getDoc(doc(db, "config", "rules"));
+        if (rulesDoc.exists()) {
+          setRules(rulesDoc.data());
         }
 
         // Fetch user's predictions
@@ -363,6 +370,11 @@ function DashboardContent() {
     ? Math.round((((user.correctScores || 0) + (user.correctOutcomes || 0)) / myPredictionsCount) * 100) 
     : 0;
 
+  const displayUser = {
+    ...user,
+    paymentStatus: (rules?.yappyPaymentEnabled === false) ? "active" : user.paymentStatus
+  };
+
   const currentUserRank = topUsers.findIndex((u) => u.uid === user.uid) + 1;
   const currentUserData = topUsers.find((u) => u.uid === user.uid);
 
@@ -372,7 +384,7 @@ function DashboardContent() {
       <DashboardHeader 
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        user={user}
+        user={displayUser}
         userRank={userRank}
         todayMatchesCount={todayMatches.length}
         logout={logout}
@@ -419,7 +431,7 @@ function DashboardContent() {
               predictions={predictions}
               savingId={savingId}
               successId={successId}
-              user={user}
+              user={displayUser}
               handleInputChange={handleInputChange}
               handleSavePrediction={handleSavePrediction}
               setPredictions={setPredictions}
@@ -433,7 +445,7 @@ function DashboardContent() {
               predictions={predictions}
               savingId={savingId}
               successId={successId}
-              user={user}
+              user={displayUser}
               handleInputChange={handleInputChange}
               handleSavePrediction={handleSavePrediction}
               setPredictions={setPredictions}
@@ -453,7 +465,7 @@ function DashboardContent() {
             <RankingPanel 
               topUsers={topUsers}
               allMatches={allMatches}
-              user={user}
+              user={displayUser}
               rankFilter={rankFilter}
               setRankFilter={setRankFilter}
               myPredictionsCount={myPredictionsCount}
@@ -468,7 +480,7 @@ function DashboardContent() {
         <DashboardSidebar 
           activeTab={activeTab}
           topUsers={topUsers}
-          user={user}
+          user={displayUser}
           stats={stats}
           myPredictionsCount={myPredictionsCount}
           effectiveness={effectiveness}

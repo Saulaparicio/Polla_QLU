@@ -51,10 +51,26 @@ export default function AuthPage() {
   const [error, setError]       = useState("");
   const [createdUser, setCreatedUser] = useState(null);
 
+  const [yappyEnabled, setYappyEnabled] = useState(true);
+
   /* redirect if already logged in */
   useEffect(() => {
     if (!authLoading && user) router.push("/");
   }, [user, authLoading, router]);
+
+  useEffect(() => {
+    async function checkYappy() {
+      try {
+        const rulesDoc = await getDoc(doc(db, "config", "rules"));
+        if (rulesDoc.exists()) {
+          setYappyEnabled(rulesDoc.data().yappyPaymentEnabled !== false);
+        }
+      } catch (err) {
+        console.error("Error fetching rules:", err);
+      }
+    }
+    checkYappy();
+  }, []);
 
   if (authLoading || user) {
     return (
@@ -98,13 +114,17 @@ export default function AuthPage() {
     if (Object.keys(errs).length === 0) goStep(2);
   };
 
-  const validateStep2 = () => {
+  const validateStep2 = async () => {
     if (alias.trim().length < 3) {
       setFieldErrors({ alias: "El alias debe tener al menos 3 caracteres" });
       return;
     }
     setFieldErrors({});
-    goStep(3);
+    if (yappyEnabled) {
+      goStep(3);
+    } else {
+      await finishRegistration();
+    }
   };
 
   /* ── login submit ── */
@@ -398,15 +418,16 @@ export default function AuthPage() {
               <>
                 {/* Step indicator */}
                 <div style={S.steps}>
-                  {["Cuenta","Perfil","Pago"].map((lbl, i) => {
+                  {(yappyEnabled ? ["Cuenta","Perfil","Pago"] : ["Cuenta","Perfil"]).map((lbl, i) => {
                     const n = i + 1;
+                    const maxStep = yappyEnabled ? 2 : 1;
                     return (
                       <React_Fragment key={lbl}>
                         <div style={S.stepItem}>
                           <div style={S.stepDot(isActive(n), isDone(n))}>{isDone(n) ? "✓" : n}</div>
                           <div style={S.stepLabel(isActive(n))}>{lbl}</div>
                         </div>
-                        {i < 2 && <div style={S.stepConnector(isDone(n))} />}
+                        {i < maxStep && <div style={S.stepConnector(isDone(n))} />}
                       </React_Fragment>
                     );
                   })}
