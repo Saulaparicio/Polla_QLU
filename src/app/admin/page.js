@@ -522,14 +522,16 @@ export default function AdminPage() {
         }
         totalPoints += podiumBonus;
 
-        await updateDoc(userDocRef, {
-          points: totalPoints,
-          correctScores,
-          correctOutcomes,
-          predictionsCount,
-          globalErrorMargin,
-          podiumBonus
-        });
+        if (userDocSnap.exists()) {
+          await updateDoc(userDocRef, {
+            points: totalPoints,
+            correctScores,
+            correctOutcomes,
+            predictionsCount,
+            globalErrorMargin,
+            podiumBonus
+          });
+        }
       }
 
       showToast(<IconCheck />, `Partido ${match.matchNumber} actualizado con éxito.`, "ok");
