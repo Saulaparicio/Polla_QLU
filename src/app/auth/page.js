@@ -279,7 +279,7 @@ export default function AuthPage() {
       <div style={{ display:"none" }} className="auth-top-bar">
         <Link href="/" style={{ display:"flex", alignItems:"center", gap:8, textDecoration:"none" }}>
           <span style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"1.4rem", letterSpacing:"0.04em", color:"#E8F0FF" }}>
-            PRODE<em style={{ fontStyle:"normal", color:"#00E676" }}>2026</em>
+            QLU <em style={{ fontStyle:"normal", color:"#00E676" }}>MatchPredict</em>
           </span>
         </Link>
         <Link href="/dashboard" style={{ fontSize:"0.8125rem", color:"#5E7A9E", textDecoration:"none" }}>Ya tengo cuenta →</Link>
@@ -295,7 +295,7 @@ export default function AuthPage() {
           <Link href="/" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", position:"relative", zIndex:1 }}>
             <span style={{ fontSize:"1.8rem" }}>⚽</span>
             <span style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"2rem", letterSpacing:"0.04em", color:"#E8F0FF" }}>
-              PRODE<em style={{ fontStyle:"normal", color:"#00E676" }}>2026</em>
+              QLU <em style={{ fontStyle:"normal", color:"#00E676" }}>MatchPredict</em>
             </span>
           </Link>
 
@@ -470,7 +470,7 @@ export default function AuthPage() {
 
                     <div style={S.field}>
                       <label style={S.fieldLabel}>Alias / apodo</label>
-                      <input style={{ ...S.input, ...(fieldErrors.alias ? S.inputError : {}) }} type="text" placeholder="ej. ElTigre10, RompeRedes, MaestroDelProde…" maxLength={24} value={alias} onChange={e=>setAlias(e.target.value)} autoComplete="off"/>
+                      <input style={{ ...S.input, ...(fieldErrors.alias ? S.inputError : {}) }} type="text" placeholder="ej. ElTigre10, RompeRedes, MaestroDelPredictor…" maxLength={24} value={alias} onChange={e=>setAlias(e.target.value)} autoComplete="off"/>
                       <span style={{ fontSize:"0.75rem", color:"#5E7A9E" }}>Máximo 24 caracteres. Puedes cambiarlo después.</span>
                       {fieldErrors.alias && <span style={S.fieldError}>{fieldErrors.alias}</span>}
                     </div>
@@ -527,7 +527,7 @@ export default function AuthPage() {
                         <div style={{ width:40, height:40, borderRadius:8, background:"linear-gradient(135deg,#00C244,#00E676)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem", flexShrink:0 }}>📲</div>
                         <div>
                           <div style={{ fontWeight:700, fontSize:"0.9375rem", color:"#E8F0FF" }}>Pagar con Yappy</div>
-                          <div style={{ fontSize:"0.8125rem", color:"#5E7A9E", fontVariantNumeric:"tabular-nums" }}>+507 6000-0000 · @ProdeAdmin2026</div>
+                          <div style={{ fontSize:"0.8125rem", color:"#5E7A9E", fontVariantNumeric:"tabular-nums" }}>+507 6000-0000 · @QLUMatchPredictAdmin</div>
                         </div>
                       </div>
                     </div>

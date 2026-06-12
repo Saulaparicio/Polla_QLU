@@ -38,7 +38,7 @@ export default function DashboardHeader({
     <header className="app-header">
       <Link href="/dashboard" className="h-logo">
         <span className="h-logo-icon">⚽</span>
-        <span className="h-logo-text">PRODE<em>26</em></span>
+        <span className="h-logo-text">QLU <em>MatchPredict</em></span>
       </Link>
       <div className="h-divider"></div>
       <div className="h-tabs">

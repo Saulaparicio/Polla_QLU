@@ -319,7 +319,7 @@ function DashboardContent() {
     return (
       <div className="flex flex-col items-center justify-center py-32 text-zinc-500 min-h-screen">
         <Loader2 className="h-10 w-10 animate-spin text-[#00E676] mb-3" />
-        <span className="text-sm font-semibold font-mono text-[#5E7A9E]">Cargando Quiniela Prode 2026...</span>
+        <span className="text-sm font-semibold font-mono text-[#5E7A9E]">Cargando Quiniela QLU MatchPredict...</span>
       </div>
     );
   }

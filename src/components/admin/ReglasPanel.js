@@ -209,7 +209,7 @@ export default function ReglasPanel({
               id="quinielaName"
               type="text"
               className="fi"
-              value={rules.quinielaName ?? "Prode 2026"}
+              value={rules.quinielaName ?? "QLU MatchPredict"}
               onChange={(e) => onRuleChange("quinielaName", e.target.value)}
             />
           </div>

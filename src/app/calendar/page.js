@@ -518,7 +518,7 @@ function CalendarContent() {
       <header className="app-header">
         <Link className="h-logo" href="/dashboard">
           <span className="h-logo-icon">⚽</span>
-          <span className="h-logo-text">PRODE<em>2026</em></span>
+          <span className="h-logo-text">QLU <em>MatchPredict</em></span>
         </Link>
         <div className="h-div"></div>
         <span className="h-title">CALENDARIO</span>

@@ -138,9 +138,9 @@ export default function AdminPage() {
     ptsCom: 2,
     closeHours: 1,
     entryFee: 15,
-    quinielaName: "Prode 2026",
+    quinielaName: "QLU MatchPredict",
     yappyNumber: "+507 6XXX-XXXX",
-    welcomeMsg: "¡Bienvenido a Prode 2026! Predice los resultados del Mundial y gana puntos. El ganador recibe el 60% del pozo acumulado.",
+    welcomeMsg: "¡Bienvenido a QLU MatchPredict! Predice los resultados del Mundial y gana puntos. El ganador recibe el 60% del pozo acumulado.",
     regOpen: true,
     rankVisible: true,
     maintenanceMode: false,
@@ -603,7 +603,7 @@ export default function AdminPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `Leaderboard_Prode_2026_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `Leaderboard_QLU_MatchPredict_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -1199,7 +1199,7 @@ export default function AdminPage() {
       {/* MOBILE TOPBAR */}
       <div className="topbar">
         <button className="hbg" onClick={() => setSidebarOpen(true)} type="button">☰</button>
-        <div className="mob-logo">PRODE<em>2026</em></div>
+        <div className="mob-logo">QLU <em>MatchPredict</em></div>
         <span className="bx bx-p" style={{ marginLeft: "auto", fontSize: ".65rem" }}>ADMIN</span>
       </div>
       

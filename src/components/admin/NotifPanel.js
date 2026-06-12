@@ -17,7 +17,7 @@ export default function NotifPanel({
   const [notifRecipients, setNotifRecipients] = useState("missing");
   const [notifSubject, setNotifSubject] = useState("¡No te pierdas los partidos de mañana!");
   const [notifBody, setNotifBody] = useState(
-    `Hola {nombre},\n\nTe escribimos porque aún no has ingresado tus pronósticos para:\n\n{partidos_pendientes}\n\nTienes tiempo hasta {tiempo_cierre} para completarlos.\n\n¡Buena suerte!\nEquipo Prode 2026`
+    `Hola {nombre},\n\nTe escribimos porque aún no has ingresado tus pronósticos para:\n\n{partidos_pendientes}\n\nTienes tiempo hasta {tiempo_cierre} para completarlos.\n\n¡Buena suerte!\nEquipo QLU MatchPredict`
   );
 
   // Sync checked matches when the missingPredictionsList loads

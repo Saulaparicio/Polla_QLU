@@ -117,7 +117,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center py-32 text-zinc-500 min-h-screen bg-[#07101D]">
         <Loader2 className="h-10 w-10 animate-spin text-[#00E676] mb-3" />
         <span className="text-sm font-semibold font-mono text-[#5E7A9E]">
-          {user ? "Redireccionando al Dashboard..." : "Cargando Quiniela Prode 2026..."}
+          {user ? "Redireccionando al Dashboard..." : "Cargando Quiniela QLU MatchPredict..."}
         </span>
       </div>
     );
@@ -130,7 +130,7 @@ export default function Home() {
       <nav id="top-nav" className={`fixed top-0 left-0 right-0 z-50 padding-clamp bg-[#07101D]/80 backdrop-blur-md border-b flex items-center justify-between gap-6 transition-all duration-300 ${isScrolled ? "bg-[#07101D]/95 border-white/10" : "border-white/5"}`}>
         <Link href="#" className="nav-logo flex items-center gap-2 text-decoration-none">
           <span className="nav-logo-icon text-xl">⚽</span>
-          <span className="nav-logo-text font-display text-2xl tracking-wider">PRODE<em className="text-[#00E676] not-italic">26</em></span>
+          <span className="nav-logo-text font-display text-2xl tracking-wider">QLU <em className="text-[#00E676] not-italic">MatchPredict</em></span>
         </Link>
         <ul className="nav-links hidden md:flex gap-7 list-none">
           <li><a href="#como-jugar" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Cómo jugar</a></li>
@@ -228,8 +228,8 @@ export default function Home() {
           <div className="hero-badge inline-flex items-center gap-2 bg-[#00E676]/10 border border-[#00E676]/30 text-[#00E676] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-7">
             ⚽ FIFA WORLD CUP 2026 &nbsp;·&nbsp; USA · CAN · MEX
           </div>
-          <h1 className="hero-title font-display text-8xl md:text-[10rem] leading-none tracking-tight text-[#E8F0FF] uppercase select-none">
-            PRODE<span className="yr block text-[#00E676] drop-shadow-[0_0_40px_rgba(0,230,118,0.3)]">2026</span>
+          <h1 className="hero-title font-display text-6xl md:text-[7.5rem] leading-none tracking-tight text-[#E8F0FF] uppercase select-none">
+            QLU <span className="yr block text-[#00E676] drop-shadow-[0_0_40px_rgba(0,230,118,0.3)]">MatchPredict</span>
           </h1>
           <p className="hero-tagline font-display text-lg sm:text-2xl text-[#5E7A9E] tracking-[0.22em] mt-5">PRONÓSTICA · COMPITE · GANA</p>
           <p className="hero-desc max-w-xl text-[#5E7A9E] text-sm sm:text-base leading-relaxed mt-4">
@@ -650,9 +650,9 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">⚽</span>
-              <span className="font-display text-xl tracking-wider text-white">PRODE<em className="text-[#00E676] not-italic">26</em></span>
+              <span className="font-display text-xl tracking-wider text-white">QLU <em className="text-[#00E676] not-italic">MatchPredict</em></span>
             </div>
-            <p className="footer-copy text-xs text-[#5E7A9E]">© 2026 Prode 2026 — Quiniela del Mundial. No afiliado a FIFA.</p>
+            <p className="footer-copy text-xs text-[#5E7A9E]">© 2026 QLU MatchPredict — Quiniela del Mundial. No afiliado a FIFA.</p>
           </div>
           <ul className="footer-links flex gap-6 list-none text-xs">
             <li><Link href="/faq" className="text-[#5E7A9E] hover:text-white transition-colors">Reglamento / FAQ</Link></li>

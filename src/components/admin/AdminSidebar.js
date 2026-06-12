@@ -94,7 +94,7 @@ export default function AdminSidebar({
   return (
     <nav className={`sidebar ${sidebarOpen ? "open" : ""}`} id="sidebar">
       <div className="sb-head">
-        <div className="sb-logo">PRODE<em>2026</em></div>
+        <div className="sb-logo">QLU <em>MatchPredict</em></div>
         <span className="sb-adm">ADMIN</span>
       </div>
       
