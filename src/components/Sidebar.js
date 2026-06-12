@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   const tab = searchParams?.get("tab");
 
-  if (pathname === "/" || pathname === "/leaderboard" || pathname === "/dashboard" || pathname === "/matches" || pathname === "/calendar" || pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
+  if (pathname === "/" || pathname === "/leaderboard" || pathname === "/dashboard" || pathname === "/matches" || pathname === "/calendar" || pathname === "/predictions" || pathname === "/faq" || pathname.startsWith("/admin") || pathname.startsWith("/auth")) {
     return null;
   }
 

@@ -47,7 +47,7 @@ export default function TopAppBar() {
     }
   };
 
-  if (pathname === "/" || pathname === "/leaderboard" || pathname === "/dashboard" || pathname === "/matches" || pathname === "/calendar" || pathname.startsWith("/admin") || !user) return null;
+  if (pathname === "/" || pathname === "/leaderboard" || pathname === "/dashboard" || pathname === "/matches" || pathname === "/calendar" || pathname === "/predictions" || pathname === "/faq" || pathname.startsWith("/admin") || !user) return null;
 
   // Let's use a nice dynamic placeholder avatar if they don't have one
   const initials = user.displayName
