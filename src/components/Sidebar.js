@@ -40,8 +40,8 @@ export default function Sidebar() {
     <aside className="h-screen w-64 hidden md:flex flex-col sticky top-0 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-r border-white/10 py-12 px-4 z-50">
       <div className="mb-10">
         <Link href="/" className="hover:opacity-90 transition-all">
-          <h1 className="text-3xl font-black text-primary leading-none tracking-tight">Polla Digital</h1>
-          <p className="text-xs text-on-surface-variant mt-1 font-semibold">WC 2026 Prediction Center</p>
+          <h1 className="text-2xl font-black text-primary leading-none tracking-tight">QLU MatchPredict</h1>
+          <p className="text-xs text-on-surface-variant mt-1 font-semibold">Quiniela del Mundial</p>
         </Link>
       </div>
 

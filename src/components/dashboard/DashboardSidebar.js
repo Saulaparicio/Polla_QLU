@@ -249,7 +249,7 @@ export default function DashboardSidebar({
               >
                 <div style={{ color: "var(--muted)", fontWeight: "bold", marginBottom: "4px" }}>Enviar B/.15 por Yappy al:</div>
                 <div style={{ color: "var(--fg)", fontWeight: "bold", fontSize: "0.9375rem" }}>+507 6223-1492</div>
-                <div style={{ color: "var(--muted)", marginTop: "2px" }}>Quiniela Polla QLU 2026</div>
+                <div style={{ color: "var(--muted)", marginTop: "2px" }}>QLU MatchPredict</div>
               </div>
 
               <div 

@@ -46,7 +46,7 @@ export default function RankingPanel({
     <div className="panel active space-y-8 animate-fade-in pb-8 ranking-panel-scoped">
       {/* HERO STRIP */}
       <div className="hero-strip">
-        <div className="hero-eyebrow">Quiniela Polla QLU 2026</div>
+        <div className="hero-eyebrow">QLU MatchPredict</div>
         <div className="hero-title">🏆 RANKING GENERAL</div>
         <div className="hero-sub">Posiciones y estadísticas en tiempo real con la base de datos oficial.</div>
         <div className="hero-stats">

@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "Polla Digital - Copa Mundial 2026",
+  title: "QLU MatchPredict - Copa Mundial 2026",
   description: "Pronostica los resultados del mundial de fútbol 2026 y compite con tus amigos.",
 };
 
