@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prode 2026 — Quiniela del Mundial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Preload critical font weights -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <style>
+    :root {
+      --bg:       #07101D;
+      --surface:  #0D1A2D;
+      --surface2: #152338;
+      --surface3: #1B2D47;
+      --fg:       #E8F0FF;
+      --fg-dim:   #C5D2EE;
+      --muted:    #5E7A9E;
+      --border:   #1C2E48;
+      --border2:  #253B5E;
+      --green:    #00E676;
+      --green-dim:#00A853;
+      --gold:     #FFD700;
+      --gold-dim: #FFC300;
+      --red:      #FF5252;
+      --amber:    #FFB300;
+      --blue:     #5B8DEF;
+      --font-d:   'Bebas Neue', Impact, sans-serif;
+      --font-b:   'Inter', -apple-system, system-ui, sans-serif;
+      --r-s: 6px; --r-m: 12px; --r-l: 18px; --r-xl: 24px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-b); line-height: 1.6; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 14px clamp(16px, 4vw, 48px);
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      background: rgba(7, 16, 29, 0.82); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: border-color 0.3s;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-logo-icon { font-size: 1.4rem; }
+    .nav-logo-text { font-family: var(--font-d); font-size: 1.6rem; letter-spacing: 0.04em; color: var(--fg); }
+    .nav-logo-text em { font-style: normal; color: var(--green); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta { display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 10px 20px; border: none; border-radius: var(--r-s);
+      font-family: var(--font-b); font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; transition: all 0.18s; text-decoration: none; white-space: nowrap;
+    }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border2); }
+    .btn-ghost:hover { color: var(--fg); border-color: var(--fg); }
+    .btn-primary { background: var(--green); color: #000; }
+    .btn-primary:hover { background: #00BF63; }
+    .btn-secondary { background: var(--surface2); color: var(--fg); border: 1px solid var(--border2); }
+    .btn-secondary:hover { background: var(--surface3); border-color: var(--fg); }
+    .btn-lg { padding: 14px 32px; font-size: 1rem; border-radius: var(--r-m); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: clamp(100px, 15vh, 140px) clamp(16px, 5vw, 48px) clamp(60px, 8vh, 100px);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 50% at 50% -5%, rgba(0,230,118,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 70% at 15% 110%, rgba(91,141,239,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 70% at 85% 110%, rgba(255,215,0,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 30% at 50% 100%, rgba(0,230,118,0.04) 0%, transparent 40%);
+    }
+    /* Stadium lights top corners */
+    .hero::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle 200px at 5% 10%, rgba(255,255,255,0.015) 0%, transparent 60%),
+        radial-gradient(circle 200px at 95% 10%, rgba(255,255,255,0.015) 0%, transparent 60%);
+    }
+
+    /* Flags ticker */
+    .ticker-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .ticker-row {
+      display: flex; gap: 48px; white-space: nowrap; position: absolute;
+      width: max-content;
+      will-change: transform;
+      animation: tickerL 35s linear infinite;
+    }
+    .ticker-row:nth-child(1) { top: 8%;  font-size: 2.2rem; opacity: 0.18; }
+    .ticker-row:nth-child(2) { top: 24%; font-size: 1.8rem; opacity: 0.12; animation-direction: reverse; animation-duration: 28s; }
+    .ticker-row:nth-child(3) { top: 52%; font-size: 3rem;   opacity: 0.08; animation-duration: 42s; }
+    .ticker-row:nth-child(4) { top: 72%; font-size: 1.5rem; opacity: 0.14; animation-direction: reverse; animation-duration: 22s; }
+    .ticker-row:nth-child(5) { top: 88%; font-size: 2.5rem; opacity: 0.07; animation-duration: 50s; }
+    @keyframes tickerL {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .hero-z { position: relative; z-index: 2; }
+
+    /* Hero entrance animations */
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3);
+      color: var(--green); padding: 6px 16px; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 28px;
+      animation: heroFadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+    }
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(5rem, 18vw, 14rem);
+      line-height: 0.87; letter-spacing: 0.02em; color: var(--fg);
+      animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.25s both;
+    }
+    .hero-title .yr {
+      display: block; color: var(--green);
+      text-shadow: 0 0 60px rgba(0,230,118,0.45), 0 0 120px rgba(0,230,118,0.2);
+    }
+    .hero-tagline {
+      font-family: var(--font-d);
+      font-size: clamp(1rem, 3.5vw, 2rem);
+      color: var(--muted); letter-spacing: 0.22em; margin-top: 20px;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.4s both;
+    }
+    .hero-desc {
+      max-width: 520px; margin: 16px auto 0;
+      color: var(--muted); font-size: clamp(0.9rem, 2vw, 1.0625rem); line-height: 1.75;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.52s both;
+    }
+    .hero-cta {
+      display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; justify-content: center;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.64s both;
+    }
+    .hero-stats {
+      display: flex; gap: clamp(28px, 6vw, 64px); margin-top: 52px;
+      flex-wrap: wrap; justify-content: center;
+      animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.78s both;
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stat-item { text-align: center; }
+    .stat-val { font-family: var(--font-d); font-size: clamp(2rem, 5vw, 3.5rem); color: var(--fg); line-height: 1; }
+    .stat-lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 4px; }
+    .hero-scroll {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      animation: scrollFloat 2.4s ease-in-out 1.2s infinite, heroFadeUp 0.6s ease 1s both;
+    }
+    @keyframes scrollFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: clamp(60px, 10vh, 100px) clamp(16px, 5vw, 48px); }
+    .section-pt0 { padding-top: 0; }
+    .container { max-width: 1160px; margin: 0 auto; }
+    .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--green); font-weight: 700; margin-bottom: 8px; }
+    .section-h {
+      font-family: var(--font-d);
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 0.93; letter-spacing: 0.02em; color: var(--fg);
+    }
+    .section-p { color: var(--muted); font-size: 1.0625rem; max-width: 500px; line-height: 1.75; margin-top: 14px; }
+    .divider { height: 1px; background: var(--border); margin: 0 clamp(16px, 5vw, 48px); }
+
+    /* ── HOW IT WORKS ── */
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; margin-top: 48px; }
+    .step-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-l); padding: 36px 32px; position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .step-card:hover { border-color: rgba(0,230,118,0.25); transform: translateY(-3px); }
+    .step-bg-num {
+      font-family: var(--font-d); font-size: 7rem; line-height: 1;
+      color: rgba(255,255,255,0.03); position: absolute; top: 8px; right: 16px;
+      pointer-events: none;
+    }
+    .step-icon { font-size: 2.8rem; margin-bottom: 20px; }
+    .step-title { font-size: 1.125rem; font-weight: 700; color: var(--fg); margin-bottom: 10px; }
+    .step-desc { color: var(--muted); font-size: 0.9375rem; line-height: 1.7; }
+
+    /* ── SCORING ── */
+    .scoring-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden; margin-top: 40px;
+    }
+    .scoring-top {
+      padding: 28px 36px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .scoring-note { color: var(--muted); font-size: 0.9375rem; }
+    .scoring-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .tier {
+      padding: 36px 28px; text-align: center; position: relative;
+    }
+    .tier + .tier { border-left: 1px solid var(--border); }
+    .tier.featured { background: rgba(0,230,118,0.03); }
+    .tier-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+      font-weight: 700; color: var(--muted); margin-bottom: 16px;
+    }
+    .tier-pts {
+      font-family: var(--font-d); font-size: clamp(3.5rem, 7vw, 5.5rem);
+      line-height: 1; margin-bottom: 4px;
+    }
+    .tier-pts-unit { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .tier-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.65; margin-top: 14px; }
+    .tier-eg {
+      display: inline-block;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--r-s); padding: 6px 12px;
+      font-size: 0.8125rem; color: var(--fg-dim); margin-top: 14px;
+      font-family: 'Courier New', monospace;
+    }
+    .tier-featured-bar {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), #00BF63);
+    }
+
+    /* ── PREVIEW ── */
+    .preview-grid { display: grid; grid-template-columns: 1fr 360px; gap: 16px; margin-top: 40px; }
+
+    /* Match cards */
+    .match-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-l); padding: 20px 24px; margin-bottom: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .match-card:last-child { margin-bottom: 0; }
+    .match-card:hover { border-color: var(--border2); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+    .match-card.saved { border-color: rgba(0,230,118,0.35); }
+    .match-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .match-group { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
+    .match-timer {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700;
+    }
+    .timer-hot   { background: rgba(255,82,82,0.12); border: 1px solid rgba(255,82,82,0.25); color: var(--red); }
+    .timer-warm  { background: rgba(255,179,0,0.12); border: 1px solid rgba(255,179,0,0.25); color: var(--amber); }
+    .timer-safe  { background: rgba(0,230,118,0.1);  border: 1px solid rgba(0,230,118,0.2);  color: var(--green); }
+    .timer-saved { background: rgba(0,230,118,0.1);  border: 1px solid rgba(0,230,118,0.2);  color: var(--green); }
+    .match-body { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+    .team { display: flex; align-items: center; gap: 10px; }
+    .team.away { flex-direction: row-reverse; text-align: right; }
+    .team-flag { font-size: 2.2rem; line-height: 1; flex-shrink: 0; }
+    .team-name { font-size: 0.9375rem; font-weight: 700; color: var(--fg); }
+    .team-code { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 1px; }
+    .score-row { display: flex; align-items: center; gap: 8px; justify-content: center; }
+    .score-in {
+      width: 54px; height: 54px; background: var(--surface2); border: 2px solid var(--border2);
+      border-radius: var(--r-s); color: var(--fg); font-size: 1.6rem; font-weight: 700;
+      text-align: center; font-family: var(--font-b); outline: none;
+      transition: border-color 0.18s; -moz-appearance: textfield; cursor: pointer;
+    }
+    .score-in::-webkit-inner-spin-button, .score-in::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .score-in:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,230,118,0.12); }
+    .score-in[disabled] { opacity: 0.4; cursor: not-allowed; }
+    .vs { color: var(--muted); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; }
+    .match-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; }
+    .match-status { font-size: 0.8125rem; color: var(--muted); }
+    .btn-save {
+      background: var(--green); color: #000; border: none; border-radius: var(--r-s);
+      padding: 9px 22px; font-family: var(--font-b); font-size: 0.875rem; font-weight: 700;
+      cursor: pointer; transition: all 0.18s;
+    }
+    .btn-save:hover { background: #00BF63; }
+    .btn-save.done { background: var(--green-dim); cursor: default; }
+
+    /* Leaderboard */
+    .lb-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-l); overflow: hidden;
+      position: sticky; top: 80px;
+    }
+    .lb-head {
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .lb-title { font-size: 0.9375rem; font-weight: 700; }
+    .live-pip { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--red); font-weight: 700; }
+    .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pipPulse 1.5s ease-in-out infinite; }
+    @keyframes pipPulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
+    .lb-row {
+      display: flex; align-items: center; padding: 13px 20px; gap: 12px;
+      transition: background 0.15s; border-top: 1px solid var(--border);
+    }
+    .lb-row:first-child { border-top: none; }
+    .lb-row:hover { background: rgba(255,255,255,0.02); }
+    .lb-row.me { background: rgba(0,230,118,0.04); border-color: rgba(0,230,118,0.15); }
+    .rank-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+    }
+    .rk1 { background: rgba(255,215,0,0.15); color: var(--gold); }
+    .rk2 { background: rgba(192,192,192,0.15); color: #C0C0C0; }
+    .rk3 { background: rgba(205,127,50,0.15); color: #CD7F32; }
+    .rkN { background: var(--surface2); color: var(--muted); }
+    .avt { width: 34px; height: 34px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--surface2); }
+    .lb-user { flex: 1; min-width: 0; }
+    .lb-alias { font-size: 0.875rem; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lb-loc { font-size: 0.7rem; color: var(--muted); }
+    .pos-delta { font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+    .dup { color: var(--green); } .ddn { color: var(--red); } .dst { color: var(--muted); }
+    .lb-pts { text-align: right; flex-shrink: 0; }
+    .lb-pts-val { font-family: var(--font-d); font-size: 1.4rem; color: var(--fg); line-height: 1; }
+    .lb-pts-lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .lb-foot { padding: 14px 20px; border-top: 1px solid var(--border); }
+
+    /* ── PAYMENT ── */
+    .payment-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden; margin-top: 40px;
+    }
+    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .pay-left { padding: clamp(28px, 5vw, 48px); }
+    .pay-right { padding: clamp(28px, 5vw, 48px); border-left: 1px solid var(--border); }
+    .yappy-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(0,171,93,0.1); border: 1px solid rgba(0,171,93,0.3);
+      color: #00AB5D; padding: 5px 14px; border-radius: var(--r-s);
+      font-weight: 800; font-size: 0.875rem; margin-bottom: 20px;
+    }
+    .pay-amount {
+      font-family: var(--font-d); font-size: clamp(3rem, 7vw, 5rem);
+      color: var(--fg); line-height: 1; margin: 12px 0;
+    }
+    .pay-curr { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--muted); vertical-align: top; margin-top: 6px; display: inline-block; }
+    .pay-subtitle { color: var(--muted); font-size: 0.9375rem; margin-bottom: 24px; }
+    .pay-feat { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .pay-feat-icon { color: var(--green); flex-shrink: 0; font-size: 0.875rem; margin-top: 3px; }
+    .pay-feat-text { color: var(--fg-dim); font-size: 0.9375rem; }
+    .yappy-box {
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: var(--r-m); padding: 20px; margin-bottom: 20px;
+    }
+    .yappy-box-lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 8px; }
+    .yappy-num { font-family: var(--font-d); font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--fg); letter-spacing: 0.04em; }
+    .yappy-name { font-size: 0.8125rem; color: var(--muted); margin-top: 4px; }
+    .upload-area {
+      border: 2px dashed var(--border2); border-radius: var(--r-m);
+      padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .upload-area:hover { border-color: var(--green); background: rgba(0,230,118,0.03); }
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-title { font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+    .upload-hint { font-size: 0.8125rem; color: var(--muted); }
+    .upload-success {
+      display: none; margin-top: 14px; background: rgba(0,230,118,0.07);
+      border: 1px solid rgba(0,230,118,0.2); border-radius: var(--r-s);
+      padding: 12px 16px; font-size: 0.875rem; color: var(--green);
+    }
+    .pay-steps { list-style: none; counter-reset: step; margin-top: 0; }
+    .pay-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .pay-step-n {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--surface3);
+      border: 1px solid var(--border2); color: var(--fg-dim); font-size: 0.75rem;
+      font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+    }
+    .pay-step-text { color: var(--fg-dim); font-size: 0.9375rem; line-height: 1.6; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(0,230,118,0.07) 0%, rgba(91,141,239,0.05) 100%);
+      border: 1px solid rgba(0,230,118,0.14); border-radius: var(--r-xl);
+      padding: clamp(40px, 8vw, 72px) clamp(24px, 6vw, 80px);
+      text-align: center;
+    }
+    .cta-banner .section-h { margin-bottom: 16px; }
+    .cta-banner .section-p { margin: 0 auto 32px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 32px clamp(16px, 5vw, 48px);
+    }
+    .footer-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-copy { color: var(--muted); font-size: 0.8125rem; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.8125rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--fg); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .preview-grid { grid-template-columns: 1fr; }
+      .lb-card { position: static; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .scoring-grid { grid-template-columns: 1fr; }
+      .tier + .tier { border-left: none; border-top: 1px solid var(--border); }
+      .payment-grid { grid-template-columns: 1fr; }
+      .pay-right { border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 480px) {
+      .nav-cta .btn-ghost { display: none; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .hero-stats { gap: 24px; }
+      .match-body { gap: 8px; }
+      .team-name { font-size: 0.8rem; }
+      .score-in { width: 46px; height: 46px; font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="top-nav">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-icon">⚽</span>
+    <span class="nav-logo-text">PRODE<em>26</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#como-jugar">Cómo jugar</a></li>
+    <li><a href="#puntuacion">Puntuación</a></li>
+    <li><a href="#ranking">Ranking</a></li>
+    <li><a href="#inscripcion">Inscripción</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="dashboard.html" class="btn btn-ghost">Iniciar Sesión</a>
+    <a href="dashboard.html" class="btn btn-primary">Registrarse</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="ticker-wrap" aria-hidden="true">
+    <!-- Row 1: WC 2026 main teams -->
+    <div class="ticker-row" style="top:8%;">
+      <img src="../src/flags/AR.svg" width="40" height="30" alt="AR"> <img src="../src/flags/FR.svg" width="40" height="30" alt="FR"> <img src="../src/flags/BR.svg" width="40" height="30" alt="BR"> <img src="../src/flags/ES.svg" width="40" height="30" alt="ES"> <img src="../src/flags/DE.svg" width="40" height="30" alt="DE"> <img src="../src/flags/GB-ENG.svg" width="40" height="30" alt="ENG"> <img src="../src/flags/PT.svg" width="40" height="30" alt="PT"> <img src="../src/flags/UY.svg" width="40" height="30" alt="UY"> <img src="../src/flags/MX.svg" width="40" height="30" alt="MX"> <img src="../src/flags/US.svg" width="40" height="30" alt="US"> <img src="../src/flags/CA.svg" width="40" height="30" alt="CA"> <img src="../src/flags/JP.svg" width="40" height="30" alt="JP"> <img src="../src/flags/MA.svg" width="40" height="30" alt="MA"> <img src="../src/flags/SN.svg" width="40" height="30" alt="SN"> <img src="../src/flags/KR.svg" width="40" height="30" alt="KR"> <img src="../src/flags/PA.svg" width="40" height="30" alt="PA"> <img src="../src/flags/CO.svg" width="40" height="30" alt="CO"> <img src="../src/flags/NL.svg" width="40" height="30" alt="NL"> <img src="../src/flags/BE.svg" width="40" height="30" alt="BE"> <img src="../src/flags/CH.svg" width="40" height="30" alt="CH"> &nbsp;
+      <img src="../src/flags/AR.svg" width="40" height="30" alt="AR"> <img src="../src/flags/FR.svg" width="40" height="30" alt="FR"> <img src="../src/flags/BR.svg" width="40" height="30" alt="BR"> <img src="../src/flags/ES.svg" width="40" height="30" alt="ES"> <img src="../src/flags/DE.svg" width="40" height="30" alt="DE"> <img src="../src/flags/GB-ENG.svg" width="40" height="30" alt="ENG"> <img src="../src/flags/PT.svg" width="40" height="30" alt="PT"> <img src="../src/flags/UY.svg" width="40" height="30" alt="UY"> <img src="../src/flags/MX.svg" width="40" height="30" alt="MX"> <img src="../src/flags/US.svg" width="40" height="30" alt="US"> <img src="../src/flags/CA.svg" width="40" height="30" alt="CA"> <img src="../src/flags/JP.svg" width="40" height="30" alt="JP"> <img src="../src/flags/MA.svg" width="40" height="30" alt="MA"> <img src="../src/flags/SN.svg" width="40" height="30" alt="SN"> <img src="../src/flags/KR.svg" width="40" height="30" alt="KR"> <img src="../src/flags/PA.svg" width="40" height="30" alt="PA"> <img src="../src/flags/CO.svg" width="40" height="30" alt="CO"> <img src="../src/flags/NL.svg" width="40" height="30" alt="NL"> <img src="../src/flags/BE.svg" width="40" height="30" alt="BE"> <img src="../src/flags/CH.svg" width="40" height="30" alt="CH">
+    </div>
+    <!-- Row 2: More nations, reverse -->
+    <div class="ticker-row" style="top:25%;">
+      <img src="../src/flags/NG.svg" width="32" height="24" alt="NG"> <img src="../src/flags/CI.svg" width="32" height="24" alt="CI"> <img src="../src/flags/GH.svg" width="32" height="24" alt="GH"> <img src="../src/flags/EC.svg" width="32" height="24" alt="EC"> <img src="../src/flags/PE.svg" width="32" height="24" alt="PE"> <img src="../src/flags/CL.svg" width="32" height="24" alt="CL"> <img src="../src/flags/CR.svg" width="32" height="24" alt="CR"> <img src="../src/flags/SA.svg" width="32" height="24" alt="SA"> <img src="../src/flags/IR.svg" width="32" height="24" alt="IR"> <img src="../src/flags/PH.svg" width="32" height="24" alt="PH"> <img src="../src/flags/ZA.svg" width="32" height="24" alt="ZA"> <img src="../src/flags/TN.svg" width="32" height="24" alt="TN"> <img src="../src/flags/AL.svg" width="32" height="24" alt="AL"> <img src="../src/flags/QA.svg" width="32" height="24" alt="QA"> &nbsp;
+      <img src="../src/flags/NG.svg" width="32" height="24" alt="NG"> <img src="../src/flags/CI.svg" width="32" height="24" alt="CI"> <img src="../src/flags/GH.svg" width="32" height="24" alt="GH"> <img src="../src/flags/EC.svg" width="32" height="24" alt="EC"> <img src="../src/flags/PE.svg" width="32" height="24" alt="PE"> <img src="../src/flags/CL.svg" width="32" height="24" alt="CL"> <img src="../src/flags/CR.svg" width="32" height="24" alt="CR"> <img src="../src/flags/SA.svg" width="32" height="24" alt="SA"> <img src="../src/flags/IR.svg" width="32" height="24" alt="IR"> <img src="../src/flags/PH.svg" width="32" height="24" alt="PH"> <img src="../src/flags/ZA.svg" width="32" height="24" alt="ZA"> <img src="../src/flags/TN.svg" width="32" height="24" alt="TN"> <img src="../src/flags/AL.svg" width="32" height="24" alt="AL"> <img src="../src/flags/QA.svg" width="32" height="24" alt="QA">
+    </div>
+    <!-- Row 3: LATAM -->
+    <div class="ticker-row" style="top:53%;">
+      <img src="../src/flags/MX.svg" width="52" height="39" alt="MX"> <img src="../src/flags/AR.svg" width="52" height="39" alt="AR"> <img src="../src/flags/US.svg" width="52" height="39" alt="US"> <img src="../src/flags/BR.svg" width="52" height="39" alt="BR"> <img src="../src/flags/CA.svg" width="52" height="39" alt="CA"> <img src="../src/flags/PA.svg" width="52" height="39" alt="PA"> <img src="../src/flags/CO.svg" width="52" height="39" alt="CO"> <img src="../src/flags/PE.svg" width="52" height="39" alt="PE"> <img src="../src/flags/UY.svg" width="52" height="39" alt="UY"> <img src="../src/flags/CL.svg" width="52" height="39" alt="CL"> <img src="../src/flags/BO.svg" width="52" height="39" alt="BO"> <img src="../src/flags/PY.svg" width="52" height="39" alt="PY"> <img src="../src/flags/VE.svg" width="52" height="39" alt="VE"> &nbsp;
+      <img src="../src/flags/MX.svg" width="52" height="39" alt="MX"> <img src="../src/flags/AR.svg" width="52" height="39" alt="AR"> <img src="../src/flags/US.svg" width="52" height="39" alt="US"> <img src="../src/flags/BR.svg" width="52" height="39" alt="BR"> <img src="../src/flags/CA.svg" width="52" height="39" alt="CA"> <img src="../src/flags/PA.svg" width="52" height="39" alt="PA"> <img src="../src/flags/CO.svg" width="52" height="39" alt="CO"> <img src="../src/flags/PE.svg" width="52" height="39" alt="PE"> <img src="../src/flags/UY.svg" width="52" height="39" alt="UY"> <img src="../src/flags/CL.svg" width="52" height="39" alt="CL"> <img src="../src/flags/BO.svg" width="52" height="39" alt="BO"> <img src="../src/flags/PY.svg" width="52" height="39" alt="PY"> <img src="../src/flags/VE.svg" width="52" height="39" alt="VE">
+    </div>
+    <!-- Row 4: Europe/Africa, reverse -->
+    <div class="ticker-row" style="top:73%;">
+      <img src="../src/flags/DE.svg" width="28" height="21" alt="DE"> <img src="../src/flags/FR.svg" width="28" height="21" alt="FR"> <img src="../src/flags/ES.svg" width="28" height="21" alt="ES"> <img src="../src/flags/IT.svg" width="28" height="21" alt="IT"> <img src="../src/flags/PT.svg" width="28" height="21" alt="PT"> <img src="../src/flags/NL.svg" width="28" height="21" alt="NL"> <img src="../src/flags/BE.svg" width="28" height="21" alt="BE"> <img src="../src/flags/CH.svg" width="28" height="21" alt="CH"> <img src="../src/flags/SE.svg" width="28" height="21" alt="SE"> <img src="../src/flags/DK.svg" width="28" height="21" alt="DK"> <img src="../src/flags/PL.svg" width="28" height="21" alt="PL"> <img src="../src/flags/HR.svg" width="28" height="21" alt="HR"> <img src="../src/flags/MA.svg" width="28" height="21" alt="MA"> <img src="../src/flags/SN.svg" width="28" height="21" alt="SN"> <img src="../src/flags/GH.svg" width="28" height="21" alt="GH"> <img src="../src/flags/NG.svg" width="28" height="21" alt="NG"> &nbsp;
+      <img src="../src/flags/DE.svg" width="28" height="21" alt="DE"> <img src="../src/flags/FR.svg" width="28" height="21" alt="FR"> <img src="../src/flags/ES.svg" width="28" height="21" alt="ES"> <img src="../src/flags/IT.svg" width="28" height="21" alt="IT"> <img src="../src/flags/PT.svg" width="28" height="21" alt="PT"> <img src="../src/flags/NL.svg" width="28" height="21" alt="NL"> <img src="../src/flags/BE.svg" width="28" height="21" alt="BE"> <img src="../src/flags/CH.svg" width="28" height="21" alt="CH"> <img src="../src/flags/SE.svg" width="28" height="21" alt="SE"> <img src="../src/flags/DK.svg" width="28" height="21" alt="DK"> <img src="../src/flags/PL.svg" width="28" height="21" alt="PL"> <img src="../src/flags/HR.svg" width="28" height="21" alt="HR"> <img src="../src/flags/MA.svg" width="28" height="21" alt="MA"> <img src="../src/flags/SN.svg" width="28" height="21" alt="SN"> <img src="../src/flags/GH.svg" width="28" height="21" alt="GH"> <img src="../src/flags/NG.svg" width="28" height="21" alt="NG">
+    </div>
+  </div>
+
+  <div class="hero-z">
+    <div class="hero-badge">⚽ FIFA WORLD CUP 2026 &nbsp;·&nbsp; USA · CAN · MEX</div>
+    <h1 class="hero-title">PRODE<span class="yr">2026</span></h1>
+    <p class="hero-tagline">PRONÓSTICA · COMPITE · GANA</p>
+    <p class="hero-desc">El torneo de predicciones más emocionante del año. 104 partidos, 48 selecciones y una sola quiniela para dominarlos a todos.</p>
+    <div class="hero-cta">
+      <a href="dashboard.html" class="btn btn-primary btn-lg">Quiero Participar</a>
+      <a href="#como-jugar" class="btn btn-secondary btn-lg">¿Cómo Funciona?</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-val">104</div><div class="stat-lbl">Partidos</div></div>
+      <div class="stat-item"><div class="stat-val">48</div><div class="stat-lbl">Selecciones</div></div>
+      <div class="stat-item"><div class="stat-val" style="color:var(--green);">3 PTS</div><div class="stat-lbl">Exacto</div></div>
+      <div class="stat-item"><div class="stat-val">11 JUN</div><div class="stat-lbl">Inicio 2026</div></div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <span>SCROLL</span>
+    <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 0v14M1 8l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="section" id="como-jugar">
+  <div class="container">
+    <p class="eyebrow">¿Cómo jugar?</p>
+    <h2 class="section-h">TAN FÁCIL<br>COMO 1-2-3</h2>
+    <p class="section-p">Sin complicaciones. Pronóstica antes del partido, acumula puntos y asciende en el ranking.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-bg-num">01</div>
+        <div class="step-icon">📝</div>
+        <h3 class="step-title">Regístrate e inscríbete</h3>
+        <p class="step-desc">Crea tu cuenta con Google o correo, elige tu alias y avatar. Realiza el pago de inscripción por Yappy y espera la confirmación de tu cuenta activa.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-bg-num">02</div>
+        <div class="step-icon">⚽</div>
+        <h3 class="step-title">Ingresa tus pronósticos</h3>
+        <p class="step-desc">Antes del inicio de cada partido, ingresa el marcador que crees quedará. Un contador te avisa cuándo cierra la ventana. Al pitazo inicial, se bloquea.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-bg-num">03</div>
+        <div class="step-icon">🏆</div>
+        <h3 class="step-title">Acumula puntos y compite</h3>
+        <p class="step-desc">Los puntos se calculan automáticamente al pitido final. Escala en el ranking en tiempo real y busca el primer lugar del torneo completo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── SCORING ─── -->
+<section class="section section-pt0" id="puntuacion">
+  <div class="container">
+    <p class="eyebrow">Sistema de puntos</p>
+    <h2 class="section-h">ASÍ SE SUMA</h2>
+    <div class="scoring-wrap">
+      <div class="scoring-top">
+        <p class="scoring-note">Los puntos se asignan automáticamente tras confirmar el resultado oficial.</p>
+        <span style="font-size:0.8125rem; color:var(--muted);">Aplica en Fase de Grupos y Eliminatorias</span>
+      </div>
+      <div class="scoring-grid">
+        <div class="tier featured">
+          <div class="tier-featured-bar"></div>
+          <div class="tier-label">🎯 Resultado Exacto</div>
+          <div class="tier-pts" style="color:var(--green);">3</div>
+          <div class="tier-pts-unit" style="color:var(--green);">Puntos</div>
+          <p class="tier-desc">Acertaste el marcador exacto del partido.</p>
+          <div class="tier-eg">🇦🇷 2-1 🇫🇷 → pronosticaste 2-1 ✓</div>
+        </div>
+        <div class="tier">
+          <div class="tier-label">📊 Ganador + Diferencia</div>
+          <div class="tier-pts" style="color:var(--gold);">2</div>
+          <div class="tier-pts-unit" style="color:var(--gold);">Puntos</div>
+          <p class="tier-desc">Acertaste quién gana y la diferencia de goles, pero no el marcador exacto.</p>
+          <div class="tier-eg">🇦🇷 2-1 🇫🇷 → pronosticaste 3-2 ✓</div>
+        </div>
+        <div class="tier">
+          <div class="tier-label">✅ Solo el Ganador</div>
+          <div class="tier-pts" style="color:var(--blue);">1</div>
+          <div class="tier-pts-unit" style="color:var(--blue);">Punto</div>
+          <p class="tier-desc">Solo acertaste cuál equipo gana el partido (o el empate).</p>
+          <div class="tier-eg">🇦🇷 2-1 🇫🇷 → pronosticaste 1-0 ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PREVIEW ─── -->
+<section class="section section-pt0" id="ranking">
+  <div class="container">
+    <p class="eyebrow">Demo interactivo</p>
+    <h2 class="section-h">PRONÓSTICA ASÍ</h2>
+    <p class="section-p">Prueba ingresando un marcador. Así funciona el dashboard en tiempo real.</p>
+    <div class="preview-grid">
+
+      <!-- MATCH CARDS -->
+      <div>
+        <!-- Match 1 — URGENTE -->
+        <div class="match-card" id="mc1">
+          <div class="match-top">
+            <span class="match-group">Grupo A &nbsp;·&nbsp; Jornada 1 &nbsp;·&nbsp; MetLife Stadium</span>
+            <span class="match-timer timer-hot" id="t1">🔥 Cierra en 1h 23m</span>
+          </div>
+          <div class="match-body">
+            <div class="team"><img src="../src/flags/AR.svg" width="40" height="30" alt="ARG" class="team-flag"><div><div class="team-name">Argentina</div><div class="team-code">ARG</div></div></div>
+            <div class="score-row">
+              <input type="number" class="score-in" id="s1a" min="0" max="20" value="2" aria-label="Goles Argentina">
+              <span class="vs">:</span>
+              <input type="number" class="score-in" id="s1b" min="0" max="20" value="0" aria-label="Goles Arabia Saudita">
+            </div>
+            <div class="team away"><img src="../src/flags/SA.svg" width="40" height="30" alt="KSA" class="team-flag"><div><div class="team-name">Arabia Saudita</div><div class="team-code">KSA</div></div></div>
+          </div>
+          <div class="match-foot">
+            <span class="match-status" id="st1">Sin guardar</span>
+            <button class="btn-save" onclick="saveMatch(1)">Guardar Pronóstico</button>
+          </div>
+        </div>
+
+        <!-- Match 2 — CERCA -->
+        <div class="match-card" id="mc2">
+          <div class="match-top">
+            <span class="match-group">Grupo B &nbsp;·&nbsp; Jornada 1 &nbsp;·&nbsp; SoFi Stadium</span>
+            <span class="match-timer timer-warm" id="t2">⚠️ Cierra en 3h 40m</span>
+          </div>
+          <div class="match-body">
+            <div class="team"><img src="../src/flags/FR.svg" width="40" height="30" alt="FRA" class="team-flag"><div><div class="team-name">Francia</div><div class="team-code">FRA</div></div></div>
+            <div class="score-row">
+              <input type="number" class="score-in" id="s2a" min="0" max="20" placeholder="–" aria-label="Goles Francia">
+              <span class="vs">:</span>
+              <input type="number" class="score-in" id="s2b" min="0" max="20" placeholder="–" aria-label="Goles Marruecos">
+            </div>
+            <div class="team away"><img src="../src/flags/MA.svg" width="40" height="30" alt="MAR" class="team-flag"><div><div class="team-name">Marruecos</div><div class="team-code">MAR</div></div></div>
+          </div>
+          <div class="match-foot">
+            <span class="match-status" id="st2">Sin guardar</span>
+            <button class="btn-save" onclick="saveMatch(2)">Guardar Pronóstico</button>
+          </div>
+        </div>
+
+        <!-- Match 3 — HOLGADO -->
+        <div class="match-card" id="mc3">
+          <div class="match-top">
+            <span class="match-group">Grupo C &nbsp;·&nbsp; Jornada 1 &nbsp;·&nbsp; Estadio Azteca</span>
+            <span class="match-timer timer-safe" id="t3">⏱ Cierra en 7h 10m</span>
+          </div>
+          <div class="match-body">
+            <div class="team"><img src="../src/flags/BR.svg" width="40" height="30" alt="BRA" class="team-flag"><div><div class="team-name">Brasil</div><div class="team-code">BRA</div></div></div>
+            <div class="score-row">
+              <input type="number" class="score-in" id="s3a" min="0" max="20" placeholder="–" aria-label="Goles Brasil">
+              <span class="vs">:</span>
+              <input type="number" class="score-in" id="s3b" min="0" max="20" placeholder="–" aria-label="Goles Serbia">
+            </div>
+            <div class="team away"><img src="../src/flags/RS.svg" width="40" height="30" alt="SRB" class="team-flag"><div><div class="team-name">Serbia</div><div class="team-code">SRB</div></div></div>
+          </div>
+          <div class="match-foot">
+            <span class="match-status" id="st3">Sin guardar</span>
+            <button class="btn-save" onclick="saveMatch(3)">Guardar Pronóstico</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADERBOARD PREVIEW -->
+      <div>
+        <div class="lb-card">
+          <div class="lb-head">
+            <span class="lb-title">🏆 Tabla General</span>
+            <span class="live-pip"><span class="pip"></span>EN VIVO</span>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rk1">1</div>
+            <div class="avt">🦁</div>
+            <div class="lb-user"><div class="lb-alias">@LeonFutbolero</div><div class="lb-loc"><img src="../src/flags/AR.svg" width="16" height="12" alt="AR" style="border-radius:2px;vertical-align:middle;"> Buenos Aires</div></div>
+            <div class="pos-delta dup">▲2</div>
+            <div class="lb-pts"><div class="lb-pts-val">128</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rk2">2</div>
+            <div class="avt">🦅</div>
+            <div class="lb-user"><div class="lb-alias">@AguiPanama</div><div class="lb-loc"><img src="../src/flags/PA.svg" width="16" height="12" alt="PA" style="border-radius:2px;vertical-align:middle;"> Panamá</div></div>
+            <div class="pos-delta dst">—</div>
+            <div class="lb-pts"><div class="lb-pts-val">121</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rk3">3</div>
+            <div class="avt">🐆</div>
+            <div class="lb-user"><div class="lb-alias">@PintorPitero</div><div class="lb-loc"><img src="../src/flags/PA.svg" width="16" height="12" alt="PA" style="border-radius:2px;vertical-align:middle;"> Colón</div></div>
+            <div class="pos-delta ddn">▼1</div>
+            <div class="lb-pts"><div class="lb-pts-val">117</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rkN">4</div>
+            <div class="avt">🐬</div>
+            <div class="lb-user"><div class="lb-alias">@DelfinCarioca</div><div class="lb-loc"><img src="../src/flags/BR.svg" width="16" height="12" alt="BR" style="border-radius:2px;vertical-align:middle;"> São Paulo</div></div>
+            <div class="pos-delta dup">▲1</div>
+            <div class="lb-pts"><div class="lb-pts-val">109</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rkN">5</div>
+            <div class="avt">🦊</div>
+            <div class="lb-user"><div class="lb-alias">@ZorroGoleador</div><div class="lb-loc"><img src="../src/flags/MX.svg" width="16" height="12" alt="MX" style="border-radius:2px;vertical-align:middle;"> Guadalajara</div></div>
+            <div class="pos-delta dup">▲3</div>
+            <div class="lb-pts"><div class="lb-pts-val">104</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-row">
+            <div class="rank-num rkN">8</div>
+            <div class="avt">⚡</div>
+            <div class="lb-user"><div class="lb-alias">@TúEstasAquí</div><div class="lb-loc"><img src="../src/flags/PA.svg" width="16" height="12" alt="PA" style="border-radius:2px;vertical-align:middle;"> Mi posición</div></div>
+            <div class="pos-delta dup">▲2</div>
+            <div class="lb-pts"><div class="lb-pts-val">88</div><div class="lb-pts-lbl">pts</div></div>
+          </div>
+          <div class="lb-foot">
+            <a href="dashboard.html" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Ver Ranking Completo →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PAYMENT ─── -->
+<section class="section section-pt0" id="inscripcion">
+  <div class="container">
+    <p class="eyebrow">Inscripción</p>
+    <h2 class="section-h">CÓMO INSCRIBIRTE</h2>
+    <div class="payment-card">
+      <div class="payment-grid">
+
+        <!-- Left: what you get -->
+        <div class="pay-left">
+          <div class="yappy-pill">💚 YAPPY</div>
+          <h3 style="font-family:var(--font-d); font-size:clamp(1.4rem,3vw,2rem); color:var(--fg); margin-bottom:6px;">CUOTA DE INSCRIPCIÓN</h3>
+          <div class="pay-amount"><span class="pay-curr">B/.</span>15</div>
+          <p class="pay-subtitle">Pago único para participar en todo el torneo.</p>
+          <div class="pay-feat"><span class="pay-feat-icon">✓</span><span class="pay-feat-text">Acceso a los 104 partidos del torneo</span></div>
+          <div class="pay-feat"><span class="pay-feat-icon">✓</span><span class="pay-feat-text">Ranking en tiempo real con todos los participantes</span></div>
+          <div class="pay-feat"><span class="pay-feat-icon">✓</span><span class="pay-feat-text">Notificaciones de cierre de predicciones</span></div>
+          <div class="pay-feat"><span class="pay-feat-icon">✓</span><span class="pay-feat-text">Premio al ganador del torneo completo</span></div>
+          <div class="pay-feat"><span class="pay-feat-icon">✓</span><span class="pay-feat-text">Sin cargos adicionales ni renovaciones</span></div>
+        </div>
+
+        <!-- Right: how to pay -->
+        <div class="pay-right">
+          <h4 style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); margin-bottom:20px;">Pasos para inscribirte</h4>
+          <div class="pay-step">
+            <div class="pay-step-n">1</div>
+            <div class="pay-step-text">Envía B/.15 por <strong>Yappy</strong> al número abajo. Escribe tu alias en el mensaje.</div>
+          </div>
+          <div class="pay-step">
+            <div class="pay-step-n">2</div>
+            <div class="pay-step-text">Adjunta la captura de pantalla del pago en el formulario.</div>
+          </div>
+          <div class="pay-step">
+            <div class="pay-step-n">3</div>
+            <div class="pay-step-text">En máximo 24 horas activamos tu cuenta y ya puedes jugar.</div>
+          </div>
+
+          <div class="yappy-box">
+            <div class="yappy-box-lbl">Número Yappy del organizador</div>
+            <div class="yappy-num">+507 ●●●●–●●●●</div>
+            <div class="yappy-name">Nombre: [Organizador Prode 2026]</div>
+          </div>
+
+          <h4 style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); margin-bottom:12px;">Adjunta tu comprobante</h4>
+          <div class="upload-area" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">📎</div>
+            <div class="upload-title">Subir captura del pago</div>
+            <div class="upload-hint">PNG, JPG · Máx. 5 MB</div>
+          </div>
+          <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleFile(this)">
+          <div class="upload-success" id="file-ok">✓ Comprobante recibido — activaremos tu cuenta en máximo 24 horas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ─── -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <h2 class="section-h">¿LISTO PARA<br>COMPETIR?</h2>
+      <p class="section-p">Las predicciones cierran cuando empieza cada partido. No dejes pasar tu chance de ser el campeón.</p>
+      <a href="dashboard.html" class="btn btn-primary btn-lg">Registrarme Ahora →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-size:1.2rem;">⚽</span>
+        <span style="font-family:var(--font-d);font-size:1.3rem;letter-spacing:0.04em;color:var(--fg);">PRODE<em style="font-style:normal;color:var(--green);">26</em></span>
+      </div>
+      <p class="footer-copy">© 2026 Prode 2026 — Quiniela del Mundial. No afiliado a FIFA.</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Reglamento</a></li>
+      <li><a href="#">Privacidad</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('top-nav');
+  window.addEventListener('scroll', () => {
+    nav.style.borderBottomColor = window.scrollY > 80
+      ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.05)';
+  });
+
+  // Save match interaction
+  function saveMatch(id) {
+    const inputs = [
+      document.getElementById(`s${id}a`),
+      document.getElementById(`s${id}b`)
+    ];
+    const valA = inputs[0].value;
+    const valB = inputs[1].value;
+
+    if (valA === '' || valB === '') {
+      inputs[0].style.borderColor = valA === '' ? 'var(--amber)' : 'var(--border2)';
+      inputs[1].style.borderColor = valB === '' ? 'var(--amber)' : 'var(--border2)';
+      return;
+    }
+
+    const card  = document.getElementById(`mc${id}`);
+    const timer = document.getElementById(`t${id}`);
+    const status = document.getElementById(`st${id}`);
+    const btn   = card.querySelector('.btn-save');
+
+    card.classList.add('saved');
+    inputs.forEach(i => { i.style.borderColor = 'var(--green)'; i.setAttribute('disabled', ''); });
+    btn.textContent = '✓ Guardado';
+    btn.classList.add('done');
+    btn.disabled = true;
+    timer.className = 'match-timer timer-saved';
+    timer.textContent = '✓ Pronóstico guardado';
+    status.textContent = `${valA} – ${valB}`;
+    status.style.color = 'var(--green)';
+  }
+
+  // File upload feedback
+  function handleFile(input) {
+    if (input.files && input.files.length > 0) {
+      const ok   = document.getElementById('file-ok');
+      const zone = document.querySelector('.upload-area');
+      ok.style.display = 'block';
+      zone.style.borderColor = 'var(--green)';
+      zone.style.background  = 'rgba(0,230,118,0.04)';
+      zone.innerHTML = `<div class="upload-icon">✅</div><div class="upload-title">${input.files[0].name}</div><div class="upload-hint">Listo para enviar</div>`;
+    }
+  }
+
+  // Scroll-reveal animations via CSS class (avoids FOUC from inline style flash)
+  const revealStyle = document.createElement('style');
+  revealStyle.textContent = `
+    .reveal-ready {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal-ready.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-ready:nth-child(2) { transition-delay: 0.08s; }
+    .reveal-ready:nth-child(3) { transition-delay: 0.16s; }
+    .reveal-ready:nth-child(4) { transition-delay: 0.24s; }
+  `;
+  document.head.appendChild(revealStyle);
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.step-card, .tier, .match-card, .lb-card, .payment-card, .cta-banner').forEach(el => {
+    el.classList.add('reveal-ready');
+    observer.observe(el);
+  });
+
+  // Animate stat numbers counting up
+  function animateCounter(el, target, duration = 1200) {
+    const start = performance.now();
+    const isText = isNaN(parseInt(target));
+    if (isText) return;
+    const num = parseInt(target);
+    const update = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(num * eased);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.stat-val').forEach(val => {
+          const original = val.textContent.trim();
+          animateCounter(val, original);
+        });
+        statsObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statsObserver.observe(heroStats);
+</script>
+</body>
+</html>

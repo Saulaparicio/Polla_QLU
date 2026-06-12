@@ -1,0 +1,65 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prode 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07101D; --surface: #0D1A2D; --border: #1C2E48;
+      --fg: #E8F0FF; --muted: #5E7A9E;
+      --green: #00E676; --gold: #FFD700;
+      --font-d: 'Bebas Neue', Impact, sans-serif;
+      --font-b: 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--fg); font-family: var(--font-b);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 24px; gap: 32px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo span { font-size: 2rem; }
+    .logo-text { font-family: var(--font-d); font-size: 2.5rem; letter-spacing: 0.04em; }
+    .logo-text em { font-style: normal; color: var(--green); }
+    .tagline { color: var(--muted); font-size: 0.875rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; }
+    .cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .screen-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px 32px; text-align: center; text-decoration: none; color: var(--fg);
+      width: 240px; transition: all 0.2s; display: flex; flex-direction: column; gap: 12px;
+    }
+    .screen-card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .sc-icon { font-size: 2.8rem; }
+    .sc-label { font-family: var(--font-d); font-size: 1.5rem; letter-spacing: 0.04em; }
+    .sc-desc { color: var(--muted); font-size: 0.8125rem; line-height: 1.6; }
+    .sc-cta { display: inline-block; margin-top: 8px; padding: 9px 18px; background: var(--green); color: #000; border-radius: 6px; font-size: 0.8125rem; font-weight: 700; }
+    .screen-card:nth-child(2) .sc-cta { background: var(--gold); }
+    footer { color: var(--muted); font-size: 0.75rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <span>⚽</span>
+    <div class="logo-text">PRODE<em>2026</em></div>
+  </div>
+  <p class="tagline">Quiniela del Mundial FIFA 2026</p>
+  <div class="cards">
+    <a href="landing.html" class="screen-card">
+      <div class="sc-icon">🌐</div>
+      <div class="sc-label">Landing</div>
+      <p class="sc-desc">Página pública con presentación del torneo, reglas e inscripción</p>
+      <span class="sc-cta">Ver Landing →</span>
+    </a>
+    <a href="dashboard.html" class="screen-card">
+      <div class="sc-icon">⚽</div>
+      <div class="sc-label">Dashboard</div>
+      <p class="sc-desc">App de predicciones con partidos, ranking en vivo y estado de pago</p>
+      <span class="sc-cta">Ver App →</span>
+    </a>
+  </div>
+  <footer>Prode 2026 — Prototipo de alta fidelidad &nbsp;·&nbsp; USA · Canadá · México</footer>
+</body>
+</html>

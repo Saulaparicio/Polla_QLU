@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Polla Digital - World Cup 2026 Prediction Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "outline": "#85967c",
+                "inverse-primary": "#106e00",
+                "on-secondary": "#452b00",
+                "surface": "#041329",
+                "surface-variant": "#27354c",
+                "primary-fixed-dim": "#ffb953",
+                "inverse-surface": "#d6e3ff",
+                "on-primary": "#452b00",
+                "inverse-on-surface": "#233148",
+                "surface-dim": "#041329",
+                "on-error": "#690005",
+                "on-background": "#d6e3ff",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed-variant": "#633f00",
+                "primary": "#ffbd5f",
+                "on-tertiary-fixed": "#002022",
+                "on-secondary-fixed": "#291800",
+                "secondary": "#ffbd5f",
+                "secondary-fixed-dim": "#ffb953",
+                "surface-bright": "#2c3951",
+                "surface-tint": "#ffbd5f",
+                "on-tertiary": "#00363a",
+                "on-secondary-container": "#5c3a00",
+                "tertiary-fixed-dim": "#00dbe9",
+                "surface-container-high": "#1c2a41",
+                "on-primary-fixed-variant": "#633f00",
+                "on-tertiary-container": "#006c73",
+                "surface-container": "#112036",
+                "error": "#ffb4ab",
+                "on-primary-fixed": "#291800",
+                "tertiary-fixed": "#7df4ff",
+                "background": "#041329",
+                "primary-container": "#ffbd5f",
+                "on-primary-container": "#452b00",
+                "surface-container-highest": "#27354c",
+                "tertiary": "#ecfdff",
+                "error-container": "#93000a",
+                "on-surface-variant": "#baccb0",
+                "surface-container-low": "#0d1c32",
+                "outline-variant": "#3c4b35",
+                "primary-fixed": "#ffddb4",
+                "secondary-fixed": "#ffddb4",
+                "on-surface": "#d6e3ff",
+                "secondary-container": "#ed9d00",
+                "on-tertiary-fixed-variant": "#004f54",
+                "tertiary-container": "#55f2ff",
+                "surface-container-lowest": "#010e24"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-desktop": "48px",
+                "gutter": "16px",
+                "bento-gap": "12px",
+                "unit": "8px",
+                "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                "body-lg": ["Inter"],
+                "stats-xl": ["Inter"],
+                "display-lg-mobile": ["Inter"],
+                "body-md": ["Inter"],
+                "display-lg": ["Inter"],
+                "label-caps": ["JetBrains Mono"],
+                "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "stats-xl": ["32px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "900"}],
+                "display-lg-mobile": ["36px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .liquid-glass:hover {
+            border-color: #ffbd5f;
+            box-shadow: 0 0 15px rgba(255, 189, 95, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+        .glow-text {
+            text-shadow: 0 0 8px rgba(255, 189, 95, 0.5);
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- App Layout Container -->
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation (Desktop Only) -->
+<aside class="h-screen w-64 hidden md:flex flex-col sticky top-0 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-r border-white/10 py-margin-desktop px-gutter z-50">
+<div class="mb-10">
+<h1 class="font-display-lg text-display-lg font-black text-primary leading-none">Polla Digital</h1>
+<p class="font-body-md text-on-surface-variant mt-1">WC 2026 Prediction Center</p>
+</div>
+<nav class="flex flex-col gap-4 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span>Ranking</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Rules</span>
+</a>
+</nav>
+<button class="mb-8 w-full py-4 bg-primary text-on-primary font-bold rounded-xl active:scale-95 duration-150 shadow-[0_0_20px_rgba(255,189,95,0.2)]">
+            New Prediction
+        </button>
+<div class="flex flex-col gap-2 mt-auto border-t border-white/10 pt-6">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col relative min-w-0">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-40 bg-surface/60 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shadow-[0_0_10px_rgba(255,189,95,0.3)]">
+<img alt="User profile avatar" data-alt="A hyper-realistic studio portrait of a confident young male sports fan with short hair, wearing a high-tech dark navy soccer jersey with vibrant orange trim. The lighting is cinematic with strong rim light accents in electric orange, creating a professional and energetic athletic mood against a dark, slightly blurred stadium background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALdioJWHhiq0N3e1X6JCStbE9br0iEQG8Hpi96I1c55rwOmOLHXsAV8CodoaOG12u10654zDvbKk4F7bmWlfGn3ECDBFjRmQzMrADNkvp5Mo2bkbYyIUQBaoE_V16Nz1Z5Snm6hswfCcdWTdWwHIaFZ1R_OyoTILtLfZ046k829sz3ZkhAIzpiJDpfFdmIPhCBYM_J3vGAAHaPBbQyrMmjzRd9Vof5Uc13p3yESmeSkGLnxrZcCb7sTgswM2SoosEtvFQNZ8NGMNiz"/>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary leading-tight">¡Hola, Diego!</h2>
+<div class="flex gap-4">
+<span class="font-label-caps text-label-caps text-primary glow-text">Points: 1,250</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Rank: #42</span>
+</div>
+</div>
+</div>
+<div class="hidden lg:flex items-center gap-8">
+<div class="flex items-center bg-surface-container rounded-full px-4 py-2 border border-white/10">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface text-body-md placeholder:text-on-surface-variant/50 w-64" placeholder="Search matches..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-margin-mobile md:p-margin-desktop space-y-gutter pb-32 md:pb-margin-desktop">
+<!-- Hero Bento Section -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-bento-gap">
+<!-- Main Feed: Match Predictions -->
+<div class="md:col-span-8 space-y-bento-gap">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-6 bg-primary rounded-full"></span>
+                            Featured Matches
+                        </h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-primary transition-all">View All</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-bento-gap">
+<!-- Match Card 1 -->
+<div class="liquid-glass rounded-3xl p-6 relative overflow-hidden group">
+<div class="absolute top-4 right-6 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-primary">LIVE</span>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-6">Group Stage • 15 Jun, 18:00</div>
+<div class="flex items-center justify-between gap-4 mb-8">
+<div class="flex flex-col items-center gap-3 flex-1">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+<img alt="Panamá Flag" data-alt="A clean, vibrant circular emblem of the Panama national flag, featuring crisp stars and professional fabric texture. The image is presented as a high-quality sports graphic with subtle depth and 3D lighting against a dark navy studio backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS0TMldoEZz7ymNwJeyKossDhGIa6WfJpRkL5EHK5xaPJVCWZxxaksEt_I_Cdx-5_7kW0MMkKD7Ot3n7klELSrfhMFhC6QBLC3g3G2Rc5-DqGMLXqRmZCO4elpSDfBkPRHm3u78mSGnDee833OtH29R9hh70ltPLHxGk3v8DkDZe2xDqC8ofcOpqIogZGQj115dx34bdUMBOca2xbn_yYG0OjGfy33xrRfgHpfSqMU_VcAlQ9QobQ3sCYxHEarkkLEQpo6yXBE2LOe"/>
+</div>
+<span class="font-body-lg font-bold">Panamá</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-12 h-16 bg-surface-container-highest border-b-2 border-primary text-center font-stats-xl text-stats-xl rounded-lg focus:ring-0 focus:outline-none focus:bg-primary/10 transition-colors" type="text" value="0"/>
+<span class="font-headline-md text-on-surface-variant">:</span>
+<input class="w-12 h-16 bg-surface-container-highest border-b-2 border-primary text-center font-stats-xl text-stats-xl rounded-lg focus:ring-0 focus:outline-none focus:bg-primary/10 transition-colors" type="text" value="0"/>
+</div>
+<div class="flex flex-col items-center gap-3 flex-1">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+<img alt="Inglaterra Flag" data-alt="A professional circular 3D rendering of the England St George's Cross flag, shown with realistic silk texture and soft shadows. The visual style is premium and cinematic, fitting for a major global sporting event broadcast design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHE8SAtgtikEO657wr8Rh8TBhD9Yf-mOZ7nphqSqd65ddL02w8ZZ-HZ1j2hfaU_0RLIdEypJxSqvbef5qz8WlV9sszHE5hrZ_K1aN7PpIejyeKeu3YbZfTui6Qe31xTR-fCd0YQ9DKEX1MESqdvxWIAbdc5hrldIg-jt_wu7XdllJsoaviPMizBUuBre9-8Q_w2w6rMe4po2zAljLWNCF2f8f5A8F6VBAF7KNHyNZ6COz4JAxE3_kr20IxJZkvsihAYhhuaiTUa-yh"/>
+</div>
+<span class="font-body-lg font-bold">Inglaterra</span>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary font-bold rounded-xl hover:brightness-110 active:scale-95 transition-all">
+                                Guardar Pronóstico
+                            </button>
+<div class="absolute bottom-[-10px] right-[-10px] opacity-10 font-stats-xl text-[80px] select-none pointer-events-none">+50</div>
+</div>
+<!-- Match Card 2 -->
+<div class="liquid-glass rounded-3xl p-6 relative overflow-hidden group">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-6">Group Stage • 15 Jun, 21:00</div>
+<div class="flex items-center justify-between gap-4 mb-8">
+<div class="flex flex-col items-center gap-3 flex-1">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+<img alt="España Flag" data-alt="The national flag of Spain presented as a glossy circular badge. High-definition fabric detail and professional lighting create a premium sports icon look, optimized for a dark-themed high-stakes prediction interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDM5XB4f6VF_H2-wDRlDiOQQzCt-bI8BHRIyA4inCoHfE05vb_WAGuAJDSVMU-4EO_BTLZJGpK3c3tUuKe6AljytHD5XrF3aaBgfYwCcQiG78dZ332E4HgIAKggNuaHFfmceqcBVvlG37NsOs7TTIfAqRoT-ySgd-FzvrejAKboLn4MwRNwpqrMVasmCDVWvPjxoLEroQUS336g4e1C5e412gTmwZZA7repPaqzgfVqBzUYpr1W782lZa7RnaEYTHCXDC7S8xfVv99"/>
+</div>
+<span class="font-body-lg font-bold text-center">España</span>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-12 h-16 bg-surface-container-highest border-b-2 border-white/10 text-center font-stats-xl text-stats-xl rounded-lg focus:border-primary transition-all focus:ring-0 focus:outline-none" placeholder="-" type="text"/>
+<span class="font-headline-md text-on-surface-variant">:</span>
+<input class="w-12 h-16 bg-surface-container-highest border-b-2 border-white/10 text-center font-stats-xl text-stats-xl rounded-lg focus:border-primary transition-all focus:ring-0 focus:outline-none" placeholder="-" type="text"/>
+</div>
+<div class="flex flex-col items-center gap-3 flex-1">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20">
+<img alt="Japón Flag" data-alt="A minimalist and sharp circular design of the Japanese national flag. The white and red colors are hyper-saturated to pop against a dark UI. Clean, modern, and high-fidelity rendering for a premium digital experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClS-iKIpPKhitoy6eSkEgUGIYGs7LEE1e3jmBjg5IWkO_BD0yRjiQrKocMoGHNw6XHlLeM-d5PUn0X4FSh-M-OTzKuCtDy5QQ3LJWrHQf9AiqfTIYUsHqxlRvHT9kqbQURlFAdQiSyw4NtvQinuzgKrpPyFavl4OCMVFUrA-aFVNOeHFqOUxB3UgbqPGBPTsrcBOrrk4UEv4gWcDEnBEL7Wbau2H8CNpHtB_6n-QH2Nf2ttv-iIr0JcyCphEFZ-darrP_7QHWa-KRC"/>
+</div>
+<span class="font-body-lg font-bold text-center">Japón</span>
+</div>
+</div>
+<button class="w-full py-3 bg-white/5 border border-white/20 text-on-surface font-bold rounded-xl hover:bg-white/10 transition-all">
+                                Guardar Pronóstico
+                            </button>
+<div class="absolute bottom-[-10px] right-[-10px] opacity-10 font-stats-xl text-[80px] select-none pointer-events-none">+100</div>
+</div>
+<!-- Match Card 3 (Wide/Featured) -->
+<div class="lg:col-span-2 liquid-glass rounded-3xl p-6 relative overflow-hidden flex flex-col md:flex-row items-center gap-8">
+<div class="flex-1 w-full">
+<div class="font-label-caps text-label-caps text-secondary mb-2">MATCH OF THE DAY</div>
+<h4 class="font-display-lg text-[28px] md:text-headline-md text-on-surface mb-4">Brasil vs Alemania</h4>
+<p class="font-body-md text-on-surface-variant mb-6">The classic rematch in Los Angeles. Predictions for this match award double points!</p>
+<div class="flex items-center gap-6">
+<div class="flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-container overflow-hidden">
+<img alt="Brasil Flag" data-alt="A circular flag badge for Brazil, showing the vibrant yellow and green colors with intricate detail on the central globe. The image is styled as a professional sports asset with a subtle glossy finish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr-YwE1EiSfvTRZ8kg_9l3bOHGfGqv_5pdHBj6m1Ld6d-0Q363VVCpuiymnqzKlaJjRw7ey5TFkZmfpTWiN0Bf8zvkfuWQxqyVktTTDJfm2d8t2jQ_B8aRXHl8rDkcN6UXAzp-BQTqPFC2pk2FF3iaTaAiwqPZrq490WgaomkZKJ3YVJBxAZVwDxVXAxHSlouA3sZ_CfKJj3qo2LZUhixeu41sEGX0ZwZnhaNxW-wgi8D3JfjFrSrNrCetGuYMhtePEuFrJFxG3vW4"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-container overflow-hidden">
+<img alt="Alemania Flag" data-alt="The German national flag badge, presented in a perfect circle with professional lighting. The colors are deep and rich, textured with a high-quality flag fabric pattern, set against a dark, tech-oriented UI background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1A2Jjf-CcDK_pKW-R12koS3whidhqRRVrSJbg2-CkcZ-sp5MlS-_gjmlMCWW4w9t5tGqdGMxubF9zNlKL8oG94yE0D1ywly6rGLVUcceS1f6yITMowUSGAZ1Agl6Y34VJ_sNAJ5Uss6u4m2JY724ZmLmC0CCtqQyXvjj8iQuK3g2n4rgKb0ox346ZIY2ALmZo7qkifyQgxnDTn2sJd-ohStiOEVMb78C3ZET3XSVM_PnOCRXNZrVqnmi4kt_MiI7ygbdrWMRQaOek"/>
+</div>
+</div>
+<div class="text-on-surface">
+<span class="font-label-caps text-label-caps block text-on-surface-variant">Prize Pool</span>
+<span class="font-stats-xl text-primary">5,000 pts</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-black/20 p-6 rounded-2xl border border-white/5">
+<input class="w-16 h-20 bg-surface-container-highest border-b-4 border-primary text-center font-stats-xl text-[40px] rounded-xl focus:ring-0" placeholder="0" type="text"/>
+<span class="text-3xl text-on-surface-variant">VS</span>
+<input class="w-16 h-20 bg-surface-container-highest border-b-4 border-primary text-center font-stats-xl text-[40px] rounded-xl focus:ring-0" placeholder="0" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Stats & Mini-Ranking -->
+<div class="md:col-span-4 space-y-bento-gap">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Leaders</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-primary transition-all">Full Table</span>
+</div>
+<!-- Ranking Widget -->
+<div class="liquid-glass rounded-3xl p-6 space-y-6">
+<!-- Leader 1 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl bg-primary/10 border border-primary/20">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary">
+<img alt="Leader 1" data-alt="A portrait of a male user avatar for a sports platform. He is smiling slightly, with a clean and modern look, wearing a casual polo shirt. High-key professional lighting with a soft gradient background in deep blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTdvghHQ-TT3PCcAbyqmaYn1lFvYkXM_M0d1FJA1J19xDiEsPxscb3G6PMUDvqjmAhJ87fYLx6ZOq070ZBFBYKrlGs9BhDjsjkZn5XSZswBRN_w0nj5ePIATVqOLtFLS_9OsdMjfp8r0T7v2UoAsio9TXs_RJh9Q-lcdXxa7hsmxtVeo4Qx0iCfRG2jpJtCxY035BuUv2wDr73h7IMyhT-XKkHOsKeg62YVB1_VpLYr0dOCTiRX_Avgz4KDkCls_mOCM61AMwcbZUe"/>
+</div>
+<div class="absolute -top-1 -right-1 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center font-bold text-xs">1</div>
+</div>
+<div class="flex-1">
+<div class="font-bold text-on-surface">Carlos M.</div>
+<div class="text-sm text-on-surface-variant">2,480 Puntos</div>
+</div>
+<div class="text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+</div>
+<!-- Leader 2 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white/10">
+<img alt="Leader 2" data-alt="A professional portrait of a female sports enthusiast with a bright smile. She is wearing a modern athletic jacket. The image has a clean, airy quality with cinematic lighting and a dark, stylish background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8gxezRIuXXBDdfwjy0lhO7hqhkZJG3A-paErDdjJxf02xHM5MrhDKpxAFnpWG4-mIKXt4T0X6zJwagmvRNgZxVqPkCrmuN7TT1YJzHdPQmZFdfE59QtPlhtnLVGq5m9JBmQs56r_hzxMXHC2uxSaHU6inFfIRyimlVGpw9WKzfD8dzgvrz-GjtzEneGY0PA50wrEktOJmKqJON8DOW-n5tUUnBMaJBk6R_S0yErUennYnbVdr7P4iKCmlt7xdpI7f5NTU8ZYRAzha"/>
+</div>
+<div class="absolute -top-1 -right-1 w-6 h-6 bg-slate-400 text-on-surface rounded-full flex items-center justify-center font-bold text-xs">2</div>
+</div>
+<div class="flex-1">
+<div class="font-bold text-on-surface">Andrea S.</div>
+<div class="text-sm text-on-surface-variant">2,150 Puntos</div>
+</div>
+<div class="text-on-surface-variant">
+<span class="material-symbols-outlined">horizontal_rule</span>
+</div>
+</div>
+<!-- Leader 3 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white/10">
+<img alt="Leader 3" data-alt="A focused studio portrait of a young man with a slight beard, looking directly at the camera. Professional sports marketing aesthetic, with subtle neon highlights in the background and soft, directional light on the face." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmRJ9isDhFdhPjzrnAh-NOWTbcUxly2myrO1pm0PC0vAiQwhp3P3XWt2d588YirH_qA6Up1JXwqKoAkTdx3azW2BrPCuKbcQTRC4U9HtGCgCGrSMYx-n1CE1LI6UZ3catwl26uVlNLW490luDMaeMJfg4Hz_noVZA9Q88684QNKclVaAOGJEgCcTU01c_5k6VzuP7cwh4liGzsB9sMzZx4ompHdJFr1H0zE-gJEZmMhA4OrW0fBqcyvdCwWJtszH-NsxOczdPrES1d"/>
+</div>
+<div class="absolute -top-1 -right-1 w-6 h-6 bg-amber-700 text-white rounded-full flex items-center justify-center font-bold text-xs">3</div>
+</div>
+<div class="flex-1">
+<div class="font-bold text-on-surface">Lucas G.</div>
+<div class="text-sm text-on-surface-variant">1,990 Puntos</div>
+</div>
+<div class="text-error">
+<span class="material-symbols-outlined">trending_down</span>
+</div>
+</div>
+<button class="w-full py-4 bg-secondary-container text-on-secondary-container font-bold rounded-xl active:scale-95 transition-all">
+                            Challenger Mode
+                        </button>
+</div>
+<!-- Promotion Card -->
+<div class="liquid-glass rounded-3xl p-6 bg-gradient-to-br from-primary/20 to-transparent border-primary/20 overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Invite Friends</h4>
+<p class="font-body-md text-on-surface-variant mb-4">Earn 500 points for every friend who joins your league.</p>
+<div class="flex items-center gap-2 text-primary hover:underline cursor-pointer">
+<span>Copy Referral Link</span>
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl opacity-5 text-primary rotate-12">group_add</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom NavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-8 bg-surface/90 backdrop-blur-2xl border-t border-white/20 z-50">
+<a class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-xl p-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-caps text-[10px] mt-1">Calendar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-caps text-[10px] mt-1">Ranking</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-caps text-[10px] mt-1">Rules</span>
+</a>
+</nav>
+</main>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+    // Simple click effect on prediction inputs
+    const inputs = document.querySelectorAll('input[type="text"]');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.closest('.liquid-glass').style.borderColor = '#ffbd5f';
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.closest('.liquid-glass').style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        });
+    });
+
+    // Add some atmospheric glow movement
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        document.body.style.backgroundImage = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255, 189, 95, 0.03) 0%, transparent 50%)`;
+    });
+</script>
+</body></html>
