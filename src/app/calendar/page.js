@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardBottomNav from "@/components/dashboard/DashboardBottomNav";
 
 function CalendarContent() {
   const { user, loading: authLoading, logout } = useAuth();
@@ -537,6 +538,11 @@ function CalendarContent() {
             top: 72px;
           }
         }
+        @media(max-width: 900px) {
+          .calendar-container {
+            padding-bottom: 84px !important;
+          }
+        }
         @media(max-width: 480px) {
           .calendar-container .phase-section-title { font-size: 1.5rem; }
         }
@@ -902,6 +908,14 @@ function CalendarContent() {
           </>
         )}
       </main>
+      
+      {/* Mobile Navigation bar */}
+      <DashboardBottomNav 
+        activeTab="calendar"
+        setActiveTab={(tab) => router.push(`/dashboard?tab=${tab}`)}
+        upcomingMatchesCount={0}
+        router={router}
+      />
     </div>
   );
 }
