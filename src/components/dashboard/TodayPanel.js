@@ -65,7 +65,7 @@ export default function TodayPanel({
         }}
       >
         <div>
-          <div style={{ fontWeight: 700, fontSize: "0.9375rem" }}>Partidos de hoy — Predicciones Activas</div>
+          <div style={{ fontWeight: 700, fontSize: "0.9375rem" }}>⚽ Partidos de hoy — Predicciones Activas</div>
           <div style={{ fontSize: "0.8125rem", color: "var(--muted)", marginTop: 3 }}>
             {todayMatches.length} {todayMatches.length === 1 ? "partido disponible" : "partidos disponibles"} · {pendingCount} sin guardar
           </div>

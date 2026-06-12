@@ -10,9 +10,10 @@ import Flag from "@/components/Flag";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 function CalendarContent() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,6 +24,33 @@ function CalendarContent() {
   const [activePhase, setActivePhase] = useState("grupos");
   const [activeGroup, setActiveGroup] = useState("all");
   const [mounted, setMounted] = useState(false);
+  const [userRank, setUserRank] = useState("-");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Fetch all users to calculate rank
+  useEffect(() => {
+    if (!user) return;
+    async function fetchRank() {
+      try {
+        const usersSnap = await getDocs(collection(db, "users"));
+        const usersList = [];
+        usersSnap.forEach((doc) => {
+          usersList.push({ uid: doc.id, ...doc.data() });
+        });
+        usersList.sort((a, b) => (b.points || 0) - (a.points || 0));
+        const uIndex = usersList.findIndex((u) => u.uid === user.uid);
+        if (uIndex !== -1) {
+          setUserRank(`#${uIndex + 1}`);
+        }
+      } catch (e) {
+        console.error("Error calculating user rank:", e);
+      }
+    }
+    fetchRank();
+  }, [user]);
 
   useEffect(() => {
     setMounted(true);
@@ -213,11 +241,11 @@ function CalendarContent() {
   const groupsList = ["all", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
   const phases = [
-    { id: "grupos", name: "Fase de Grupos" },
-    { id: "r32", name: "Ronda de 32" },
-    { id: "r16", name: "Octavos" },
-    { id: "qf", name: "Cuartos" },
-    { id: "sf", name: "Semifinales" },
+    { id: "grupos", name: "⚽ Fase de Grupos" },
+    { id: "r32", name: "🎯 Ronda de 32" },
+    { id: "r16", name: "⚔️ Octavos" },
+    { id: "qf", name: "🔥 Cuartos" },
+    { id: "sf", name: "⚡ Semifinales" },
     { id: "final", name: "🏆 Final" },
   ];
 
@@ -515,40 +543,14 @@ function CalendarContent() {
       ` }} />
 
       {/* HEADER */}
-      <header className="app-header">
-        <Link className="h-logo" href="/dashboard">
-          <span className="h-logo-icon">⚽</span>
-          <span className="h-logo-text">QLU <em>MatchPredict</em></span>
-        </Link>
-        <div className="h-div"></div>
-        <span className="h-title">CALENDARIO</span>
-        <Link className="h-back" href="/dashboard">← Dashboard</Link>
-        <button
-          onClick={toggleTheme}
-          className="flex items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-[#1C2E48] text-slate-500 dark:text-[#5E7A9E] hover:bg-slate-100 dark:hover:bg-[#1C2E48]/50 transition-all duration-200 cursor-pointer mr-2 ml-2"
-          title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-          aria-label="Toggle Theme"
-        >
-          {theme === "dark" ? (
-            <svg className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="18.36" x2="5.64" y2="19.78"></line>
-              <line x1="18.36" y1="4.22" x2="19.78" y2="5.64"></line>
-            </svg>
-          ) : (
-            <svg className="w-4 h-4 text-indigo-600 transition-transform hover:-rotate-12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          )}
-        </button>
-        <div className="h-pill">{matches.length} partidos</div>
-      </header>
+      <DashboardHeader
+        activeTab="calendar"
+        user={user}
+        userRank={userRank}
+        todayMatchesCount={matches.filter(m => m.status === "scheduled" && m.date === new Date().toISOString().split('T')[0]).length}
+        logout={logout}
+        router={router}
+      />
 
       {/* PHASE STICKY BAR (hidden if search is active) */}
       {!isSearchActive && (
@@ -604,27 +606,27 @@ function CalendarContent() {
             {/* STATS BAR */}
             <div className="stats-bar">
               <div className="stat-item">
-                <span className="stat-val g">104</span>
+                <span className="stat-val g">⚽ 104</span>
                 <span className="stat-lbl">Partidos</span>
               </div>
               <div className="stat-item">
-                <span className="stat-val go">48</span>
+                <span className="stat-val go">🌎 48</span>
                 <span className="stat-lbl">Selecciones</span>
               </div>
               <div className="stat-item">
-                <span className="stat-val b">16</span>
+                <span className="stat-val b">🏟️ 16</span>
                 <span className="stat-lbl">Sedes</span>
               </div>
               <div className="stat-item">
-                <span className="stat-val" style={{ color: "var(--muted)" }}>39</span>
+                <span className="stat-val" style={{ color: "var(--muted)" }}>🗓️ 39</span>
                 <span className="stat-lbl">Días</span>
               </div>
               <div className="stat-item">
-                <span className="stat-val" style={{ color: "var(--fg-dim)" }}>11 JUN</span>
+                <span className="stat-val" style={{ color: "var(--fg-dim)" }}>🏁 11 JUN</span>
                 <span className="stat-lbl">Apertura</span>
               </div>
               <div className="stat-item">
-                <span className="stat-val go">19 JUL</span>
+                <span className="stat-val go">🏆 19 JUL</span>
                 <span className="stat-lbl">Gran Final</span>
               </div>
             </div>

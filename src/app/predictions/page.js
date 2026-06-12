@@ -8,15 +8,17 @@ import { db } from "@/lib/firebase";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
 import Flag from "@/components/Flag";
 import { Trophy, ShieldAlert, Sparkles, Check, Save, Loader2, Lock } from "lucide-react";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function PredictionsPage() {
   const router = useRouter();
-  const { user, refreshUser } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const [matches, setMatches] = useState([]);
   const [predictions, setPredictions] = useState({});
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
   const [successId, setSuccessId] = useState(null);
+  const [userRank, setUserRank] = useState("-");
 
   // Podium States
   const [championPred, setChampionPred] = useState("");
@@ -36,6 +38,28 @@ export default function PredictionsPage() {
       router.push("/auth");
     }
   }, [user, loading, router]);
+
+  // Fetch all users to calculate rank
+  useEffect(() => {
+    if (!user) return;
+    async function fetchRank() {
+      try {
+        const usersSnap = await getDocs(collection(db, "users"));
+        const usersList = [];
+        usersSnap.forEach((doc) => {
+          usersList.push({ uid: doc.id, ...doc.data() });
+        });
+        usersList.sort((a, b) => (b.points || 0) - (a.points || 0));
+        const uIndex = usersList.findIndex((u) => u.uid === user.uid);
+        if (uIndex !== -1) {
+          setUserRank(`#${uIndex + 1}`);
+        }
+      } catch (e) {
+        console.error("Error calculating user rank:", e);
+      }
+    }
+    fetchRank();
+  }, [user]);
 
   useEffect(() => {
     async function fetchData() {
@@ -238,12 +262,21 @@ export default function PredictionsPage() {
     : false;
 
   return (
-    <div className="relative overflow-hidden min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-background">
+    <div className="relative overflow-hidden min-h-screen bg-background">
+      <DashboardHeader
+        activeTab="history"
+        user={user}
+        userRank={userRank}
+        todayMatchesCount={matches.filter(m => m.status === "scheduled" && m.date === new Date().toISOString().split('T')[0]).length}
+        logout={logout}
+        router={router}
+      />
+
       {/* Background blurs */}
-      <div className="absolute top-0 right-0 -z-10 h-[400px] w-[400px] rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute top-0 right-0 -z-10 h-[400px] w-[400px] rounded-full bg-primary/5 blur-3xl" style={{ paddingTop: "72px" }} />
       <div className="absolute bottom-0 left-0 -z-10 h-[400px] w-[400px] rounded-full bg-primary/5 blur-3xl" />
 
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-4xl" style={{ paddingTop: "100px" }}>
         {/* Header */}
         <div className="text-center sm:text-left mb-10 border-b border-white/10 pb-6 animate-fade-in">
           <h1 className="text-3xl font-extrabold text-white sm:text-4xl tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent flex items-center justify-center sm:justify-start gap-3">

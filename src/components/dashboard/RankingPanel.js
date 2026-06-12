@@ -186,8 +186,8 @@ export default function RankingPanel({
       {/* TABLE SECTION */}
       <div className="table-section">
         <div className="section-header">
-          <div className="section-title">
-            POSICIONES 4 – {topUsers.length}
+          <div className="section-title flex items-center gap-1.5">
+            📊 POSICIONES 4 – {topUsers.length}
           </div>
           <span className="section-count">
             {Math.max(0, topUsers.length - 3)} jugadores

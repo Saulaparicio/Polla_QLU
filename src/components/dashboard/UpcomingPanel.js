@@ -15,7 +15,7 @@ export default function UpcomingPanel({
   return (
     <div className="panel active animate-fade-in">
       <div className="bg-[#0D1A2D] border border-[#1C2E48] rounded-xl p-4 mb-4">
-        <div className="font-bold text-sm text-white">Próximos Partidos del Mundial</div>
+        <div className="font-bold text-sm text-white flex items-center gap-1.5">⏳ Próximos Partidos del Mundial</div>
         <div className="text-xs text-[#5E7A9E] mt-0.5">Partidos futuros del fixture. Registra tus resultados con anticipación.</div>
       </div>
 

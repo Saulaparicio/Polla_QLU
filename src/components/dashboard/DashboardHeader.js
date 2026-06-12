@@ -34,6 +34,14 @@ export default function DashboardHeader({
 }) {
   const { theme, toggleTheme } = useTheme();
 
+  const handleTabClick = (tabId) => {
+    if (setActiveTab) {
+      setActiveTab(tabId);
+    } else {
+      router.push(`/dashboard?tab=${tabId}`);
+    }
+  };
+
   return (
     <header className="app-header">
       <Link href="/dashboard" className="h-logo">
@@ -43,31 +51,31 @@ export default function DashboardHeader({
       <div className="h-divider"></div>
       <div className="h-tabs">
         <button 
-          onClick={() => setActiveTab("today")}
+          onClick={() => handleTabClick("today")}
           className={`h-tab ${activeTab === "today" ? "active" : ""}`}
         >
-          Hoy {todayMatchesCount > 0 && <span className="tab-badge">{todayMatchesCount}</span>}
+          🔥 Hoy {todayMatchesCount > 0 && <span className="tab-badge">{todayMatchesCount}</span>}
         </button>
         <button 
-          onClick={() => setActiveTab("upcoming")}
+          onClick={() => handleTabClick("upcoming")}
           className={`h-tab ${activeTab === "upcoming" ? "active" : ""}`}
         >
-          Próximos
+          ⏳ Próximos
         </button>
-        <Link href="/calendar" className="h-tab">
-          Calendario
+        <Link href="/calendar" className={`h-tab ${activeTab === "calendar" ? "active" : ""}`}>
+          📅 Calendario
         </Link>
         <button 
-          onClick={() => setActiveTab("history")}
-          className={`h-tab ${activeTab === "history" ? "active" : ""}`}
+          onClick={() => handleTabClick("history")}
+          className={`h-tab ${activeTab === "history" || activeTab === "predictions" ? "active" : ""}`}
         >
-          Mis Pronósticos
+          📝 Mis Pronósticos
         </button>
         <button 
-          onClick={() => setActiveTab("ranking")}
+          onClick={() => handleTabClick("ranking")}
           className={`h-tab ${activeTab === "ranking" ? "active" : ""}`}
         >
-          Ranking
+          🏆 Ranking
         </button>
       </div>
       <div className="h-user">
@@ -86,7 +94,7 @@ export default function DashboardHeader({
         </div>
         <div className="h-rank">
           <span className="h-rank-label">Rank</span>
-          <span className="h-rank-val">{userRank}</span>
+          <span className="h-rank-val">{userRank || "-"}</span>
         </div>
         <div className="h-avatar">{getAvatarEmoji(user.displayName, user.uid)}</div>
         <span className="h-alias">@{user.displayName || user.email?.split("@")[0]}</span>
