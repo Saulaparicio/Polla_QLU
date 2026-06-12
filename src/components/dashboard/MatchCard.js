@@ -3,6 +3,7 @@
 import { Loader2, Lock } from "lucide-react";
 import Flag from "@/components/Flag";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
+import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 
 // Helper: Timer Badge styling
 function getTimerBadge(match, isSaved) {
@@ -43,10 +44,7 @@ function getTimerBadge(match, isSaved) {
     const hoursLeft = Math.floor((diffMins - 15) / 60);
     return <span className="mc-timer t-ok">⏱ Cierra en {hoursLeft}h {minsLeft}m</span>;
   } else {
-    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-    const [year, month, day] = match.date.split("-");
-    const monthName = months[parseInt(month, 10) - 1] || month;
-    return <span className="mc-timer t-ok">⏱ {day} {monthName} {match.time}</span>;
+    return <span className="mc-timer t-ok">⏱ {formatDateEs(match.date)} · {formatTime12h(match.time)}</span>;
   }
 }
 

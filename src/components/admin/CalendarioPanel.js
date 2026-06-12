@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 
 export default function CalendarioPanel({
   matches,
@@ -222,7 +223,7 @@ export default function CalendarioPanel({
                         </div>
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: ".8125rem" }}>
-                        {m.date} · {m.time}
+                        {formatDateEs(m.date)} · {formatTime12h(m.time)}
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: ".8125rem" }}>
                         {m.venue}
