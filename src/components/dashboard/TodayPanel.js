@@ -21,14 +21,14 @@ export default function TodayPanel({
       {liveOrRecentMatches.length > 0 && (
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#FFD700] flex items-center gap-1.5 font-mono">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--amber)] flex items-center gap-1.5 font-mono">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
               </span>
               ⚡ Marcadores en Vivo y Resultados Recientes
             </h3>
-            <span className="text-xs text-[#5E7A9E] font-mono font-semibold">Jornada Activa</span>
+            <span className="text-xs text-[var(--muted)] font-mono font-semibold">Jornada Activa</span>
           </div>
           <div className="space-y-3 mb-4">
             {liveOrRecentMatches.map((m) => (

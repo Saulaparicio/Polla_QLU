@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
     
     await updateProfile(firebaseUser, { displayName });
 
-    const isAdmin = email.toLowerCase().includes("admin");
+    const isAdmin = email.toLowerCase().includes("admin") || email.toLowerCase() === "coordinador.mercadeoqlu@gmail.com";
 
     const userData = {
       uid: firebaseUser.uid,

@@ -195,9 +195,14 @@ export default function AdminPage() {
   }, [user, authLoading, router]);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && user) {
+      const verifiedUid = sessionStorage.getItem("admin_pin_verified_uid");
+      setPinVerified(verifiedUid === user.uid);
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
-      const verified = sessionStorage.getItem("admin_pin_verified") === "true";
-      setPinVerified(verified);
       const savedTheme = localStorage.getItem("admin_theme") || "dark";
       setTheme(savedTheme);
     }
@@ -311,7 +316,9 @@ export default function AdminPage() {
   const checkPinCode = (code) => {
     if (code === "2026") {
       setPinVerified(true);
-      sessionStorage.setItem("admin_pin_verified", "true");
+      if (user) {
+        sessionStorage.setItem("admin_pin_verified_uid", user.uid);
+      }
       showToast(<IconCheck />, "¡Bienvenido, Super Admin!", "ok");
     } else {
       setPinError("PIN incorrecto. Intenta de nuevo.");
@@ -324,7 +331,7 @@ export default function AdminPage() {
 
   const handleLogout = () => {
     setPinVerified(false);
-    sessionStorage.removeItem("admin_pin_verified");
+    sessionStorage.removeItem("admin_pin_verified_uid");
     setPinBuf("");
     firebaseLogout();
   };

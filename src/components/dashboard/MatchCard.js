@@ -231,13 +231,13 @@ export default function MatchCard({
 
       <div className="mc-foot">
         {user.paymentStatus !== "active" ? (
-          <span className="text-amber-500 font-bold flex items-center gap-1">
+          <span className="text-[var(--amber)] font-bold flex items-center gap-1">
             <Lock className="w-3.5 h-3.5 inline" /> Requiere Cuenta Activa
           </span>
         ) : match.status === "live" ? (
           <>
-            <span className="mc-status text-zinc-300 font-semibold">
-              Tu pronóstico: <strong className="text-white">{currentPred.homeScore !== "" ? `${currentPred.homeScore} – ${currentPred.awayScore}` : "Sin pronosticar"}</strong>
+            <span className="mc-status text-[var(--fg-dim)] font-semibold">
+              Tu pronóstico: <strong className="text-[var(--fg)]">{currentPred.homeScore !== "" ? `${currentPred.homeScore} – ${currentPred.awayScore}` : "Sin pronosticar"}</strong>
             </span>
             <span className="result-badge rb-pend">
               En Vivo
@@ -245,7 +245,7 @@ export default function MatchCard({
           </>
         ) : match.status === "finished" ? (
           <>
-            <span className="mc-status text-zinc-300 font-semibold" style={{ color: details.color }}>
+            <span className="mc-status text-[var(--fg-dim)] font-semibold" style={{ color: details.color }}>
               {details.text}
             </span>
             <span className={`result-badge ${details.badgeClass}`}>

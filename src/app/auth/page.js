@@ -6,17 +6,19 @@ import { useAuth } from "@/context/AuthContext";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
+import Flag from "@/components/Flag";
+
 /* ── DATA ── */
 const AVATARS = ["⚽","🏆","🦁","🐯","🦅","🦊","🐺","🐻","🦋","🌟","⭐","🔥","💫","🎯","🎪","🎭","🎨","🚀","⚡","🌊","🏔️","🌙","☀️","🎮"];
 const COUNTRIES = [
-  { flag:"🇦🇷", name:"Argentina" }, { flag:"🇧🇷", name:"Brasil" }, { flag:"🇫🇷", name:"Francia" },
-  { flag:"🇩🇪", name:"Alemania" }, { flag:"🇪🇸", name:"España" }, { flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", name:"Inglaterra" },
-  { flag:"🇵🇹", name:"Portugal" }, { flag:"🇳🇱", name:"Países Bajos" }, { flag:"🇺🇾", name:"Uruguay" },
-  { flag:"🇲🇽", name:"México" }, { flag:"🇺🇸", name:"Estados Unidos" }, { flag:"🇨🇦", name:"Canadá" },
-  { flag:"🇨🇴", name:"Colombia" }, { flag:"🇵🇦", name:"Panamá" }, { flag:"🇨🇱", name:"Chile" },
-  { flag:"🇵🇪", name:"Perú" }, { flag:"🇧🇪", name:"Bélgica" }, { flag:"🇭🇷", name:"Croacia" },
-  { flag:"🇯🇵", name:"Japón" }, { flag:"🇰🇷", name:"Corea del Sur" }, { flag:"🇸🇳", name:"Senegal" },
-  { flag:"🇲🇦", name:"Marruecos" }, { flag:"🇩🇰", name:"Dinamarca" }, { flag:"🇵🇱", name:"Polonia" },
+  { code: "AR", flag: "🇦🇷", name: "Argentina" }, { code: "BR", flag: "🇧🇷", name: "Brasil" }, { code: "FR", flag: "🇫🇷", name: "Francia" },
+  { code: "DE", flag: "🇩🇪", name: "Alemania" }, { code: "ES", flag: "🇪🇸", name: "España" }, { code: "GB-ENG", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", name: "Inglaterra" },
+  { code: "PT", flag: "🇵🇹", name: "Portugal" }, { code: "NL", flag: "🇳🇱", name: "Países Bajos" }, { code: "UY", flag: "🇺🇾", name: "Uruguay" },
+  { code: "MX", flag: "🇲🇽", name: "México" }, { code: "US", flag: "🇺🇸", name: "Estados Unidos" }, { code: "CA", flag: "🇨🇦", name: "Canadá" },
+  { code: "CO", flag: "🇨🇴", name: "Colombia" }, { code: "PA", flag: "🇵🇦", name: "Panamá" }, { code: "CL", flag: "🇨🇱", name: "Chile" },
+  { code: "PE", flag: "🇵🇪", name: "Perú" }, { code: "BE", flag: "🇧🇪", name: "Bélgica" }, { code: "HR", flag: "🇭🇷", name: "Croacia" },
+  { code: "JP", flag: "🇯🇵", name: "Japón" }, { code: "KR", flag: "🇰🇷", name: "Corea del Sur" }, { code: "SN", flag: "🇸🇳", name: "Senegal" },
+  { code: "MA", flag: "🇲🇦", name: "Marruecos" }, { code: "DK", flag: "🇩🇰", name: "Dinamarca" }, { code: "PL", flag: "🇵🇱", name: "Polonia" },
 ];
 
 export default function AuthPage() {
@@ -493,7 +495,9 @@ export default function AuthPage() {
                       <div style={S.countryGrid}>
                         {filteredCountries.map(c => (
                           <div key={c.name} style={S.countryOption(selectedCountry === c.name)} onClick={()=>setSelectedCountry(c.name)}>
-                            <div style={{ fontSize:"1.4rem", lineHeight:1 }}>{c.flag}</div>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 20 }}>
+                              <Flag code={c.code} size={18} />
+                            </div>
                             <div style={{ fontSize:"0.5625rem", color:"#5E7A9E", textTransform:"uppercase", letterSpacing:"0.04em", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", width:"100%" }}>{c.name}</div>
                           </div>
                         ))}
