@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { collection, query, orderBy, getDocs, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
+import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 import Flag from "@/components/Flag";
 import { Trophy, ShieldAlert, Sparkles, Check, Save, Loader2, Lock } from "lucide-react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
@@ -456,12 +457,14 @@ export default function PredictionsPage() {
               >
                 {/* Top Info Bar */}
                 <div className="flex flex-wrap items-center justify-between border-b border-white/5 bg-surface-lowest/45 px-5 py-3 text-xs">
-                  <div className="flex items-center gap-3 text-zinc-400">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-zinc-400">
                     <span className="font-extrabold text-[#00E676] uppercase tracking-wider font-mono">
                       Partido {match.matchNumber}
                     </span>
                     <span className="h-1 w-1 rounded-full bg-zinc-700" />
                     <span className="font-semibold text-zinc-300">{match.group || match.stage}</span>
+                    <span className="h-1 w-1 rounded-full bg-zinc-700" />
+                    <span className="text-zinc-300 font-mono">{formatDateEs(match.date)} · {formatTime12h(match.time)}</span>
                   </div>
                   <div>
                     {isPredictionLocked ? (
