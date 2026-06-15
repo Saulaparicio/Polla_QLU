@@ -370,9 +370,9 @@ body > div {
   --muted:    #5E7A9E;
   --border:   #1C2E48;
   --border2:  #253B5E;
-  --green:    #00E676;
-  --green-d:  #00A853;
-  --green-dim: #00A853;
+  --green:    #00E5FF;
+  --green-d:  #00B8D4;
+  --green-dim: #00B8D4;
   --gold:     #FFD700;
   --gold-dim: #FFC300;
   --red:      #FF5252;
@@ -996,8 +996,8 @@ footer.lp-footer {
   --muted:    #5E7A9E;
   --border:   #1C2E48;
   --border2:  #253B5E;
-  --green:    #00E676;
-  --green-d:  #00A853;
+  --green:    #00E5FF;
+  --green-d:  #00B8D4;
   --gold:     #FFD700;
   --silver:   #C0C8D8;
   --bronze:   #CD7F32;

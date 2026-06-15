@@ -300,28 +300,63 @@ export default function Home() {
               <p className="scoring-note text-sm text-[#5E7A9E]">Los puntos se asignan automáticamente tras confirmar el resultado oficial.</p>
               <span className="text-xs text-[#5E7A9E] font-medium font-mono bg-white/5 px-3 py-1 rounded">Aplica en todo el Torneo</span>
             </div>
-            <div className="scoring-grid grid grid-cols-1 md:grid-cols-3">
-              <div className="tier featured bg-[#00E676]/5 p-8 text-center relative border-b md:border-b-0 md:border-r border-[#1C2E48]">
-                <div className="tier-featured-bar absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#00E676] to-[#00BF63]"></div>
-                <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">🎯 Resultado Exacto</div>
-                <div className="tier-pts font-display text-6xl text-[#00E676] leading-none font-bold">3</div>
-                <div className="tier-pts-unit text-xs uppercase text-[#00E676] tracking-widest font-bold mt-1">Puntos</div>
-                <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Acertaste el marcador exacto de goles del partido.</p>
-                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-3 py-1.5 text-xs text-[#C5D2EE] font-mono mt-4">ARG 2-1 FRA → pronóstico 2-1 ✓</div>
+            <div className="scoring-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+              <div className="tier featured bg-[#00E5FF]/5 p-6 text-center relative border-b lg:border-b-0 lg:border-r border-[#1C2E48] flex flex-col justify-between">
+                <div className="tier-featured-bar absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#00E5FF] to-[#00B8D4]"></div>
+                <div>
+                  <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">🎯 Resultado Exacto</div>
+                  <div className="tier-pts font-display text-5xl text-[#00E5FF] leading-none font-bold">3</div>
+                  <div className="tier-pts-unit text-xs uppercase text-[#00E5FF] tracking-widest font-bold mt-1">Puntos</div>
+                  <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">¡Le pegaste al marcador idéntico! Goles exactos de cada equipo.</p>
+                </div>
+                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-2 py-1.5 text-[11px] text-[#C5D2EE] font-mono mt-4">
+                  Pred: 2-1 vs Real: 2-1
+                </div>
               </div>
-              <div className="tier p-8 text-center border-b md:border-b-0 md:border-r border-[#1C2E48]">
-                <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">📊 Ganador + Diferencia</div>
-                <div className="tier-pts font-display text-6xl text-[#FFD700] leading-none font-bold">2</div>
-                <div className="tier-pts-unit text-xs uppercase text-[#FFD700] tracking-widest font-bold mt-1">Puntos</div>
-                <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Acertaste el ganador y la diferencia de goles exacta.</p>
-                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-3 py-1.5 text-xs text-[#C5D2EE] font-mono mt-4">ARG 2-1 FRA → pronóstico 3-2 ✓</div>
+              <div className="tier p-6 text-center border-b sm:border-r lg:border-b-0 border-[#1C2E48] flex flex-col justify-between">
+                <div>
+                  <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">⚖️ Diferencia de Goles</div>
+                  <div className="tier-pts font-display text-5xl text-[#FFD700] leading-none font-bold">2</div>
+                  <div className="tier-pts-unit text-xs uppercase text-[#FFD700] tracking-widest font-bold mt-1">Puntos</div>
+                  <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Acertaste ganador y diferencia de goles, no el marcador exacto.</p>
+                </div>
+                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-2 py-1.5 text-[11px] text-[#C5D2EE] font-mono mt-4">
+                  Pred: 1-0 o 3-2 vs Real: 2-1
+                </div>
               </div>
-              <div className="tier p-8 text-center">
-                <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">✅ Solo el Ganador</div>
-                <div className="tier-pts font-display text-6xl text-[#5B8DEF] leading-none font-bold">1</div>
-                <div className="tier-pts-unit text-xs uppercase text-[#5B8DEF] tracking-widest font-bold mt-1">Punto</div>
-                <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Solo acertaste cuál equipo gana el partido (o el empate).</p>
-                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-3 py-1.5 text-xs text-[#C5D2EE] font-mono mt-4">ARG 2-1 FRA → pronóstico 1-0 ✓</div>
+              <div className="tier p-6 text-center border-b lg:border-b-0 lg:border-r border-[#1C2E48] flex flex-col justify-between">
+                <div>
+                  <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">🟢 Solo Ganador</div>
+                  <div className="tier-pts font-display text-5xl text-[#5B8DEF] leading-none font-bold">1</div>
+                  <div className="tier-pts-unit text-xs uppercase text-[#5B8DEF] tracking-widest font-bold mt-1">Punto</div>
+                  <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Supiste quién ganaba, pero no el marcador ni la diferencia.</p>
+                </div>
+                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-2 py-1.5 text-[11px] text-[#C5D2EE] font-mono mt-4">
+                  Pred: 3-0 vs Real: 2-1
+                </div>
+              </div>
+              <div className="tier p-6 text-center border-b sm:border-r lg:border-r lg:border-b-0 border-[#1C2E48] flex flex-col justify-between">
+                <div>
+                  <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">🤝 Empate Exacto</div>
+                  <div className="tier-pts font-display text-5xl text-[#E2E8F0] leading-none font-bold">3</div>
+                  <div className="tier-pts-unit text-xs uppercase text-[#E2E8F0] tracking-widest font-bold mt-1">Puntos</div>
+                  <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Acertaste empate y goles exactos. (Empate no exacto da 1 pt).</p>
+                </div>
+                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-2 py-1.5 text-[11px] text-[#C5D2EE] font-mono mt-4">
+                  Pred: 1-1 vs Real: 1-1
+                </div>
+              </div>
+              <div className="tier bg-purple-500/5 p-6 text-center relative flex flex-col justify-between">
+                <div className="tier-featured-bar absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 to-indigo-500"></div>
+                <div>
+                  <div className="tier-label text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">⭐ Partido Comodín</div>
+                  <div className="tier-pts font-display text-5xl text-purple-400 leading-none font-bold">x2</div>
+                  <div className="tier-pts-unit text-xs uppercase text-purple-400 tracking-widest font-bold mt-1">Multiplicador</div>
+                  <p className="tier-desc text-xs text-[#5E7A9E] leading-relaxed mt-4">Elige un partido por jornada para duplicar su puntuación.</p>
+                </div>
+                <div className="tier-eg inline-block bg-[#152338] border border-[#1C2E48] rounded px-2 py-1.5 text-[11px] text-[#C5D2EE] font-mono mt-4">
+                  3 pts × 2 = 6 pts / 0 pts × 2 = 0 pts
+                </div>
               </div>
             </div>
           </div>

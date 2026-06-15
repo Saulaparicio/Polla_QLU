@@ -75,7 +75,7 @@ export default function AuthPage() {
   if (authLoading || user) {
     return (
       <div style={{ display:"flex", alignItems:"center", justifyContent:"center", minHeight:"100vh" }}>
-        <Loader2 style={{ width:40, height:40, animation:"spin 1s linear infinite", color:"#00E676" }} />
+        <Loader2 style={{ width:40, height:40, animation:"spin 1s linear infinite", color:"#00E5FF" }} />
       </div>
     );
   }

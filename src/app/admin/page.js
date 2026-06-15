@@ -356,23 +356,20 @@ export default function AdminPage() {
     const predWinner = predHome > predAway ? "home" : predHome < predAway ? "away" : "draw";
 
     let points = 0;
-    
+
     if (predHome === actualHome && predAway === actualAway) {
-      // Resultado Exacto: 10 puntos
-      points = 10;
+      // 1. Resultado Exacto / Empate Exacto: 3 Puntos
+      points = Number(rulesConfig.ptsExact) || 3;
     } else if (predWinner === actualWinner) {
-      // Acertar Ganador/Empate y Diferencia o Solo Ganador: 5 puntos
-      points = 5;
-    } else {
-      // Aproximación en Partidos de Muchos Goles: 3 puntos
-      const totalActualGoals = actualHome + actualAway;
-      const isHighScoring = totalActualGoals >= 5 || actualHome >= 4 || actualAway >= 4;
-      const totalError = Math.abs(predHome - actualHome) + Math.abs(predAway - actualAway);
-      if (isHighScoring && totalError === 1) {
-        points = 3;
+      if (actualWinner !== "draw" && (predHome - predAway) === (actualHome - actualAway)) {
+        // 2. Ganador + Diferencia de Goles: 2 Puntos
+        points = Number(rulesConfig.ptsDiff) || 2;
       } else {
-        points = 0;
+        // 3. Solo Ganador Correcto / Concepto de Empate: 1 Punto
+        points = Number(rulesConfig.ptsWin) || 1;
       }
+    } else {
+      points = 0;
     }
 
     if (pred.wildcard) {
