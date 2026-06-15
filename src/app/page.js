@@ -130,7 +130,7 @@ export default function Home() {
       <nav id="top-nav" className={`fixed top-0 left-0 right-0 z-50 px-3 py-3 sm:px-6 md:px-8 bg-[#07101D]/80 backdrop-blur-md border-b flex items-center justify-between gap-2 sm:gap-6 transition-all duration-300 ${isScrolled ? "bg-[#07101D]/95 border-white/10" : "border-white/5"}`}>
         <Link href="#" className="nav-logo flex items-center gap-1.5 sm:gap-2 text-decoration-none shrink">
           <span className="nav-logo-icon text-lg sm:text-xl">⚽</span>
-          <span className="nav-logo-text font-display text-lg sm:text-2xl tracking-wider">QLU <em className="text-[#00E676] not-italic hidden sm:inline">MatchPredict</em></span>
+          <span className="nav-logo-text font-display text-lg sm:text-2xl tracking-wider">QLU <em className="text-[#00E5FF] not-italic hidden sm:inline">MatchPredict</em></span>
         </Link>
         <ul className="nav-links hidden md:flex gap-7 list-none">
           <li><a href="#como-jugar" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Cómo jugar</a></li>
@@ -229,7 +229,7 @@ export default function Home() {
             ⚽ FIFA WORLD CUP 2026 &nbsp;·&nbsp; USA · CAN · MEX
           </div>
           <h1 className="hero-title font-display text-6xl md:text-[7.5rem] leading-none tracking-tight text-[#E8F0FF] uppercase select-none">
-            QLU <span className="yr block text-[#00E676] drop-shadow-[0_0_40px_rgba(0,230,118,0.3)]">MatchPredict</span>
+            QLU <span className="yr block text-[#00E5FF] drop-shadow-[0_0_40px_rgba(0,229,255,0.35)]">MatchPredict</span>
           </h1>
           <p className="hero-tagline font-display text-lg sm:text-2xl text-[#5E7A9E] tracking-[0.22em] mt-5">PRONÓSTICA · COMPITE · GANA</p>
           <p className="hero-desc max-w-xl text-[#5E7A9E] text-sm sm:text-base leading-relaxed mt-4">
@@ -650,7 +650,7 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">⚽</span>
-              <span className="font-display text-xl tracking-wider text-white">QLU <em className="text-[#00E676] not-italic">MatchPredict</em></span>
+              <span className="font-display text-xl tracking-wider text-white">QLU <em className="text-[#00E5FF] not-italic">MatchPredict</em></span>
             </div>
             <p className="footer-copy text-xs text-[#5E7A9E]">© 2026 QLU MatchPredict — Quiniela del Mundial. No afiliado a FIFA.</p>
           </div>

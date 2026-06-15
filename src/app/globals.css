@@ -403,7 +403,7 @@ body > div {
 .h-logo { display: flex; align-items: center; gap: 7px; text-decoration: none; flex-shrink: 0; }
 .h-logo-icon { font-size: 1.25rem; }
 .h-logo-text { font-family: var(--font-d); font-size: 1.4rem; color: var(--fg); letter-spacing: 0.04em; white-space: nowrap; }
-.h-logo-text em { font-style: normal; color: var(--green); }
+.h-logo-text em, .sb-logo em, .mob-logo em { font-style: normal; color: #00E5FF; }
 .h-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
 
 /* Header tabs (desktop only) */
