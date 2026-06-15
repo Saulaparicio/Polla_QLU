@@ -56,31 +56,6 @@ export default function RankingPanel({
 
   return (
     <div className="panel active space-y-8 animate-fade-in pb-8 ranking-panel-scoped">
-      {/* HERO STRIP */}
-      <div className="hero-strip">
-        <div className="hero-eyebrow">Polla Mundialista</div>
-        <div className="hero-title">🏆 RANKING GENERAL</div>
-        <div className="hero-sub">Posiciones y estadísticas en tiempo real con la base de datos oficial.</div>
-        <div className="hero-stats">
-          <div className="h-stat">
-            <div className="h-stat-val">{topUsers.length}</div>
-            <div className="h-stat-lbl">Participantes</div>
-          </div>
-          <div className="h-stat">
-            <div className="h-stat-val">{finishedMatchesCount}</div>
-            <div className="h-stat-lbl">Partidos jugados</div>
-          </div>
-          <div className="h-stat">
-            <div className="h-stat-val" style={{ color: "var(--gold)" }}>{leaderPoints}</div>
-            <div className="h-stat-lbl">Puntos del líder</div>
-          </div>
-          <div className="h-stat">
-            <div className="h-stat-val">{allMatches.length || 104}</div>
-            <div className="h-stat-lbl">Total partidos</div>
-          </div>
-        </div>
-      </div>
-
       {/* PODIUM TOP 3 */}
       <div className="podium-section">
         <div className="podium-label">Top 3 Líderes</div>
@@ -156,6 +131,31 @@ export default function RankingPanel({
               <div className="podium-step">3°</div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* HERO STRIP */}
+      <div className="hero-strip">
+        <div className="hero-eyebrow">Polla Mundialista</div>
+        <div className="hero-title">🏆 RANKING GENERAL</div>
+        <div className="hero-sub">Posiciones y estadísticas en tiempo real con la base de datos oficial.</div>
+        <div className="hero-stats">
+          <div className="h-stat">
+            <div className="h-stat-val">{topUsers.length}</div>
+            <div className="h-stat-lbl">Participantes</div>
+          </div>
+          <div className="h-stat">
+            <div className="h-stat-val">{finishedMatchesCount}</div>
+            <div className="h-stat-lbl">Partidos jugados</div>
+          </div>
+          <div className="h-stat">
+            <div className="h-stat-val" style={{ color: "var(--gold)" }}>{leaderPoints}</div>
+            <div className="h-stat-lbl">Puntos del líder</div>
+          </div>
+          <div className="h-stat">
+            <div className="h-stat-val">{allMatches.length || 104}</div>
+            <div className="h-stat-lbl">Total partidos</div>
+          </div>
         </div>
       </div>
 

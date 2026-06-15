@@ -1234,7 +1234,26 @@ footer.lp-footer {
 
 /* RESPONSIVE OVERRIDES */
 @media (max-width: 640px) {
-  .ranking-panel-scoped .podium { gap: 6px; }
+  .ranking-panel-scoped .podium { 
+    flex-direction: column !important; 
+    align-items: center; 
+    gap: 16px; 
+  }
+  .ranking-panel-scoped .podium-slot {
+    width: 100%;
+    max-width: 320px;
+  }
+  .ranking-panel-scoped .podium-slot--1 { order: 1 !important; }
+  .ranking-panel-scoped .podium-slot--2 { order: 2 !important; }
+  .ranking-panel-scoped .podium-slot--3 { order: 3 !important; }
+  .ranking-panel-scoped .podium-step {
+    border-radius: 0 0 var(--r-m) var(--r-m);
+    height: 36px !important;
+  }
+  .ranking-panel-scoped .podium-card {
+    border-radius: var(--r-m) var(--r-m) 0 0;
+    padding: 20px 16px;
+  }
   .ranking-panel-scoped .rank-table th.hide-sm, .ranking-panel-scoped .rank-table td.hide-sm { display: none; }
   .ranking-panel-scoped .pts-bar-wrap { display: none; }
   .ranking-panel-scoped .my-stats-bar { flex-direction: column; text-align: center; }
