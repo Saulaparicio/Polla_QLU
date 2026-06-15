@@ -72,6 +72,30 @@ export default function PredictionsPage() {
         matchesSnap.forEach((doc) => {
           matchesList.push({ id: doc.id, ...doc.data() });
         });
+        // Sort chronologically (date and time)
+        matchesList.sort((a, b) => {
+          const dateA = a.date || "";
+          const dateB = b.date || "";
+          
+          // Put TBD at the end
+          if (dateA === "TBD" && dateB !== "TBD") return 1;
+          if (dateB === "TBD" && dateA !== "TBD") return -1;
+          
+          if (dateA !== dateB) {
+            return dateA.localeCompare(dateB);
+          }
+          
+          const timeA = a.time || "";
+          const timeB = b.time || "";
+          if (timeA === "TBD" && timeB !== "TBD") return 1;
+          if (timeB === "TBD" && timeA !== "TBD") return -1;
+          
+          if (timeA !== timeB) {
+            return timeA.localeCompare(timeB);
+          }
+          
+          return (a.matchNumber || 0) - (b.matchNumber || 0);
+        });
         setMatches(matchesList);
 
         // Fetch User Doc for Podium
