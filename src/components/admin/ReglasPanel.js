@@ -137,33 +137,7 @@ export default function ReglasPanel({
             <span className="pl">pts</span>
           </div>
         </div>
-        <div
-          className="rc"
-          style={{ borderColor: "var(--gold-alpha20)", background: "var(--gold-alpha05)" }}
-        >
-          <div className="ri">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-          </div>
-          <div style={{ flex: 1 }}>
-            <div className="rn">Comodín (multiplicador)</div>
-            <div className="rd">Multiplica los puntos en el partido marcado como comodín</div>
-          </div>
-          <div className="rp">
-            <input
-              type="number"
-              className="pi"
-              min="1"
-              max="5"
-              style={{ color: "var(--gold)" }}
-              value={rules.ptsCom ?? 2}
-              onChange={(e) => onRuleChange("ptsCom", parseInt(e.target.value, 10) || 1)}
-              aria-label="Multiplicador por comodín"
-            />
-            <span className="pl">×</span>
-          </div>
-        </div>
+
       </div>
 
       <div className="card">

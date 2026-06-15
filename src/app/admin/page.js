@@ -372,9 +372,6 @@ export default function AdminPage() {
       points = 0;
     }
 
-    if (pred.wildcard) {
-      points = points * (Number(rulesConfig.ptsCom) || 2);
-    }
 
     // Acertar qué equipo avanza de ronda (10 puntos adicionales en eliminación directa)
     const isKnockout = match.stage && match.stage !== "Group Stage" && match.stage !== "Fase de Grupos";
@@ -666,7 +663,7 @@ export default function AdminPage() {
 
     setEngineLogs([]); // clear logs for fresh run
     addLog("muted", "Motor iniciado manualmente");
-    addLog("info", `Cargando reglas: exacto=${rules.ptsExact}pts, dif=${rules.ptsDiff}pts, ganador=${rules.ptsWin}pt, empate=${rules.ptsDraw}pts, comodín=x${rules.ptsCom}`);
+    addLog("info", `Cargando reglas: exacto=${rules.ptsExact}pts, dif=${rules.ptsDiff}pts, ganador=${rules.ptsWin}pt, empate=${rules.ptsDraw}pts`);
 
     try {
       // 1. Fetch matches
