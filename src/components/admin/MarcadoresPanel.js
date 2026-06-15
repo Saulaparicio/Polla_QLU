@@ -34,10 +34,32 @@ export default function MarcadoresPanel({
   ).length;
 
   const getFilteredMarcadores = () => {
+    const list = [...matches];
+    // Sort chronologically (date first, then time, TBD values last, then matchNumber fallback)
+    list.sort((a, b) => {
+      const dateA = a.date || "TBD";
+      const dateB = b.date || "TBD";
+      if (dateA === "TBD" && dateB !== "TBD") return 1;
+      if (dateA !== "TBD" && dateB === "TBD") return -1;
+      if (dateA !== "TBD" && dateB !== "TBD" && dateA !== dateB) {
+        return dateA.localeCompare(dateB);
+      }
+
+      const timeA = a.time || "TBD";
+      const timeB = b.time || "TBD";
+      if (timeA === "TBD" && timeB !== "TBD") return 1;
+      if (timeA !== "TBD" && timeB === "TBD") return -1;
+      if (timeA !== "TBD" && timeB !== "TBD" && timeA !== timeB) {
+        return timeA.localeCompare(timeB);
+      }
+
+      return (Number(a.matchNumber) || 999) - (Number(b.matchNumber) || 999);
+    });
+
     if (marcadoresFilter === "today") {
-      return matches.filter((m) => m.date === todayDateStr);
+      return list.filter((m) => m.date === todayDateStr);
     }
-    return matches;
+    return list;
   };
 
   const filteredMatches = getFilteredMarcadores();
@@ -152,8 +174,10 @@ export default function MarcadoresPanel({
                   const homeVal = scores[m.id]?.homeScore ?? "";
                   const awayVal = scores[m.id]?.awayScore ?? "";
 
+                  const isToday = m.date === todayDateStr;
+
                   return (
-                    <tr key={m.id}>
+                    <tr key={m.id} className={isToday ? "current-day-row" : ""}>
                       <td>
                         <div className="ti">
                           {renderTeamFlag(m.homeTeamId, 20)}

@@ -1505,4 +1505,20 @@ html.light, :root.light, .light {
   border-color: rgba(16, 185, 129, 0.15);
 }
 
+/* Row highlighting for matches scheduled on the current day */
+tr.current-day-row td {
+  border-top: 1.5px solid var(--amber) !important;
+  border-bottom: 1.5px solid var(--amber) !important;
+  background: rgba(255, 179, 0, 0.04) !important;
+}
+tr.current-day-row td:first-child {
+  border-left: 1.5px solid var(--amber) !important;
+  border-radius: 6px 0 0 6px;
+}
+tr.current-day-row td:last-child {
+  border-right: 1.5px solid var(--amber) !important;
+  border-radius: 0 6px 6px 0;
+}
+
+
 
