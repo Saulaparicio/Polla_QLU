@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { collection, query, orderBy, getDocs, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, setDoc, getDoc, updateDoc, where, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
 import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
@@ -109,18 +109,17 @@ export default function PredictionsPage() {
         }
 
         // Fetch User's Predictions
-        const predsSnap = await getDocs(collection(db, "predictions"));
         const userPreds = {};
-        predsSnap.forEach((doc) => {
+        const myPredsQuery = query(collection(db, "predictions"), where("userId", "==", user.uid));
+        const myPredsSnap = await getDocs(myPredsQuery);
+        myPredsSnap.forEach((doc) => {
           const data = doc.data();
-          if (data.userId === user.uid) {
-            userPreds[data.matchId] = {
-              homeScore: data.homeScore,
-              awayScore: data.awayScore,
-              advancingTeamId: data.advancingTeamId || "",
-              saved: true
-            };
-          }
+          userPreds[data.matchId] = {
+            homeScore: data.homeScore,
+            awayScore: data.awayScore,
+            advancingTeamId: data.advancingTeamId || "",
+            saved: true
+          };
         });
         setPredictions(userPreds);
       } catch (error) {
@@ -205,12 +204,10 @@ export default function PredictionsPage() {
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data();
-        // Recount predictions
-        const allPredsSnap = await getDocs(collection(db, "predictions"));
-        let count = 0;
-        allPredsSnap.forEach((doc) => {
-          if (doc.data().userId === user.uid) count++;
-        });
+        // Recount predictions using a server-side count query
+        const myPredsQuery = query(collection(db, "predictions"), where("userId", "==", user.uid));
+        const countSnap = await getCountFromServer(myPredsQuery);
+        const count = countSnap.data().count;
         await updateDoc(userRef, { predictionsCount: count });
       }
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { collection, query, orderBy, getDocs, doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, setDoc, updateDoc, onSnapshot, getDoc, where, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -106,41 +106,40 @@ function DashboardContent() {
         
         setTopUsers(usersList);
 
-        // Fetch counts
-        const allUsersSnap = await getDocs(collection(db, "users"));
-        const predsSnap = await getDocs(collection(db, "predictions"));
-
+        // Fetch counts using the already loaded users snapshot and count predictions from server
+        const predsCountSnap = await getCountFromServer(collection(db, "predictions"));
+        
         setStats({
-          users: allUsersSnap.size,
-          predictions: predsSnap.size,
+          users: usersSnap.size,
+          predictions: predsCountSnap.data().count,
           matches: 104,
         });
-
+        
         // Current User rank check
         const uIndex = usersList.findIndex((u) => u.uid === user.uid);
         if (uIndex !== -1) {
           setUserRank(`#${uIndex + 1}`);
         }
-
+        
         // Fetch rules config
         const rulesDoc = await getDoc(doc(db, "config", "rules"));
         if (rulesDoc.exists()) {
           setRules(rulesDoc.data());
         }
-
-        // Fetch user's predictions
+        
+        // Fetch only the current user's predictions from Firestore
         const userPreds = {};
-        predsSnap.forEach((doc) => {
+        const myPredsQuery = query(collection(db, "predictions"), where("userId", "==", user.uid));
+        const myPredsSnap = await getDocs(myPredsQuery);
+        myPredsSnap.forEach((doc) => {
           const data = doc.data();
-          if (data.userId === user.uid) {
-            userPreds[data.matchId] = {
-              homeScore: data.homeScore !== undefined ? data.homeScore : "",
-              awayScore: data.awayScore !== undefined ? data.awayScore : "",
-              advancingTeamId: data.advancingTeamId || "",
-              saved: true,
-              points: data.points !== undefined ? data.points : null
-            };
-          }
+          userPreds[data.matchId] = {
+            homeScore: data.homeScore !== undefined ? data.homeScore : "",
+            awayScore: data.awayScore !== undefined ? data.awayScore : "",
+            advancingTeamId: data.advancingTeamId || "",
+            saved: true,
+            points: data.points !== undefined ? data.points : null
+          };
         });
         setPredictions(userPreds);
       } catch (error) {
@@ -264,13 +263,11 @@ function DashboardContent() {
         }
       }));
 
-      // Recount predictions and update user document
+      // Recount predictions and update user document using a server-side count query
       const userRef = doc(db, "users", user.uid);
-      const allPredsSnap = await getDocs(collection(db, "predictions"));
-      let count = 0;
-      allPredsSnap.forEach((doc) => {
-        if (doc.data().userId === user.uid) count++;
-      });
+      const myPredsQuery = query(collection(db, "predictions"), where("userId", "==", user.uid));
+      const countSnap = await getCountFromServer(myPredsQuery);
+      const count = countSnap.data().count;
       await updateDoc(userRef, { predictionsCount: count });
 
       await refreshUser();
