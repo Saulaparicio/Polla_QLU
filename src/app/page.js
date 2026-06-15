@@ -579,7 +579,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-display text-white tracking-wide uppercase">Cuota de Inscripción</h3>
                 <div className="pay-amount font-display text-6xl sm:text-8xl text-white font-bold leading-none my-3">
-                  <span className="pay-curr font-display text-2xl sm:text-4xl text-[#5E7A9E] align-top mt-2 inline-block">B/.</span>15
+                  <span className="pay-curr font-display text-2xl sm:text-4xl text-[#5E7A9E] align-top mt-2 inline-block">B/.</span>10
                 </div>
                 <p className="pay-subtitle text-xs text-[#5E7A9E] mb-6">Pago único para participar en todo el torneo de la Copa Mundial 2026.</p>
                 
@@ -598,7 +598,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="pay-step flex gap-3">
                     <div className="pay-step-n w-6 h-6 rounded-full bg-[#1B2D47] border border-[#253B5E] text-[#C5D2EE] font-bold text-xs flex items-center justify-center shrink-0">1</div>
-                    <div className="pay-step-text text-sm text-[#C5D2EE]">Envía B/.15 por <strong>Yappy</strong> al número abajo. Escribe tu alias en el mensaje.</div>
+                    <div className="pay-step-text text-sm text-[#C5D2EE]">Envía B/.10 por <strong>Yappy</strong> al número abajo. Escribe tu alias en el mensaje.</div>
                   </div>
                   <div className="pay-step flex gap-3">
                     <div className="pay-step-n w-6 h-6 rounded-full bg-[#1B2D47] border border-[#253B5E] text-[#C5D2EE] font-bold text-xs flex items-center justify-center shrink-0">2</div>
@@ -612,7 +612,7 @@ export default function Home() {
 
                 <div className="yappy-box bg-[#152338] border border-[#253B5E] rounded-xl p-5 my-6">
                   <div className="yappy-box-lbl text-[10px] uppercase text-[#5E7A9E] tracking-wider mb-2">Número Yappy del organizador</div>
-                  <div className="yappy-num font-display text-4xl text-white font-bold tracking-wide">+507 6223-1492</div>
+                  <div className="yappy-num font-display text-4xl text-white font-bold tracking-wide">+507 6214-9386</div>
                   <div className="yappy-name text-xs text-[#5E7A9E] mt-1">Nombre: QLU MatchPredict</div>
                 </div>
 

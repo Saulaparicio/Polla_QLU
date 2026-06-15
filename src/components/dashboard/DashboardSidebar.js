@@ -268,8 +268,8 @@ export default function DashboardSidebar({
                   marginBottom: "12px" 
                 }}
               >
-                <div style={{ color: "var(--muted)", fontWeight: "bold", marginBottom: "4px" }}>Enviar B/.15 por Yappy al:</div>
-                <div style={{ color: "var(--fg)", fontWeight: "bold", fontSize: "0.9375rem" }}>+507 6223-1492</div>
+                <div style={{ color: "var(--muted)", fontWeight: "bold", marginBottom: "4px" }}>Enviar B/.10 por Yappy al:</div>
+                <div style={{ color: "var(--fg)", fontWeight: "bold", fontSize: "0.9375rem" }}>+507 6214-9386</div>
                 <div style={{ color: "var(--muted)", marginTop: "2px" }}>QLU MatchPredict</div>
               </div>
 
@@ -278,7 +278,7 @@ export default function DashboardSidebar({
                 className="upload-compact"
               >
                 <div className="upload-compact-title">📎 Adjuntar comprobante Yappy</div>
-                <div className="upload-compact-hint">PNG, JPG · B/. 15 · Se activa en 24h</div>
+                <div className="upload-compact-hint">PNG, JPG · B/. 10 · Se activa en 24h</div>
               </div>
               <input 
                 type="file" 
