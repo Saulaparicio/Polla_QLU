@@ -2,6 +2,7 @@
 
 import Flag from "@/components/Flag";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
+import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 
 // Helper: History Outcomes
 function getHistoryDetails(pred, match) {
@@ -88,7 +89,7 @@ export default function HistoryCard({ match, predictions }) {
     <div id={`match-${match.id}`} className="match-card">
       <div className="mc-top">
         <span className="mc-meta">
-          {match.group ? (match.group.toLowerCase().startsWith("grupo") ? match.group : `Grupo ${match.group}`) : match.stage || "Fase de Grupos"} · {match.matchNumber ? `Jornada ${match.matchNumber}` : ""} · {match.venue}
+          {match.group ? (match.group.toLowerCase().startsWith("grupo") ? match.group : `Grupo ${match.group}`) : match.stage || "Fase de Grupos"} · P{match.matchNumber} · {formatDateEs(match.date)} @ {formatTime12h(match.time)} · {match.venue}
         </span>
         <span className={`result-badge ${details.topBadgeClass}`}>
           {details.topBadgeText}

@@ -161,7 +161,29 @@ function DashboardContent() {
       snapshot.forEach((docSnap) => {
         matchesList.push({ id: docSnap.id, ...docSnap.data() });
       });
-      matchesList.sort((a, b) => (a.matchNumber || 0) - (b.matchNumber || 0));
+      matchesList.sort((a, b) => {
+        const dateA = a.date || "";
+        const dateB = b.date || "";
+        
+        // Put TBD at the end
+        if (dateA === "TBD" && dateB !== "TBD") return 1;
+        if (dateB === "TBD" && dateA !== "TBD") return -1;
+        
+        if (dateA !== dateB) {
+          return dateA.localeCompare(dateB);
+        }
+        
+        const timeA = a.time || "";
+        const timeB = b.time || "";
+        if (timeA === "TBD" && timeB !== "TBD") return 1;
+        if (timeB === "TBD" && timeA !== "TBD") return -1;
+        
+        if (timeA !== timeB) {
+          return timeA.localeCompare(timeB);
+        }
+        
+        return (a.matchNumber || 0) - (b.matchNumber || 0);
+      });
       setAllMatches(matchesList);
       setStats(prev => ({
         ...prev,

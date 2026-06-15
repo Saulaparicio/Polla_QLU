@@ -147,7 +147,7 @@ export default function MatchCard({
     >
       <div className="mc-top">
         <span className="mc-meta">
-          {match.group ? (match.group.toLowerCase().startsWith("grupo") ? match.group : `Grupo ${match.group}`) : match.stage || "Fase de Grupos"} · {match.matchNumber ? `Jornada ${match.matchNumber}` : ""} · {match.venue}
+          {match.group ? (match.group.toLowerCase().startsWith("grupo") ? match.group : `Grupo ${match.group}`) : match.stage || "Fase de Grupos"} · P{match.matchNumber} · {formatDateEs(match.date)} @ {formatTime12h(match.time)} · {match.venue}
         </span>
         {timerBadge}
       </div>
