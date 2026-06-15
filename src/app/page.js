@@ -127,10 +127,10 @@ export default function Home() {
   return (
     <div className="bg-[#07101D] text-[#E8F0FF] min-h-screen overflow-x-hidden">
       {/* Navigation Bar */}
-      <nav id="top-nav" className={`fixed top-0 left-0 right-0 z-50 padding-clamp bg-[#07101D]/80 backdrop-blur-md border-b flex items-center justify-between gap-6 transition-all duration-300 ${isScrolled ? "bg-[#07101D]/95 border-white/10" : "border-white/5"}`}>
-        <Link href="#" className="nav-logo flex items-center gap-2 text-decoration-none">
-          <span className="nav-logo-icon text-xl">⚽</span>
-          <span className="nav-logo-text font-display text-2xl tracking-wider">QLU <em className="text-[#00E676] not-italic">MatchPredict</em></span>
+      <nav id="top-nav" className={`fixed top-0 left-0 right-0 z-50 px-3 py-3 sm:px-6 md:px-8 bg-[#07101D]/80 backdrop-blur-md border-b flex items-center justify-between gap-2 sm:gap-6 transition-all duration-300 ${isScrolled ? "bg-[#07101D]/95 border-white/10" : "border-white/5"}`}>
+        <Link href="#" className="nav-logo flex items-center gap-1.5 sm:gap-2 text-decoration-none shrink">
+          <span className="nav-logo-icon text-lg sm:text-xl">⚽</span>
+          <span className="nav-logo-text font-display text-lg sm:text-2xl tracking-wider">QLU <em className="text-[#00E676] not-italic hidden sm:inline">MatchPredict</em></span>
         </Link>
         <ul className="nav-links hidden md:flex gap-7 list-none">
           <li><a href="#como-jugar" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Cómo jugar</a></li>
@@ -138,10 +138,10 @@ export default function Home() {
           <li><a href="#ranking" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Demo interactivo</a></li>
           <li><a href="#inscripcion" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Inscripción</a></li>
         </ul>
-        <div className="nav-cta flex items-center gap-2 shrink-0">
+        <div className="nav-cta flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={toggleTheme}
-            className="flex items-center justify-center p-2 rounded-lg border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200 cursor-pointer mr-1"
+            className="flex items-center justify-center p-1.5 sm:p-2 rounded-lg border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200 cursor-pointer"
             title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
             aria-label="Toggle Theme"
           >
@@ -163,8 +163,8 @@ export default function Home() {
               </svg>
             )}
           </button>
-          <Link href="/auth" className="btn btn-ghost">Iniciar Sesión</Link>
-          <Link href="/auth" className="btn btn-primary">Registrarse</Link>
+          <Link href="/auth" className="btn btn-ghost !px-2.5 !py-1.5 !text-xs sm:!px-4 sm:!py-2 sm:!text-sm">Iniciar Sesión</Link>
+          <Link href="/auth" className="btn btn-primary !px-2.5 !py-1.5 !text-xs sm:!px-4 sm:!py-2 sm:!text-sm">Registrarse</Link>
         </div>
       </nav>
 
