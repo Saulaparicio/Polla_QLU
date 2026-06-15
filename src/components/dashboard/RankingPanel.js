@@ -56,8 +56,15 @@ export default function RankingPanel({
 
   return (
     <div className="panel active space-y-8 animate-fade-in pb-8 ranking-panel-scoped">
+      {/* HEADER TITLE */}
+      <div className="text-center space-y-2 pt-6">
+        <p className="text-xs uppercase tracking-widest text-[#00E5FF] font-bold">Polla Mundialista</p>
+        <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wider font-extrabold">🏆 RANKING GENERAL</h2>
+        <p className="text-xs sm:text-sm text-[#5E7A9E] max-w-md mx-auto">Posiciones y estadísticas en tiempo real con la base de datos oficial.</p>
+      </div>
+
       {/* PODIUM TOP 3 */}
-      <div className="podium-section">
+      <div className="podium-section !py-2">
         <div className="podium-label">Top 3 Líderes</div>
         <div className="podium">
           {/* 2nd PLACE */}
@@ -134,11 +141,8 @@ export default function RankingPanel({
         </div>
       </div>
 
-      {/* HERO STRIP */}
-      <div className="hero-strip">
-        <div className="hero-eyebrow">Polla Mundialista</div>
-        <div className="hero-title">🏆 RANKING GENERAL</div>
-        <div className="hero-sub">Posiciones y estadísticas en tiempo real con la base de datos oficial.</div>
+      {/* HERO STRIP (STATS ONLY) */}
+      <div className="hero-strip !py-6 !mt-2">
         <div className="hero-stats">
           <div className="h-stat">
             <div className="h-stat-val">{topUsers.length}</div>
