@@ -138,9 +138,9 @@ export default function AdminPage() {
     ptsCom: 2,
     closeHours: 1,
     entryFee: 10,
-    quinielaName: "QLU MatchPredict",
+    quinielaName: "Polla Mundialista",
     yappyNumber: "+507 6214-9386",
-    welcomeMsg: "¡Bienvenido a QLU MatchPredict! Predice los resultados del Mundial y gana puntos. El ganador recibe el 60% del pozo acumulado.",
+    welcomeMsg: "¡Bienvenido a Polla Mundialista! Predice los resultados del Mundial y gana puntos. El ganador recibe el 60% del pozo acumulado.",
     regOpen: true,
     rankVisible: true,
     maintenanceMode: false,
@@ -1209,7 +1209,7 @@ export default function AdminPage() {
       {/* MOBILE TOPBAR */}
       <div className="topbar">
         <button className="hbg" onClick={() => setSidebarOpen(true)} type="button">☰</button>
-        <div className="mob-logo">QLU <em>MatchPredict</em></div>
+        <div className="mob-logo">Polla <em>Mundialista</em></div>
         <span className="bx bx-p" style={{ marginLeft: "auto", fontSize: ".65rem" }}>ADMIN</span>
       </div>
       

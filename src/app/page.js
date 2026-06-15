@@ -117,7 +117,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center py-32 text-zinc-500 min-h-screen bg-[#07101D]">
         <Loader2 className="h-10 w-10 animate-spin text-[#00E676] mb-3" />
         <span className="text-sm font-semibold font-mono text-[#5E7A9E]">
-          {user ? "Redireccionando al Dashboard..." : "Cargando Quiniela QLU MatchPredict..."}
+          {user ? "Redireccionando al Dashboard..." : "Cargando Quiniela Polla Mundialista..."}
         </span>
       </div>
     );
@@ -130,7 +130,7 @@ export default function Home() {
       <nav id="top-nav" className={`fixed top-0 left-0 right-0 z-50 px-3 py-3 sm:px-6 md:px-8 bg-[#07101D]/80 backdrop-blur-md border-b flex items-center justify-between gap-2 sm:gap-6 transition-all duration-300 ${isScrolled ? "bg-[#07101D]/95 border-white/10" : "border-white/5"}`}>
         <Link href="#" className="nav-logo flex items-center gap-1.5 sm:gap-2 text-decoration-none shrink">
           <span className="nav-logo-icon text-lg sm:text-xl">⚽</span>
-          <span className="nav-logo-text font-display text-lg sm:text-2xl tracking-wider">QLU <em className="text-[#00E5FF] not-italic hidden sm:inline">MatchPredict</em></span>
+          <span className="nav-logo-text font-display text-lg sm:text-2xl tracking-wider">Polla <em className="text-[#00E5FF] not-italic hidden sm:inline">Mundialista</em></span>
         </Link>
         <ul className="nav-links hidden md:flex gap-7 list-none">
           <li><a href="#como-jugar" className="text-[#5E7A9E] hover:text-[#E8F0FF] text-sm font-medium transition-colors">Cómo jugar</a></li>
@@ -229,7 +229,7 @@ export default function Home() {
             ⚽ FIFA WORLD CUP 2026 &nbsp;·&nbsp; USA · CAN · MEX
           </div>
           <h1 className="hero-title font-display text-6xl md:text-[7.5rem] leading-none tracking-tight text-[#E8F0FF] uppercase select-none">
-            QLU <span className="yr block text-[#00E5FF] drop-shadow-[0_0_40px_rgba(0,229,255,0.35)]">MatchPredict</span>
+            Polla <span className="yr block text-[#00E5FF] drop-shadow-[0_0_40px_rgba(0,229,255,0.35)]">Mundialista</span>
           </h1>
           <p className="hero-tagline font-display text-lg sm:text-2xl text-[#5E7A9E] tracking-[0.22em] mt-5">PRONÓSTICA · COMPITE · GANA</p>
           <p className="hero-desc max-w-xl text-[#5E7A9E] text-sm sm:text-base leading-relaxed mt-4">
@@ -613,7 +613,7 @@ export default function Home() {
                 <div className="yappy-box bg-[#152338] border border-[#253B5E] rounded-xl p-5 my-6">
                   <div className="yappy-box-lbl text-[10px] uppercase text-[#5E7A9E] tracking-wider mb-2">Número Yappy del organizador</div>
                   <div className="yappy-num font-display text-4xl text-white font-bold tracking-wide">+507 6214-9386</div>
-                  <div className="yappy-name text-xs text-[#5E7A9E] mt-1">Nombre: QLU MatchPredict</div>
+                  <div className="yappy-name text-xs text-[#5E7A9E] mt-1">Nombre: Polla Mundialista</div>
                 </div>
 
                 <h4 className="text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">Adjunta tu comprobante</h4>
@@ -650,9 +650,9 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">⚽</span>
-              <span className="font-display text-xl tracking-wider text-white">QLU <em className="text-[#00E5FF] not-italic">MatchPredict</em></span>
+              <span className="font-display text-xl tracking-wider text-white">Polla <em className="text-[#00E5FF] not-italic">Mundialista</em></span>
             </div>
-            <p className="footer-copy text-xs text-[#5E7A9E]">© 2026 QLU MatchPredict — Quiniela del Mundial. No afiliado a FIFA.</p>
+            <p className="footer-copy text-xs text-[#5E7A9E]">© 2026 Polla Mundialista — Quiniela del Mundial. No afiliado a FIFA.</p>
           </div>
           <ul className="footer-links flex gap-6 list-none text-xs">
             <li><Link href="/faq" className="text-[#5E7A9E] hover:text-white transition-colors">Reglamento / FAQ</Link></li>

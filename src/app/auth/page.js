@@ -301,7 +301,7 @@ export default function AuthPage() {
       <div style={{ display:"none" }} className="auth-top-bar">
         <Link href="/" style={{ display:"flex", alignItems:"center", gap:8, textDecoration:"none" }}>
           <span style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"1.4rem", letterSpacing:"0.04em", color:"#E8F0FF" }}>
-            QLU <em style={{ fontStyle:"normal", color:"#00E5FF" }}>MatchPredict</em>
+            Polla <em style={{ fontStyle:"normal", color:"#00E5FF" }}>Mundialista</em>
           </span>
         </Link>
         <Link href="/dashboard" style={{ fontSize:"0.8125rem", color:"#5E7A9E", textDecoration:"none" }}>Ya tengo cuenta →</Link>
@@ -317,7 +317,7 @@ export default function AuthPage() {
           <Link href="/" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", position:"relative", zIndex:1 }}>
             <span style={{ fontSize:"1.8rem" }}>⚽</span>
             <span style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"2rem", letterSpacing:"0.04em", color:"#E8F0FF" }}>
-              QLU <em style={{ fontStyle:"normal", color:"#00E5FF" }}>MatchPredict</em>
+              Polla <em style={{ fontStyle:"normal", color:"#00E5FF" }}>Mundialista</em>
             </span>
           </Link>
 

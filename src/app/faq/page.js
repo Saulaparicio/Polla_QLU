@@ -96,7 +96,7 @@ export default function FAQPage() {
             Centro de Ayuda y FAQ
           </h1>
           <p className="mt-3 text-[#5E7A9E] text-base leading-relaxed">
-            Resuelve todas tus dudas sobre el reglamento del QLU MatchPredict, sistema de puntos, desempates y registro de comprobantes.
+            Resuelve todas tus dudas sobre el reglamento del Polla Mundialista, sistema de puntos, desempates y registro de comprobantes.
           </p>
         </div>
 
