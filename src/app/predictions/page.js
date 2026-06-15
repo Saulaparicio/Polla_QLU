@@ -395,9 +395,11 @@ export default function PredictionsPage() {
           {matches.map((match) => {
             const matchDate = new Date(`${match.date}T${match.time}:00Z`);
             const now = new Date();
-            const isPredictionLocked = match.status === "live" || match.status === "finished" || (matchDate - now <= 15 * 60 * 1000);
-            const isLocked = match.status === "live" || match.status === "finished";
-            const isFinished = match.status === "finished";
+            const isStarted = now >= matchDate;
+            const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;
+            const isPredictionLocked = effectiveStatus === "live" || effectiveStatus === "finished" || (matchDate - now <= 15 * 60 * 1000);
+            const isLocked = effectiveStatus === "live" || effectiveStatus === "finished";
+            const isFinished = effectiveStatus === "finished";
             const currentPred = predictions[match.id] || { homeScore: "", awayScore: "", advancingTeamId: "", saved: false };
             const isUnsaved = !currentPred.saved && currentPred.homeScore !== "" && currentPred.awayScore !== "";
 

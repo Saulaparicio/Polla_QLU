@@ -7,13 +7,18 @@ import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
 
 // Helper: Timer Badge styling
 function getTimerBadge(match, isSaved) {
-  if (match.status === "predicting") {
+  const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+  const now = new Date();
+  const isStarted = now >= matchDate;
+  const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;
+
+  if (effectiveStatus === "predicting") {
     return <span className="mc-timer t-ok" style={{ borderColor: "var(--green)", color: "var(--green)" }}>⏱ ¡Pronóstico Abierto!</span>;
   }
-  if (match.status === "finished") {
+  if (effectiveStatus === "finished") {
     return <span className="mc-timer t-lock">🔒 Finalizado</span>;
   }
-  if (match.status === "live") {
+  if (effectiveStatus === "live") {
     return (
       <span className="mc-timer t-hot">
         <span className="lpip"></span>EN VIVO
@@ -21,8 +26,6 @@ function getTimerBadge(match, isSaved) {
     );
   }
 
-  const matchDate = new Date(`${match.date}T${match.time}:00Z`);
-  const now = new Date();
   const diffMs = matchDate - now;
 
   if (diffMs <= 15 * 60 * 1000) {
@@ -120,10 +123,13 @@ export default function MatchCard({
   handleSavePrediction,
   setPredictions
 }) {
-  const isLocked = match.status === "live" || match.status === "finished";
   const matchDate = new Date(`${match.date}T${match.time}:00Z`);
   const now = new Date();
-  const isPredictionLocked = match.status === "predicting" ? false : (isLocked || (matchDate - now <= 15 * 60 * 1000));
+  const isStarted = now >= matchDate;
+  const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;
+
+  const isLocked = effectiveStatus === "live" || effectiveStatus === "finished";
+  const isPredictionLocked = effectiveStatus === "predicting" ? false : (isLocked || (matchDate - now <= 15 * 60 * 1000));
 
   const currentPred = predictions[match.id] || { homeScore: "", awayScore: "", advancingTeamId: "", saved: false };
   const timerBadge = getTimerBadge(match, currentPred.saved);
@@ -138,12 +144,12 @@ export default function MatchCard({
     : currentPred.awayScore;
 
   const predObj = currentPred.saved ? currentPred : null;
-  const details = match.status === "finished" ? getHistoryDetails(predObj, match) : null;
+  const details = effectiveStatus === "finished" ? getHistoryDetails(predObj, match) : null;
 
   return (
     <div 
       id={`match-${match.id}`}
-      className={`match-card ${match.status === "finished" ? "locked" : ""} ${currentPred.saved && (match.status === "scheduled" || match.status === "predicting") ? "saved" : ""}`}
+      className={`match-card ${effectiveStatus === "finished" ? "locked" : ""} ${currentPred.saved && (effectiveStatus === "scheduled" || effectiveStatus === "predicting") ? "saved" : ""}`}
     >
       <div className="mc-top">
         <span className="mc-meta">
@@ -164,7 +170,7 @@ export default function MatchCard({
         <div className="score-pair">
           {isLocked ? (
             <div className={`si flex items-center justify-center font-bold select-none cursor-default ${
-              match.status === "live" 
+              effectiveStatus === "live" 
                 ? "border-rose-500/40 text-rose-400 bg-rose-500/5 shadow-[0_0_12px_rgba(244,63,94,0.2)] animate-pulse"
                 : "border-emerald-500/30 text-emerald-400 bg-emerald-500/5"
             }`}>
@@ -185,7 +191,7 @@ export default function MatchCard({
           <span className="sv-sep">:</span>
           {isLocked ? (
             <div className={`si flex items-center justify-center font-bold select-none cursor-default ${
-              match.status === "live" 
+              effectiveStatus === "live" 
                 ? "border-rose-500/40 text-rose-400 bg-rose-500/5 shadow-[0_0_12px_rgba(244,63,94,0.2)] animate-pulse"
                 : "border-emerald-500/30 text-emerald-400 bg-emerald-500/5"
             }`}>
@@ -235,7 +241,7 @@ export default function MatchCard({
           <span className="text-[var(--amber)] font-bold flex items-center gap-1">
             <Lock className="w-3.5 h-3.5 inline" /> Requiere Cuenta Activa
           </span>
-        ) : match.status === "live" ? (
+        ) : effectiveStatus === "live" ? (
           <>
             <span className="mc-status text-[var(--fg-dim)] font-semibold">
               Tu pronóstico: <strong className="text-[var(--fg)]">{currentPred.homeScore !== "" ? `${currentPred.homeScore} – ${currentPred.awayScore}` : "Sin pronosticar"}</strong>
@@ -244,7 +250,7 @@ export default function MatchCard({
               En Vivo
             </span>
           </>
-        ) : match.status === "finished" ? (
+        ) : effectiveStatus === "finished" ? (
           <>
             <span className="mc-status text-[var(--fg-dim)] font-semibold" style={{ color: details.color }}>
               {details.text}

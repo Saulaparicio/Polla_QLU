@@ -366,16 +366,33 @@ function DashboardContent() {
     ? finishedMatchesList.reduce((max, m) => m.date > max ? m.date : max, "")
     : null;
 
+  const now = new Date();
+
   // Only live matches for the top live section (finished matches are in the Recent Results widget)
   const liveOrRecentMatches = allMatches.filter(m => {
-    return m.status === "live";
+    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const isStarted = now >= matchDate;
+    const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
+    return effectiveStatus === "live";
   }).sort((a, b) => {
     return (a.matchNumber || 0) - (b.matchNumber || 0);
   });
 
   // Filter matches into Today (pending predictions), Upcoming, History panels
-  const todayMatches = allMatches.filter(m => m.status === "scheduled" || m.status === "predicting").slice(0, 4);
-  const upcomingMatches = allMatches.filter(m => (m.status === "scheduled" || m.status === "predicting") && !todayMatches.some(tm => tm.id === m.id));
+  const todayMatches = allMatches.filter(m => {
+    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const isStarted = now >= matchDate;
+    const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
+    return effectiveStatus === "scheduled" || effectiveStatus === "predicting";
+  }).slice(0, 4);
+
+  const upcomingMatches = allMatches.filter(m => {
+    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const isStarted = now >= matchDate;
+    const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
+    return (effectiveStatus === "scheduled" || effectiveStatus === "predicting") && !todayMatches.some(tm => tm.id === m.id);
+  });
+
   const historyMatches = allMatches.filter(m => m.status === "finished").sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
 
   const myPredictionsCount = Object.keys(predictions).filter(k => predictions[k].saved).length;

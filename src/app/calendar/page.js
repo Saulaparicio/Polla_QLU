@@ -168,14 +168,24 @@ function CalendarContent() {
   };
 
   const getStatusLabelAndClass = (m) => {
-    if (m.status === "live") return { label: "En Vivo", className: "st-live" };
-    if (m.status === "finished") return { label: "Finalizado", className: "st-finished" };
+    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const now = new Date();
+    const isStarted = now >= matchDate;
+    const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
+
+    if (effectiveStatus === "live") return { label: "En Vivo", className: "st-live" };
+    if (effectiveStatus === "finished") return { label: "Finalizado", className: "st-finished" };
     if (isSimultaneous(m)) return { label: "Simultáneo", className: "st-sim" };
     return { label: "Próximo", className: "st-upcoming" };
   };
 
   const isFinishedOrLive = (m) => {
-    return m.status === "finished" || m.status === "live";
+    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const now = new Date();
+    const isStarted = now >= matchDate;
+    const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
+
+    return effectiveStatus === "finished" || effectiveStatus === "live";
   };
 
   const getMatchLabel = (match) => {
