@@ -165,8 +165,8 @@ body > div {
 
 /* Glass variables — dark defaults */
 :root {
-  --glass-bg:            rgba(13, 26, 45, 0.88);
-  --glass-bg-hover:      rgba(21, 35, 56, 0.94);
+  --glass-bg:            rgba(3, 10, 21, 0.88);
+  --glass-bg-hover:      rgba(7, 19, 38, 0.94);
   --glass-border:        rgba(255, 255, 255, 0.10);
   --glass-border-hover:  rgba(255, 255, 255, 0.22);
   --glass-shadow:        0 8px 32px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255,255,255,0.06) inset;
