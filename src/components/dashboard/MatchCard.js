@@ -4,9 +4,10 @@ import { Loader2, Lock } from "lucide-react";
 import Flag from "@/components/Flag";
 import { TEAM_ISO_CODES } from "@/lib/teamsData";
 import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
+import Countdown from "@/components/Countdown";
 
-// Helper: Timer Badge styling
-function getTimerBadge(match, isSaved) {
+// Component: Timer Badge styling
+function TimerBadge({ match, isSaved }) {
   const matchDate = new Date(`${match.date}T${match.time}:00Z`);
   const now = new Date();
   const isStarted = now >= matchDate;
@@ -32,26 +33,14 @@ function getTimerBadge(match, isSaved) {
     return <span className="mc-timer t-lock">🔒 Cerrado</span>;
   }
 
-  if (isSaved) {
-    return <span className="mc-timer t-done">✓ Pronóstico guardado</span>;
-  }
-
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMins / 60);
-
-  if (diffMins < 60) {
-    return <span className="mc-timer t-hot">🔥 Cierra en {diffMins - 15}m</span>;
-  } else if (diffHours < 6) {
-    const minsLeft = (diffMins - 15) % 60;
-    const hoursLeft = Math.floor((diffMins - 15) / 60);
-    return <span className="mc-timer t-warn">⚠️ Cierra en {hoursLeft}h {minsLeft}m</span>;
-  } else if (diffHours < 24) {
-    const minsLeft = (diffMins - 15) % 60;
-    const hoursLeft = Math.floor((diffMins - 15) / 60);
-    return <span className="mc-timer t-ok">⏱ Cierra en {hoursLeft}h {minsLeft}m</span>;
-  } else {
-    return <span className="mc-timer t-ok">⏱ {formatDateEs(match.date)} · {formatTime12h(match.time)}</span>;
-  }
+  return (
+    <div className="flex flex-col items-end gap-1 select-none">
+      {isSaved && <span className="mc-timer t-done" style={{ margin: 0 }}>✓ Guardado</span>}
+      <span className="mc-timer t-ok" style={{ margin: 0, display: "inline-flex", alignItems: "center", minHeight: "22px" }}>
+        <Countdown date={match.date} time={match.time} />
+      </span>
+    </div>
+  );
 }
 
 // Helper: History Outcomes
@@ -132,7 +121,6 @@ export default function MatchCard({
   const isPredictionLocked = effectiveStatus === "predicting" ? false : (isLocked || (matchDate - now <= 15 * 60 * 1000));
 
   const currentPred = predictions[match.id] || { homeScore: "", awayScore: "", advancingTeamId: "", saved: false };
-  const timerBadge = getTimerBadge(match, currentPred.saved);
 
   // Official results display value when locked
   const homeDisplayValue = isLocked 
@@ -155,7 +143,7 @@ export default function MatchCard({
         <span className="mc-meta">
           {match.group ? (match.group.toLowerCase().startsWith("grupo") ? match.group : `Grupo ${match.group}`) : match.stage || "Fase de Grupos"} · P{match.matchNumber} · {formatDateEs(match.date)} @ {formatTime12h(match.time)} · {match.venue}
         </span>
-        {timerBadge}
+        <TimerBadge match={match} isSaved={currentPred.saved} />
       </div>
       
       <div className="mc-body">

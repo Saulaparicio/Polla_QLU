@@ -2,6 +2,7 @@
 
 import React from "react";
 import { formatDateEs, formatTime12h } from "@/lib/dateUtils";
+import Countdown from "@/components/Countdown";
 
 export default function MarcadoresPanel({
   matches,
@@ -262,7 +263,10 @@ export default function MarcadoresPanel({
                         </div>
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: ".8125rem" }}>
-                        {formatDateEs(m.date)} · {formatTime12h(m.time)}
+                        <div>{formatDateEs(m.date)} · {formatTime12h(m.time)}</div>
+                        {(currentStatus === "scheduled" || currentStatus === "predicting") && (
+                          <Countdown date={m.date} time={m.time} />
+                        )}
                       </td>
                       <td style={{ color: "var(--muted)", fontSize: ".8125rem" }}>
                         {m.venue}
