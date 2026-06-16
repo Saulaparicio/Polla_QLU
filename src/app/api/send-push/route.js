@@ -10,7 +10,9 @@ export async function POST(request) {
     }
 
     if (!adminDb || !adminMessaging) {
-      return NextResponse.json({ error: "El SDK de administración de Firebase no está inicializado." }, { status: 500 });
+      return NextResponse.json({ 
+        error: "El SDK de administración de Firebase no está inicializado. Asegúrate de configurar las variables de entorno FIREBASE_PRIVATE_KEY y FIREBASE_CLIENT_EMAIL en tu panel de Vercel, o subir el archivo serviceAccountKey.json a la raíz del proyecto para autorizar el envío de notificaciones push." 
+      }, { status: 500 });
     }
 
     // Get all user tokens from Firestore

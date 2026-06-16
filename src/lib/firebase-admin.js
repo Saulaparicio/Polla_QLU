@@ -30,10 +30,7 @@ if (!admin.apps.length) {
         });
         console.log("✔ Firebase Admin initialized via local serviceAccountKey.json.");
       } else {
-        admin.initializeApp({
-          credential: admin.credential.applicationDefault(),
-        });
-        console.log("✔ Firebase Admin initialized via Application Default Credentials.");
+        console.warn("⚠ No se configuraron las variables de entorno FIREBASE_PRIVATE_KEY/FIREBASE_CLIENT_EMAIL ni se encontró serviceAccountKey.json.");
       }
     } catch (err) {
       console.warn("⚠ Firebase Admin could not be initialized:", err.message);
