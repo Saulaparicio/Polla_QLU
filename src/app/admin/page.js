@@ -252,6 +252,7 @@ export default function AdminPage() {
         };
         initialStatuses[d.id] = currentStatus;
       }
+      setMatches(matchesList);
       setScores(initialScores);
       setStatuses(initialStatuses);
 
