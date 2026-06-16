@@ -13,34 +13,66 @@ export function usePushNotifications(user) {
       return;
     }
 
-    setPermission(Notification.permission);
+    // Wrap in try-catch in case some mobile browsers restrict permission reading
+    try {
+      setPermission(Notification.permission);
 
-    if (Notification.permission === "granted") {
-      getAndRegisterToken();
+      if (Notification.permission === "granted") {
+        getAndRegisterToken();
+      }
+    } catch (e) {
+      console.warn("Could not read Notification.permission:", e);
     }
   }, [user]);
 
   const requestPermission = async () => {
     if (typeof window === "undefined" || !("Notification" in window)) {
-      alert("Tu navegador no soporta notificaciones push.");
+      alert("Tu navegador no soporta notificaciones push. En iOS, debes instalar la app agregándola a la pantalla de inicio (PWA).");
       return false;
     }
 
-    try {
-      const status = await Notification.requestPermission();
+    const checkPermission = async (status) => {
       setPermission(status);
       if (status === "granted") {
         await getAndRegisterToken();
+      }
+    };
+
+    try {
+      // Modern Promise-based requestPermission
+      const result = Notification.requestPermission();
+      if (result && typeof result.then === "function") {
+        const status = await result;
+        await checkPermission(status);
+        return status === "granted";
+      } else {
+        // Fallback callback for older mobile Safari/Chrome
+        Notification.requestPermission((status) => {
+          checkPermission(status);
+        });
         return true;
       }
-      return false;
     } catch (error) {
       console.error("Error requesting notification permission:", error);
-      return false;
+      // Final fallback to callback syntax if promise syntax threw an error
+      try {
+        Notification.requestPermission((status) => {
+          checkPermission(status);
+        });
+        return true;
+      } catch (innerErr) {
+        alert("No se pudo solicitar permisos de notificación en este dispositivo: " + innerErr.message);
+        return false;
+      }
     }
   };
 
   const getAndRegisterToken = async () => {
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
+      console.warn("Service workers are not supported by this browser.");
+      return;
+    }
+
     try {
       // Dynamic import to avoid SSR issues
       const { getMessaging, getToken } = await import("firebase/messaging");

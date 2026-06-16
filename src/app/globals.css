@@ -946,6 +946,10 @@ footer.lp-footer {
   .si { width: 48px; height: 48px; font-size: 1.3rem; }
   .h-rank { display: none; }
   .h-alias { display: none; }
+  .h-logo-text em { display: none; }
+  .app-header { gap: 8px; padding: 0 10px; }
+  .h-user { gap: 6px; }
+  .app-header button[aria-label="Toggle Theme"] { display: none !important; }
 }
 @media (max-width: 400px) {
   .si { width: 42px; height: 42px; font-size: 1.2rem; }
