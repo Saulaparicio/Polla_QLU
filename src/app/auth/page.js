@@ -55,7 +55,7 @@ export default function AuthPage() {
 
   /* redirect if already logged in */
   useEffect(() => {
-    if (!authLoading && user) router.push("/");
+    if (!authLoading && user) router.push("/dashboard");
   }, [user, authLoading, router]);
 
   useEffect(() => {
@@ -133,7 +133,7 @@ export default function AuthPage() {
     setError(""); setLoading(true);
     try {
       await login(email, password);
-      router.push("/");
+      router.push("/dashboard");
     } catch (err) {
       setError(friendlyError(err.code || err.message));
     } finally { setLoading(false); }
@@ -145,7 +145,7 @@ export default function AuthPage() {
     try {
       if (loginWithGoogle) await loginWithGoogle();
       else throw new Error("Google auth not configured");
-      router.push("/");
+      router.push("/dashboard");
     } catch (err) {
       setError(friendlyError(err.code || err.message));
     } finally { setLoading(false); }

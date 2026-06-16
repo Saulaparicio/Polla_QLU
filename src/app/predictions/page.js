@@ -213,6 +213,19 @@ export default function PredictionsPage() {
 
       await refreshUser(); // Update navbar stats
       setSuccessId(matchId);
+
+      // Trigger success confetti effect
+      try {
+        const confetti = (await import("canvas-confetti")).default;
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.7 }
+        });
+      } catch (err) {
+        console.error("Confetti error:", err);
+      }
+
       setTimeout(() => setSuccessId(null), 3000);
     } catch (error) {
       console.error("Error saving prediction:", error);
