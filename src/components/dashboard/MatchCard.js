@@ -13,9 +13,6 @@ function TimerBadge({ match, isSaved }) {
   const isStarted = now >= matchDate;
   const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;
 
-  if (effectiveStatus === "predicting") {
-    return <span className="mc-timer t-ok" style={{ borderColor: "var(--green)", color: "var(--green)" }}>⏱ ¡Pronóstico Abierto!</span>;
-  }
   if (effectiveStatus === "finished") {
     return <span className="mc-timer t-lock">🔒 Finalizado</span>;
   }
