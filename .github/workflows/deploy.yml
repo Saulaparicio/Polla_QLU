@@ -3,7 +3,7 @@ name: Deploy Polla QLU
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -21,7 +21,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd /home/qluacp5/polla.qlu.ac.pa
-            git pull origin main
+            git pull origin master
             npm install --production=false
             npm run build
             pm2 restart polla-qlu
