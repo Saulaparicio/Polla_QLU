@@ -563,6 +563,40 @@ export default function AdminPage() {
         paymentStatus: newStatus
       });
       showToast(!currentPaid ? <IconCheck /> : <IconClock />, `Pago ${!currentPaid ? "Aprobado" : "marcado Pendiente"}`, !currentPaid ? "ok" : "");
+      
+      // If approved, send notification email
+      if (newStatus === "active") {
+        const userObj = usersList.find(u => u.id === userId);
+        if (userObj && userObj.email) {
+          fetch("/api/send-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: userObj.email,
+              subject: "⚽ ¡Tu cuenta en Polla Mundialista ha sido activada!",
+              html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                  <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">Polla Mundialista 🏆</h2>
+                  <p>Hola <strong>${userObj.displayName || userObj.email.split("@")[0]}</strong>,</p>
+                  <p>¡Excelentes noticias! Tu pago de inscripción ha sido validado y aprobado por el administrador.</p>
+                  <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; border-left: 4px solid #00E676; margin: 20px 0;">
+                    <p style="margin: 0; font-weight: bold;">Estado de cuenta: ACTIVO ✓</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #64748b;">Ya puedes ingresar tus pronósticos para todos los partidos del torneo.</p>
+                  </div>
+                  <p>Accede ahora mismo para no perderte ningún partido:</p>
+                  <div style="text-align: center; margin: 30px 0;">
+                    <a href="${window.location.origin}/auth" style="background-color: #00E676; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ingresar a la Polla</a>
+                  </div>
+                  <p style="font-size: 0.85em; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 30px;">
+                    Este es un correo automático, por favor no respondas directamente.
+                  </p>
+                </div>
+              `
+            })
+          }).catch(err => console.error("Error sending payment activation email:", err));
+        }
+      }
+
       fetchData();
     } catch (error) {
       console.error("Error toggling payment:", error);
@@ -644,6 +678,46 @@ export default function AdminPage() {
       const docId = `notif_${Date.now()}`;
       await setDoc(doc(db, "notifications", docId), newNotif);
       setNotifHistory(prev => [newNotif, ...prev]);
+
+      // If channel includes email, trigger email sends
+      if (channel === "email" || channel === "both") {
+        const selectedList = matches.filter(m => selectedMatchIds.includes(m.id));
+        const pendingText = selectedList.map(m => `• ${m.homeTeam} vs ${m.awayTeam} (${m.time})`).join("\n");
+        const closeHoursText = `${rules.closeHours || 1} hora${(rules.closeHours || 1) > 1 ? "s" : ""} antes del partido`;
+
+        for (const userId of missingUserIds) {
+          const userObj = participants.find(u => u.id === userId);
+          if (userObj && userObj.email) {
+            const userName = userObj.displayName || userObj.email.split("@")[0];
+            const personalizedBody = body
+              .replace(/{nombre}/g, userName)
+              .replace(/{partidos_pendientes}/g, pendingText)
+              .replace(/{tiempo_cierre}/g, closeHoursText)
+              .replace(/\n/g, "<br />");
+
+            fetch("/api/send-email", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                to: userObj.email,
+                subject: subject,
+                html: `
+                  <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">Recordatorio de Pronósticos ⏰</h2>
+                    <div style="line-height: 1.6; color: #1e293b; font-size: 1.05em;">
+                      ${personalizedBody}
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                      <a href="${window.location.origin}/auth" style="background-color: #00E5FF; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ingresar Pronósticos</a>
+                    </div>
+                  </div>
+                `
+              })
+            }).catch(err => console.error(`Error sending email to ${userObj.email}:`, err));
+          }
+        }
+      }
+
       showToast(<IconSend />, `Recordatorios enviados por ${channel === "email" ? "correo" : channel === "wa" ? "WhatsApp" : "correo + WhatsApp"}`, "ok");
     } catch (error) {
       console.error("Error saving notification:", error);

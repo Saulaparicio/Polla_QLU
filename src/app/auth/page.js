@@ -158,6 +158,45 @@ export default function AuthPage() {
       const displayName = `${selectedAvatar} ${alias.trim()}`;
       await register(email, password, displayName);
       setCreatedUser({ alias: alias.trim(), avatar: selectedAvatar, email });
+
+      // Send welcome email via Resend
+      fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: email,
+          subject: "⚽ ¡Bienvenido a Polla Mundialista!",
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">¡Bienvenido a Polla Mundialista! 🏆</h2>
+              <p>Hola <strong>${alias.trim()}</strong>,</p>
+              <p>Tu cuenta ha sido creada con éxito. Estamos felices de que te unas a la emoción del Mundial.</p>
+              
+              <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1e293b;">Pasos para activar tu cuenta:</h3>
+                <ol style="margin-bottom: 0; padding-left: 20px; color: #334155;">
+                  <li>Envía la cuota de inscripción de <strong>B/. 10.00</strong> por Yappy al:
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                      <li>Número: <strong>+507 6232-0550</strong></li>
+                      <li>Nombre: <strong>Elizabeth Bruce</strong></li>
+                    </ul>
+                  </li>
+                  <li>Sube tu comprobante de pago en la plataforma.</li>
+                  <li>Una vez verificado el pago por el administrador, tu cuenta quedará 100% activa.</li>
+                </ol>
+              </div>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${window.location.origin}/auth" style="background-color: #00E5FF; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Acceder a mi Cuenta</a>
+              </div>
+              <p style="font-size: 0.85em; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 30px;">
+                Este es un correo automático de bienvenida. ¡Mucha suerte con tus pronósticos!
+              </p>
+            </div>
+          `
+        })
+      }).catch(err => console.error("Error sending welcome email:", err));
+
       goStep(4);
     } catch (err) {
       setError(friendlyError(err.code || err.message));
@@ -545,14 +584,14 @@ export default function AuthPage() {
                       </div>
                       <div style={{ textAlign:"center", padding:"12px 0" }}>
                         <div style={{ fontSize:"1rem", color:"#5E7A9E", fontWeight:600 }}>B/.</div>
-                        <div style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"3rem", color:"#FFD700", letterSpacing:"0.02em" }}>15</div>
+                        <div style={{ fontFamily:"'Bebas Neue',Impact,sans-serif", fontSize:"3rem", color:"#FFD700", letterSpacing:"0.02em" }}>10</div>
                         <div style={{ fontSize:"0.8125rem", color:"#5E7A9E" }}>pago único · torneo completo</div>
                       </div>
                       <div style={{ display:"flex", alignItems:"center", gap:12, background:"rgba(27,45,71,0.70)", borderRadius:12, padding:14 }}>
                         <div style={{ width:40, height:40, borderRadius:8, background:"linear-gradient(135deg,#00C244,#00E676)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem", flexShrink:0 }}>📲</div>
                         <div>
                           <div style={{ fontWeight:700, fontSize:"0.9375rem", color:"#E8F0FF" }}>Pagar con Yappy</div>
-                          <div style={{ fontSize:"0.8125rem", color:"#5E7A9E", fontVariantNumeric:"tabular-nums" }}>+507 6000-0000 · @QLUMatchPredictAdmin</div>
+                          <div style={{ fontSize:"0.8125rem", color:"#5E7A9E", fontVariantNumeric:"tabular-nums" }}>+507 6232-0550 · Elizabeth Bruce</div>
                         </div>
                       </div>
                     </div>
