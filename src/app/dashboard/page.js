@@ -15,9 +15,11 @@ import HistoryPanel from "@/components/dashboard/HistoryPanel";
 import RankingPanel from "@/components/dashboard/RankingPanel";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardBottomNav from "@/components/dashboard/DashboardBottomNav";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
 
 function DashboardContent() {
   const { user, loading: authLoading, logout, refreshUser } = useAuth();
+  const { permission, requestPermission } = usePushNotifications(user);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -548,6 +550,8 @@ function DashboardContent() {
           copied={copied}
           setActiveTab={setActiveTab}
           matches={allMatches}
+          permission={permission}
+          requestPermission={requestPermission}
         />
       </div>
 

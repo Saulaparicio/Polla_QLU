@@ -676,7 +676,7 @@ export default function AdminPage() {
     });
 
     const recipientsCount = missingUserIds.size;
-    const channelLabel = channel === "email" ? "Email recordatorio" : channel === "wa" ? "WhatsApp" : "Email + WhatsApp";
+    const channelLabel = channel === "email" ? "Email recordatorio" : channel === "wa" ? "WhatsApp" : channel === "push" ? "Push (Web)" : "Email + WhatsApp";
     const dateStr = new Date().toLocaleDateString("es-PA", { day: '2-digit', month: 'short' }) + " " + new Date().toLocaleTimeString("es-PA", { hour: '2-digit', minute: '2-digit', hour12: false });
     
     const newNotif = {
@@ -691,6 +691,26 @@ export default function AdminPage() {
       const docId = `notif_${Date.now()}`;
       await setDoc(doc(db, "notifications", docId), newNotif);
       setNotifHistory(prev => [newNotif, ...prev]);
+
+      // If channel is push
+      if (channel === "push") {
+        const selectedList = matches.filter(m => selectedMatchIds.includes(m.id));
+        const pendingText = selectedList.map(m => `• ${m.homeTeam} vs ${m.awayTeam} (${m.time})`).join("\n");
+        const closeHoursText = `${rules.closeHours || 1} hora${(rules.closeHours || 1) > 1 ? "s" : ""} antes del partido`;
+        const pushBody = body
+          .replace(/{nombre}/g, "Participante")
+          .replace(/{partidos_pendientes}/g, pendingText)
+          .replace(/{tiempo_cierre}/g, closeHoursText);
+
+        fetch("/api/send-push", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: subject,
+            body: pushBody
+          })
+        }).catch(err => console.error("Error sending push notification multicast:", err));
+      }
 
       // If channel includes email, trigger email sends
       if (channel === "email" || channel === "both") {
@@ -716,13 +736,13 @@ export default function AdminPage() {
                 subject: subject,
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                    <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">Recordatorio de Pronósticos ⏰</h2>
-                    <div style="line-height: 1.6; color: #1e293b; font-size: 1.05em;">
-                      ${personalizedBody}
-                    </div>
-                    <div style="text-align: center; margin: 30px 0;">
-                      <a href="${window.location.origin}/auth" style="background-color: #00E5FF; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ingresar Pronósticos</a>
-                    </div>
+                     <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">Recordatorio de Pronósticos ⏰</h2>
+                     <div style="line-height: 1.6; color: #1e293b; font-size: 1.05em;">
+                       ${personalizedBody}
+                     </div>
+                     <div style="text-align: center; margin: 30px 0;">
+                       <a href="${window.location.origin}/auth" style="background-color: #00E5FF; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ingresar Pronósticos</a>
+                     </div>
                   </div>
                 `
               })
@@ -731,7 +751,7 @@ export default function AdminPage() {
         }
       }
 
-      showToast(<IconSend />, `Recordatorios enviados por ${channel === "email" ? "correo" : channel === "wa" ? "WhatsApp" : "correo + WhatsApp"}`, "ok");
+      showToast(<IconSend />, `Recordatorios enviados por ${channel === "email" ? "correo" : channel === "wa" ? "WhatsApp" : channel === "push" ? "notificación push" : "correo + WhatsApp"}`, "ok");
     } catch (error) {
       console.error("Error saving notification:", error);
       showToast(<IconError />, "Error al registrar la notificación");

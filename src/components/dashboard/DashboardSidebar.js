@@ -58,7 +58,9 @@ export default function DashboardSidebar({
   copyReferral,
   copied,
   setActiveTab,
-  matches = []
+  matches = [],
+  permission,
+  requestPermission
 }) {
   const top5 = topUsers.slice(0, 5);
   const myRankIndex = topUsers.findIndex((u) => u.uid === user.uid);
@@ -374,6 +376,38 @@ export default function DashboardSidebar({
               );
             })}
           </div>
+        </div>
+      )}
+
+      {/* PUSH NOTIFICATIONS */}
+      {permission !== "granted" && (
+        <div className="card animate-fade-in" style={{ padding: "16px 18px", border: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: "10px" }}>
+          <h4 style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--amber)", display: "flex", alignItems: "center", gap: 6, margin: 0 }}>
+            🔔 Notificaciones Push
+          </h4>
+          <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5, margin: 0 }}>
+            Activa las alertas del navegador para recibir recordatorios de pronósticos y actualizaciones de ranking al instante.
+          </p>
+          <button 
+            onClick={requestPermission}
+            style={{ 
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              padding: "10px",
+              background: "var(--amber)",
+              color: "#000",
+              fontWeight: 700,
+              fontSize: "0.8125rem",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer"
+            }}
+            className="hover:opacity-90 active:scale-[0.98] transition-all"
+          >
+            Activar Notificaciones
+          </button>
         </div>
       )}
 

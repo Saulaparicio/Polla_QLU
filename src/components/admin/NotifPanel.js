@@ -22,6 +22,7 @@ export default function NotifPanel({
 
   const [testEmail, setTestEmail] = useState("");
   const [sendingTest, setSendingTest] = useState(false);
+  const [sendingTestPush, setSendingTestPush] = useState(false);
 
   const handleSendTestEmail = async () => {
     if (!testEmail || !testEmail.includes("@")) {
@@ -78,6 +79,47 @@ export default function NotifPanel({
       alert(`Error al enviar: ${err.message}`);
     } finally {
       setSendingTest(false);
+    }
+  };
+
+  const handleSendTestPush = async () => {
+    setSendingTestPush(true);
+    try {
+      const selectedMatchIds = Object.keys(checkedMatches).filter((id) => checkedMatches[id]);
+      const selectedList = matches.filter((m) => selectedMatchIds.includes(m.id));
+      const pendingText =
+        selectedList.length > 0
+          ? selectedList.map((m) => `• ${m.homeTeam} vs ${m.awayTeam} (${m.time})`).join("\n")
+          : "• Argentina vs Arabia Saudita (12:00)\n• Francia vs Marruecos (15:00)";
+
+      const previewMsg = notifBody
+        .replace(/{nombre}/g, "Participante")
+        .replace(/{partidos_pendientes}/g, pendingText)
+        .replace(
+          /{tiempo_cierre}/g,
+          `${rules.closeHours || 1} hora${(rules.closeHours || 1) > 1 ? "s" : ""} antes del partido`
+        );
+
+      const res = await fetch("/api/send-push", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `[PRUEBA] ${notifSubject}`,
+          body: previewMsg
+        })
+      });
+
+      const resData = await res.json();
+      if (res.ok && resData.success) {
+        alert(`¡Notificación push de prueba enviada con éxito! Dispositivos alcanzados: ${resData.successCount || 0}, Fallas: ${resData.failureCount || 0}`);
+      } else {
+        alert(`Error al enviar push: ${resData.error || "Error desconocido"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert(`Error al enviar push: ${err.message}`);
+    } finally {
+      setSendingTestPush(false);
     }
   };
 
@@ -264,6 +306,7 @@ export default function NotifPanel({
             >
               <option value="email">Correo electrónico</option>
               <option value="wa">WhatsApp</option>
+              <option value="push">Notificaciones Push (Web)</option>
               <option value="both">Correo y WhatsApp</option>
             </select>
           </div>
@@ -351,6 +394,27 @@ export default function NotifPanel({
           </div>
           <div style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "6px" }}>
             Se enviará una copia del recordatorio actual con datos ficticios.
+          </div>
+        </div>
+
+        {/* TEST PUSH COMPONENT */}
+        <div style={{ marginTop: "20px", paddingTop: "20px", borderTop: "1px dashed var(--border2)" }}>
+          <div style={{ fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)", marginBottom: "12px" }}>
+            🧪 Enviar Notificación Push de Prueba (FCM)
+          </div>
+          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+            <button
+              type="button"
+              className="btn btn-o"
+              onClick={handleSendTestPush}
+              disabled={sendingTestPush}
+              style={{ display: "flex", alignItems: "center", gap: "6px", height: "40px", fontSize: "0.85rem" }}
+            >
+              {sendingTestPush ? "Enviando..." : "Enviar Push de Prueba a Todos"}
+            </button>
+          </div>
+          <div style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "6px" }}>
+            Se enviará un mensaje push de prueba a todos los dispositivos registrados utilizando la plantilla y partidos seleccionados arriba.
           </div>
         </div>
       </div>
