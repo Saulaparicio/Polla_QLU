@@ -404,19 +404,19 @@ function DashboardContent() {
     return (a.matchNumber || 0) - (b.matchNumber || 0);
   });
 
-  // Filter matches into Today (pending predictions), Upcoming, History panels
+  // Filter matches into Today (pending predictions on current day only), Upcoming, History panels
   const todayMatches = allMatches.filter(m => {
     const matchDate = new Date(`${m.date}T${m.time}:00`);
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
-    return effectiveStatus === "scheduled" || effectiveStatus === "predicting";
-  }).slice(0, 4);
+    return m.date === todayStr && (effectiveStatus === "scheduled" || effectiveStatus === "predicting");
+  });
 
   const upcomingMatches = allMatches.filter(m => {
     const matchDate = new Date(`${m.date}T${m.time}:00`);
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
-    return (effectiveStatus === "scheduled" || effectiveStatus === "predicting") && !todayMatches.some(tm => tm.id === m.id);
+    return (effectiveStatus === "scheduled" || effectiveStatus === "predicting") && m.date > todayStr;
   });
 
   const historyMatches = allMatches.filter(m => m.status === "finished").sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
