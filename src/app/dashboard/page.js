@@ -158,7 +158,20 @@ function DashboardContent() {
     const unsubscribe = onSnapshot(mq, (snapshot) => {
       const matchesList = [];
       snapshot.forEach((docSnap) => {
-        matchesList.push({ id: docSnap.id, ...docSnap.data() });
+        const data = docSnap.data();
+        const matchId = docSnap.id;
+        
+        // Auto transition to live in Firestore if started
+        if (data.status === "scheduled" && data.date && data.time && data.date !== "TBD" && data.time !== "TBD") {
+          const matchDate = new Date(`${data.date}T${data.time}:00Z`);
+          const now = new Date();
+          if (now >= matchDate) {
+            updateDoc(doc(db, "matches", matchId), { status: "live" })
+              .catch(err => console.error("Error auto-updating status to live:", err));
+          }
+        }
+
+        matchesList.push({ id: matchId, ...data });
       });
       matchesList.sort((a, b) => {
         const dateA = a.date || "";

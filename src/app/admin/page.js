@@ -230,16 +230,28 @@ export default function AdminPage() {
       const matchesList = [];
       const initialScores = {};
       const initialStatuses = {};
-      matchesSnap.forEach((doc) => {
-        const data = doc.data();
-        matchesList.push({ id: doc.id, ...data });
-        initialScores[doc.id] = {
+      
+      const now = new Date();
+      for (const d of matchesSnap.docs) {
+        const data = d.data();
+        let currentStatus = data.status || "scheduled";
+        
+        if (currentStatus === "scheduled" && data.date && data.time && data.date !== "TBD" && data.time !== "TBD") {
+          const matchDate = new Date(`${data.date}T${data.time}:00Z`);
+          if (now >= matchDate) {
+            currentStatus = "live";
+            updateDoc(doc(db, "matches", d.id), { status: "live" })
+              .catch(err => console.error("Error auto-updating status to live:", err));
+          }
+        }
+
+        matchesList.push({ id: d.id, ...data, status: currentStatus });
+        initialScores[d.id] = {
           homeScore: data.result?.homeScore !== undefined && data.result?.homeScore !== null ? data.result.homeScore : "",
           awayScore: data.result?.awayScore !== undefined && data.result?.awayScore !== null ? data.result.awayScore : ""
         };
-        initialStatuses[doc.id] = data.status || "scheduled";
-      });
-      setMatches(matchesList);
+        initialStatuses[d.id] = currentStatus;
+      }
       setScores(initialScores);
       setStatuses(initialStatuses);
 

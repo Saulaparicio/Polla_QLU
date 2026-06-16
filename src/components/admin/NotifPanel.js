@@ -20,6 +20,67 @@ export default function NotifPanel({
     `Hola {nombre},\n\nTe escribimos porque aún no has ingresado tus pronósticos para:\n\n{partidos_pendientes}\n\nTienes tiempo hasta {tiempo_cierre} para completarlos.\n\n¡Buena suerte!\nEquipo Polla Mundialista`
   );
 
+  const [testEmail, setTestEmail] = useState("");
+  const [sendingTest, setSendingTest] = useState(false);
+
+  const handleSendTestEmail = async () => {
+    if (!testEmail || !testEmail.includes("@")) {
+      alert("Por favor ingresa un correo electrónico de prueba válido.");
+      return;
+    }
+
+    setSendingTest(true);
+    try {
+      const selectedMatchIds = Object.keys(checkedMatches).filter((id) => checkedMatches[id]);
+      const selectedList = matches.filter((m) => selectedMatchIds.includes(m.id));
+      const pendingText =
+        selectedList.length > 0
+          ? selectedList.map((m) => `• ${m.homeTeam} vs ${m.awayTeam} (${m.time})`).join("\n")
+          : "• Argentina vs Arabia Saudita (12:00)\n• Francia vs Marruecos (15:00)";
+
+      const previewMsg = notifBody
+        .replace(/{nombre}/g, "Usuario de Prueba")
+        .replace(/{partidos_pendientes}/g, pendingText)
+        .replace(
+          /{tiempo_cierre}/g,
+          `${rules.closeHours || 1} hora${(rules.closeHours || 1) > 1 ? "s" : ""} antes del partido`
+        )
+        .replace(/\n/g, "<br />");
+
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: testEmail,
+          subject: `[PRUEBA] ${notifSubject}`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <h2 style="color: #00E5FF; background-color: #07101D; padding: 15px; border-radius: 6px; text-align: center; margin-top: 0;">Recordatorio de Pronósticos (PRUEBA) ⏰</h2>
+              <div style="line-height: 1.6; color: #1e293b; font-size: 1.05em;">
+                ${previewMsg}
+              </div>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${window.location.origin}/auth" style="background-color: #00E5FF; color: black; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">Ingresar Pronósticos</a>
+              </div>
+            </div>
+          `
+        })
+      });
+
+      const resData = await res.json();
+      if (resData.success) {
+        alert("¡Correo de prueba enviado con éxito! Revisa tu bandeja de entrada.");
+      } else {
+        alert(`Error al enviar correo: ${resData.error?.message || resData.error || "Error desconocido"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert(`Error al enviar: ${err.message}`);
+    } finally {
+      setSendingTest(false);
+    }
+  };
+
   // Sync checked matches when the missingPredictionsList loads
   useEffect(() => {
     const initialChecked = {};
@@ -259,6 +320,38 @@ export default function NotifPanel({
             </svg>
             Enviar recordatorio
           </button>
+        </div>
+
+        {/* TEST EMAIL COMPONENT */}
+        <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px dashed var(--border2)" }}>
+          <div style={{ fontSize: "0.75rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)", marginBottom: "12px" }}>
+            🧪 Enviar Correo de Prueba (Resend)
+          </div>
+          <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ flex: "1", minWidth: "220px" }}>
+              <input
+                type="email"
+                placeholder="correo-de-prueba@ejemplo.com"
+                className="fi"
+                value={testEmail}
+                onChange={(e) => setTestEmail(e.target.value)}
+                style={{ fontSize: "0.85rem", padding: "10px 14px", height: "40px" }}
+                aria-label="Correo de prueba"
+              />
+            </div>
+            <button
+              type="button"
+              className="btn btn-o"
+              onClick={handleSendTestEmail}
+              disabled={sendingTest}
+              style={{ display: "flex", alignItems: "center", gap: "6px", height: "40px", fontSize: "0.85rem" }}
+            >
+              {sendingTest ? "Enviando..." : "Enviar Prueba"}
+            </button>
+          </div>
+          <div style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "6px" }}>
+            Se enviará una copia del recordatorio actual con datos ficticios.
+          </div>
         </div>
       </div>
 
