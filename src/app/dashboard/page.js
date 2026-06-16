@@ -163,7 +163,7 @@ function DashboardContent() {
         
         // Auto transition to live in Firestore if started
         if (data.status === "scheduled" && data.date && data.time && data.date !== "TBD" && data.time !== "TBD") {
-          const matchDate = new Date(`${data.date}T${data.time}:00Z`);
+          const matchDate = new Date(`${data.date}T${data.time}:00`);
           const now = new Date();
           if (now >= matchDate) {
             updateDoc(doc(db, "matches", matchId), { status: "live" })
@@ -234,7 +234,7 @@ function DashboardContent() {
     // Lock predictions check (15 minutes before kickoff)
     const match = allMatches.find(m => m.id === matchId);
     if (match && match.status !== "predicting") {
-      const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+      const matchDate = new Date(`${match.date}T${match.time}:00`);
       const now = new Date();
       if (matchDate - now <= 15 * 60 * 1000) {
         alert("Las predicciones para este partido ya están cerradas (cierran 15 minutos antes del inicio).");
@@ -383,7 +383,7 @@ function DashboardContent() {
 
   // Only live matches for the top live section (finished matches are in the Recent Results widget)
   const liveOrRecentMatches = allMatches.filter(m => {
-    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const matchDate = new Date(`${m.date}T${m.time}:00`);
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
     return effectiveStatus === "live";
@@ -393,14 +393,14 @@ function DashboardContent() {
 
   // Filter matches into Today (pending predictions), Upcoming, History panels
   const todayMatches = allMatches.filter(m => {
-    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const matchDate = new Date(`${m.date}T${m.time}:00`);
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
     return effectiveStatus === "scheduled" || effectiveStatus === "predicting";
   }).slice(0, 4);
 
   const upcomingMatches = allMatches.filter(m => {
-    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const matchDate = new Date(`${m.date}T${m.time}:00`);
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
     return (effectiveStatus === "scheduled" || effectiveStatus === "predicting") && !todayMatches.some(tm => tm.id === m.id);

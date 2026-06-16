@@ -237,7 +237,7 @@ export default function AdminPage() {
         let currentStatus = data.status || "scheduled";
         
         if (currentStatus === "scheduled" && data.date && data.time && data.date !== "TBD" && data.time !== "TBD") {
-          const matchDate = new Date(`${data.date}T${data.time}:00Z`);
+          const matchDate = new Date(`${data.date}T${data.time}:00`);
           if (now >= matchDate) {
             currentStatus = "live";
             updateDoc(doc(db, "matches", d.id), { status: "live" })

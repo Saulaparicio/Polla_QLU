@@ -168,7 +168,7 @@ function CalendarContent() {
   };
 
   const getStatusLabelAndClass = (m) => {
-    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const matchDate = new Date(`${m.date}T${m.time}:00`);
     const now = new Date();
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;
@@ -180,7 +180,7 @@ function CalendarContent() {
   };
 
   const isFinishedOrLive = (m) => {
-    const matchDate = new Date(`${m.date}T${m.time}:00Z`);
+    const matchDate = new Date(`${m.date}T${m.time}:00`);
     const now = new Date();
     const isStarted = now >= matchDate;
     const effectiveStatus = (m.status === "scheduled" && isStarted) ? "live" : m.status;

@@ -155,7 +155,7 @@ export default function PredictionsPage() {
     // Lock predictions check (15 minutes before kickoff)
     const match = matches.find(m => m.id === matchId);
     if (match) {
-      const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+      const matchDate = new Date(`${match.date}T${match.time}:00`);
       const now = new Date();
       if (matchDate - now <= 15 * 60 * 1000) {
         alert("Las predicciones para este partido ya están cerradas (cierran 15 minutos antes del inicio).");
@@ -242,7 +242,7 @@ export default function PredictionsPage() {
     // Check if tournament started (kickoff of Match 1)
     const firstMatch = matches.find(m => m.matchNumber === 1 || m.id === "1");
     const tournamentStarted = firstMatch 
-      ? (firstMatch.status === "live" || firstMatch.status === "finished" || (new Date(`${firstMatch.date}T${firstMatch.time}:00Z`) - new Date() <= 0))
+      ? (firstMatch.status === "live" || firstMatch.status === "finished" || (new Date(`${firstMatch.date}T${firstMatch.time}:00`) - new Date() <= 0))
       : false;
 
     if (tournamentStarted) {
@@ -280,7 +280,7 @@ export default function PredictionsPage() {
   // Check if tournament started
   const firstMatch = matches.find(m => m.matchNumber === 1 || m.id === "1");
   const tournamentStarted = firstMatch 
-    ? (firstMatch.status === "live" || firstMatch.status === "finished" || (new Date(`${firstMatch.date}T${firstMatch.time}:00Z`) - new Date() <= 0))
+    ? (firstMatch.status === "live" || firstMatch.status === "finished" || (new Date(`${firstMatch.date}T${firstMatch.time}:00`) - new Date() <= 0))
     : false;
 
   return (
@@ -393,7 +393,7 @@ export default function PredictionsPage() {
         {/* Prediction Cards */}
         <div className="space-y-6 animate-fade-in">
           {matches.map((match) => {
-            const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+            const matchDate = new Date(`${match.date}T${match.time}:00`);
             const now = new Date();
             const isStarted = now >= matchDate;
             const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;

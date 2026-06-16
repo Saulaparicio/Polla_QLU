@@ -8,7 +8,7 @@ import Countdown from "@/components/Countdown";
 
 // Component: Timer Badge styling
 function TimerBadge({ match, isSaved }) {
-  const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+  const matchDate = new Date(`${match.date}T${match.time}:00`);
   const now = new Date();
   const isStarted = now >= matchDate;
   const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;
@@ -112,7 +112,7 @@ export default function MatchCard({
   handleSavePrediction,
   setPredictions
 }) {
-  const matchDate = new Date(`${match.date}T${match.time}:00Z`);
+  const matchDate = new Date(`${match.date}T${match.time}:00`);
   const now = new Date();
   const isStarted = now >= matchDate;
   const effectiveStatus = (match.status === "scheduled" && isStarted) ? "live" : match.status;

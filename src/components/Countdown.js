@@ -12,7 +12,7 @@ export default function Countdown({ date, time }) {
       return;
     }
 
-    const matchDate = new Date(`${date}T${time}:00Z`);
+    const matchDate = new Date(`${date}T${time}:00`);
     const lockDate = new Date(matchDate.getTime() - 15 * 60 * 1000); // 15 mins before kickoff
 
     const updateCountdown = () => {
