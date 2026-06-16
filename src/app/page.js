@@ -635,8 +635,8 @@ export default function Home() {
 
                 <div className="yappy-box bg-[#152338] border border-[#253B5E] rounded-xl p-5 my-6">
                   <div className="yappy-box-lbl text-[10px] uppercase text-[#5E7A9E] tracking-wider mb-2">Número Yappy del organizador</div>
-                  <div className="yappy-num font-display text-4xl text-white font-bold tracking-wide">+507 6214-9386</div>
-                  <div className="yappy-name text-xs text-[#5E7A9E] mt-1">Nombre: Polla Mundialista</div>
+                  <div className="yappy-num font-display text-4xl text-white font-bold tracking-wide">+507 6232-0550</div>
+                  <div className="yappy-name text-xs text-[#5E7A9E] mt-1">Nombre: Elizabeth Bruce</div>
                 </div>
 
                 <h4 className="text-xs uppercase text-[#5E7A9E] font-bold tracking-wider mb-3">Adjunta tu comprobante</h4>

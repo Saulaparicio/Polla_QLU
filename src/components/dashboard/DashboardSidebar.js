@@ -269,8 +269,8 @@ export default function DashboardSidebar({
                 }}
               >
                 <div style={{ color: "var(--muted)", fontWeight: "bold", marginBottom: "4px" }}>Enviar B/.10 por Yappy al:</div>
-                <div style={{ color: "var(--fg)", fontWeight: "bold", fontSize: "0.9375rem" }}>+507 6214-9386</div>
-                <div style={{ color: "var(--muted)", marginTop: "2px" }}>Polla Mundialista</div>
+                <div style={{ color: "var(--fg)", fontWeight: "bold", fontSize: "0.9375rem" }}>+507 6232-0550</div>
+                <div style={{ color: "var(--muted)", marginTop: "2px" }}>Elizabeth Bruce</div>
               </div>
 
               <div 

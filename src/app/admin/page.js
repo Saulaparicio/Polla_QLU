@@ -139,7 +139,7 @@ export default function AdminPage() {
     closeHours: 1,
     entryFee: 10,
     quinielaName: "Polla Mundialista",
-    yappyNumber: "+507 6214-9386",
+    yappyNumber: "+507 6232-0550",
     welcomeMsg: "¡Bienvenido a Polla Mundialista! Predice los resultados del Mundial y gana puntos. El ganador recibe el 60% del pozo acumulado.",
     regOpen: true,
     rankVisible: true,

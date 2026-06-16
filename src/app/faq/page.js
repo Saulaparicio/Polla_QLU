@@ -159,7 +159,7 @@ export default function FAQPage() {
             Si tienes problemas con la validación de tu pago o quieres reportar un error, ponte en contacto directo con soporte.
           </p>
           <a
-            href="https://wa.me/50762149386"
+            href="https://wa.me/50762320550"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg bg-[#00E676] text-black px-6 py-2.5 font-bold font-mono transition-all hover:opacity-90 hover:shadow-[0_0_12px_rgba(0,230,118,0.3)] text-xs active:scale-[0.97]"

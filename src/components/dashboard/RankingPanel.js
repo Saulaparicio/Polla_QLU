@@ -56,13 +56,6 @@ export default function RankingPanel({
 
   return (
     <div className="panel active space-y-8 animate-fade-in pb-8 ranking-panel-scoped">
-      {/* HEADER TITLE */}
-      <div className="text-center space-y-2 pt-6">
-        <p className="text-xs uppercase tracking-widest text-[#00E5FF] font-bold">Polla Mundialista</p>
-        <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wider font-extrabold">🏆 RANKING GENERAL</h2>
-        <p className="text-xs sm:text-sm text-[#5E7A9E] max-w-md mx-auto">Posiciones y estadísticas en tiempo real con la base de datos oficial.</p>
-      </div>
-
       {/* PODIUM TOP 3 */}
       <div className="podium-section !py-2">
         <div className="podium-label">Top 3 Líderes</div>
@@ -139,6 +132,13 @@ export default function RankingPanel({
             </div>
           )}
         </div>
+      </div>
+
+      {/* HEADER TITLE */}
+      <div className="text-center space-y-2 pt-6">
+        <p className="text-xs uppercase tracking-widest text-[#00E5FF] font-bold">Polla Mundialista</p>
+        <h2 className="font-display text-4xl sm:text-5xl text-white tracking-wider font-extrabold">🏆 RANKING GENERAL</h2>
+        <p className="text-xs sm:text-sm text-[#5E7A9E] max-w-md mx-auto">Posiciones y estadísticas en tiempo real con la base de datos oficial.</p>
       </div>
 
       {/* HERO STRIP (STATS ONLY) */}
