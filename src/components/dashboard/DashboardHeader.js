@@ -186,7 +186,18 @@ export default function DashboardHeader({
             >
               <div style={{ fontSize: "0.75rem", fontWeight: "bold", color: "var(--muted)", marginBottom: "8px", textAlign: "center" }}>Elige tu Avatar Emoji</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "6px", maxHeight: "150px", overflowY: "auto", padding: "2px" }}>
-                {["🦁", "🦅", "🐆", "🐬", "🦊", "🐯", "🐼", "🐻", "🐨", "🐺", "🦖", "🐉", "🦈", "🐙", "🐵", "🦄", "⚡", "⚽", "🏆", "🔥", "👑", "🍕", "🍔", "🌮", "👽", "🤖", "🤠", "😎"].map(emoji => (
+                {[
+                  // Animales
+                  "🦁", "🦅", "🐆", "🐬", "🦊", "🐯", "🐼", "🐻", "🐨", "🐺", "🦖", "🐉", "🦈", "🐙", "🐵", "🦄", "🐸", "🦉", "🐝", "🐞", "🐢", "🐊",
+                  // Deportes / Fútbol
+                  "⚽", "🏆", "🥇", "🥈", "🥉", "🥅", "👟", "🎯",
+                  // Caras / Avatars / Personajes
+                  "🤠", "😎", "👽", "🤖", "🧙", "🦸", "🥷", "🤡", "🧐", "🤓", "👾", "👻", "😈", "👹",
+                  // Símbolos / Vibes
+                  "⚡", "🔥", "👑", "💥", "✨", "⭐", "🌟", "💫", "🍀", "💎", "💯", "🔮", "💡", "🛸", "🌀",
+                  // Comida / Celebración
+                  "🍕", "🍔", "🌮", "🍿", "🍺", "🎉", "🎈"
+                ].map(emoji => (
                   <button
                     key={emoji}
                     onClick={() => handleSelectAvatar(emoji)}
