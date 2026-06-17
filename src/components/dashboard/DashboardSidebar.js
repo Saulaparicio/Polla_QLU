@@ -380,7 +380,7 @@ export default function DashboardSidebar({
       )}
 
       {/* PUSH NOTIFICATIONS */}
-      {permission !== "granted" && (
+      {(permission !== "granted" || !user?.pushTokens || user.pushTokens.length === 0) && (
         <div className="card animate-fade-in" style={{ padding: "16px 18px", border: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: "10px" }}>
           <h4 style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--amber)", display: "flex", alignItems: "center", gap: 6, margin: 0 }}>
             🔔 Notificaciones Push
