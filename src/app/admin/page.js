@@ -973,9 +973,18 @@ export default function AdminPage() {
   // Helper: calculate list of matches with missing predictions
   const getMissingPredictionsList = () => {
     const participants = usersList.filter(u => !u.isAdmin);
-    const scheduledMatches = matches.filter(m => m.status === "scheduled");
+    const todayStr = getTodayDateString();
     
-    return scheduledMatches.map(m => {
+    const relevantMatches = matches.filter(m => {
+      if (m.status === "finished") return false;
+      // Keep future scheduled/predicting matches on any date
+      if (m.status === "scheduled" || m.status === "predicting") return true;
+      // Keep started (live) matches only if they are scheduled for today
+      if (m.status === "live" && m.date === todayStr) return true;
+      return false;
+    });
+    
+    return relevantMatches.map(m => {
       const matchPreds = predictionsList.filter(p => p.matchId === m.id);
       const predictedUserIds = new Set(matchPreds.map(p => p.userId));
       const missingCount = participants.filter(u => !predictedUserIds.has(u.id)).length;
