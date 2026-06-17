@@ -27,6 +27,7 @@ import CalendarioPanel from "@/components/admin/CalendarioPanel";
 import RankingPanel from "@/components/admin/RankingPanel";
 import NotifPanel from "@/components/admin/NotifPanel";
 import MotorPanel from "@/components/admin/MotorPanel";
+import PronosticosPanel from "@/components/admin/PronosticosPanel";
 
 // Icon components for Toast
 const IconMoon = () => (
@@ -1396,6 +1397,18 @@ export default function AdminPage() {
               activePanel={activePanel}
               loading={loading}
               showToast={showToast}
+            />
+          )}
+
+          {/* PANEL: PRONOSTICOS */}
+          {activePanel === "pronosticos" && (
+            <PronosticosPanel
+              usersList={usersList}
+              matches={matches}
+              predictionsList={predictionsList}
+              renderTeamFlag={renderTeamFlag}
+              activePanel={activePanel}
+              loading={loading}
             />
           )}
 
