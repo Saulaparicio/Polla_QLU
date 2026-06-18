@@ -1,18 +1,56 @@
-rules_version='2'
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2026, 6, 18);
+    
+    // Helper function to check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if the user is an admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Collection: users
+    match /users/{userId} {
+      // Authenticated users can read the user database (needed for general ranking)
+      allow read: if isAuthenticated();
+      // Users can only write/update their own profile document. Admin can write to any document.
+      allow write: if isAdmin() || (isAuthenticated() && request.auth.uid == userId);
+    }
+    
+    // Collection: matches
+    match /matches/{matchId} {
+      // Anyone can view the match calendar
+      allow read: if true;
+      // Only admins can write, create or update matches
+      allow write: if isAdmin();
+    }
+    
+    // Collection: predictions
+    match /predictions/{predId} {
+      // Authenticated users can read predictions (e.g. to show history or compare)
+      allow read: if isAuthenticated();
+      // Users can only write/edit their own prediction document. Admin can edit any document.
+      allow write: if isAdmin() || (isAuthenticated() && request.resource.data.userId == request.auth.uid);
+    }
+    
+    // Collection: config (rules scoring settings)
+    match /config/{configId} {
+      // Anyone can read rules config
+      allow read: if true;
+      // Only admins can modify rules
+      allow write: if isAdmin();
+    }
+    
+    // Collection: notifications (admin history log)
+    match /notifications/{notifId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
     }
   }
 }
