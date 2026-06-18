@@ -294,21 +294,49 @@ export default function MarcadoresPanel({
                         {m.venue}
                       </td>
                       <td>
-                        <select
-                          className="fsel"
-                          style={{ padding: "4px 8px", width: "auto", fontSize: ".8rem" }}
-                          value={currentStatus}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setStatuses((prev) => ({ ...prev, [m.id]: val }));
+                        <div
+                          className="status-switch"
+                          style={{
+                            display: "inline-flex",
+                            background: "var(--surface2)",
+                            border: "1px solid var(--border2)",
+                            borderRadius: "18px",
+                            padding: "3px",
+                            gap: "2px",
                           }}
-                          aria-label={`Estado del partido ${m.homeTeam} vs ${m.awayTeam}`}
                         >
-                          <option value="scheduled">Pendiente</option>
-                          <option value="predicting">Pronosticar</option>
-                          <option value="live">En vivo</option>
-                          <option value="finished">Finalizado</option>
-                        </select>
+                          {[
+                            { value: "scheduled", label: "Pendiente", color: "var(--fg)" },
+                            { value: "predicting", label: "Pronosticar", color: "var(--blue)" },
+                            { value: "live", label: "En vivo", color: "var(--amber)" },
+                            { value: "finished", label: "Finalizado", color: "var(--green)" }
+                          ].map((opt) => {
+                            const isActive = currentStatus === opt.value;
+                            return (
+                              <button
+                                key={opt.value}
+                                type="button"
+                                onClick={() => {
+                                  setStatuses((prev) => ({ ...prev, [m.id]: opt.value }));
+                                }}
+                                style={{
+                                  padding: "4px 10px",
+                                  borderRadius: "15px",
+                                  fontSize: "0.75rem",
+                                  fontWeight: isActive ? "600" : "400",
+                                  background: isActive ? "var(--surface3)" : "transparent",
+                                  border: "none",
+                                  color: isActive ? opt.color : "var(--muted)",
+                                  cursor: "pointer",
+                                  transition: "all 0.15s ease",
+                                  boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.3)" : "none",
+                                }}
+                              >
+                                {opt.label}
+                              </button>
+                            );
+                          })}
+                        </div>
                       </td>
                       <td>
                         <button
