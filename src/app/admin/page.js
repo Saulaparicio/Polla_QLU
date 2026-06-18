@@ -401,12 +401,12 @@ export default function AdminPage() {
   };
 
   // Individual Match Save
-  const handleUpdateMatch = async (matchId) => {
+  const handleUpdateMatch = async (matchId, customStatus = null, customScores = null) => {
     const match = matches.find((m) => m.id === matchId);
     if (!match) return;
 
-    const newStatus = statuses[matchId];
-    const matchScores = scores[matchId];
+    const newStatus = customStatus !== null ? customStatus : statuses[matchId];
+    const matchScores = customScores !== null ? customScores : scores[matchId];
     
     if (newStatus === "finished" && 
         (matchScores.homeScore === "" || matchScores.awayScore === "")) {

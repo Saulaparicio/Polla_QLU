@@ -187,7 +187,6 @@ export default function MarcadoresPanel({
                   <th>Fecha/Hora</th>
                   <th>Sede</th>
                   <th>Estado</th>
-                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -228,6 +227,9 @@ export default function MarcadoresPanel({
                                   }
                                 }));
                               }}
+                              onBlur={() => {
+                                onUpdateMatch(m.id);
+                              }}
                               aria-label={`Goles local para ${m.homeTeam}`}
                             />
                             <span className="ss">–</span>
@@ -249,6 +251,9 @@ export default function MarcadoresPanel({
                                   }
                                 }));
                               }}
+                              onBlur={() => {
+                                onUpdateMatch(m.id);
+                              }}
                               aria-label={`Goles visitante para ${m.awayTeam}`}
                             />
                           </div>
@@ -260,13 +265,15 @@ export default function MarcadoresPanel({
                                 value={scores[m.id]?.advancingTeamId || ""}
                                 onChange={(e) => {
                                   const val = e.target.value;
+                                  const updatedScores = {
+                                    ...scores[m.id],
+                                    advancingTeamId: val
+                                  };
                                   setScores((prev) => ({
                                     ...prev,
-                                    [m.id]: {
-                                      ...prev[m.id],
-                                      advancingTeamId: val
-                                    }
+                                    [m.id]: updatedScores
                                   }));
+                                  onUpdateMatch(m.id, null, updatedScores);
                                 }}
                                 aria-label="Seleccionar equipo que avanza"
                               >
@@ -316,8 +323,11 @@ export default function MarcadoresPanel({
                               <button
                                 key={opt.value}
                                 type="button"
+                                disabled={isUpdating}
                                 onClick={() => {
+                                  if (isUpdating) return;
                                   setStatuses((prev) => ({ ...prev, [m.id]: opt.value }));
+                                  onUpdateMatch(m.id, opt.value);
                                 }}
                                 style={{
                                   padding: "4px 10px",
@@ -327,26 +337,17 @@ export default function MarcadoresPanel({
                                   background: isActive ? "var(--surface3)" : "transparent",
                                   border: "none",
                                   color: isActive ? opt.color : "var(--muted)",
-                                  cursor: "pointer",
+                                  cursor: isUpdating ? "not-allowed" : "pointer",
                                   transition: "all 0.15s ease",
                                   boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.3)" : "none",
+                                  opacity: isUpdating && !isActive ? 0.5 : 1
                                 }}
                               >
-                                {opt.label}
+                                {opt.value === opt.value && isUpdating && isActive ? "..." : opt.label}
                               </button>
                             );
                           })}
                         </div>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-g btn-sm"
-                          disabled={isUpdating}
-                          onClick={() => onUpdateMatch(m.id)}
-                          type="button"
-                        >
-                          {isUpdating ? "..." : "Guardar"}
-                        </button>
                       </td>
                     </tr>
                   );
