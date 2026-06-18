@@ -109,6 +109,28 @@ export default function MarcadoresPanel({
             Hoy
           </button>
           <button
+            className="btn btn-o btn-sm"
+            onClick={async () => {
+              try {
+                const { syncExternalResultsToState } = await import("@/lib/openfootball");
+                const count = await syncExternalResultsToState(matches, setScores, setStatuses);
+                showToast(
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "inline-block", verticalAlign: "middle" }}><polyline points="20 6 9 17 4 12"/></svg>,
+                  `Sincronizados ${count} marcadores desde la API`
+                );
+              } catch (err) {
+                showToast(
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "inline-block", verticalAlign: "middle" }}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>,
+                  "Error al conectar con la API"
+                );
+              }
+            }}
+            type="button"
+            style={{ display: "flex", alignItems: "center", gap: "6px", borderColor: "var(--purple)", color: "var(--purple)" }}
+          >
+            Sincronizar API
+          </button>
+          <button
             className="btn btn-y btn-sm"
             onClick={() => onRunEngine()}
             disabled={engineState === "running"}
