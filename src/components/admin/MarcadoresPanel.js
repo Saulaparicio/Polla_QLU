@@ -227,9 +227,6 @@ export default function MarcadoresPanel({
                                   }
                                 }));
                               }}
-                              onBlur={() => {
-                                onUpdateMatch(m.id);
-                              }}
                               aria-label={`Goles local para ${m.homeTeam}`}
                             />
                             <span className="ss">–</span>
@@ -251,9 +248,6 @@ export default function MarcadoresPanel({
                                   }
                                 }));
                               }}
-                              onBlur={() => {
-                                onUpdateMatch(m.id);
-                              }}
                               aria-label={`Goles visitante para ${m.awayTeam}`}
                             />
                           </div>
@@ -265,15 +259,13 @@ export default function MarcadoresPanel({
                                 value={scores[m.id]?.advancingTeamId || ""}
                                 onChange={(e) => {
                                   const val = e.target.value;
-                                  const updatedScores = {
-                                    ...scores[m.id],
-                                    advancingTeamId: val
-                                  };
                                   setScores((prev) => ({
                                     ...prev,
-                                    [m.id]: updatedScores
+                                    [m.id]: {
+                                      ...prev[m.id],
+                                      advancingTeamId: val
+                                    }
                                   }));
-                                  onUpdateMatch(m.id, null, updatedScores);
                                 }}
                                 aria-label="Seleccionar equipo que avanza"
                               >
